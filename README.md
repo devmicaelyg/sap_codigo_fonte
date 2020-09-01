@@ -10,6 +10,12 @@ O SAP é um sistema desenvolvido orientado a microserviços para acompanhamento 
 
 Serviço de cache.
 
+## Tecnologias usadas
+- Java
+- Spring
+- Angular 
+- Docker
+
 ## JHipster Registry (dev)
 
 O JHipster Registry é um servidor de descoberta onde todos os serviços, durante seu STARTUP, se registram para que possam ser encontrados e consequentemente suas APIs possam ser oferecidas.
