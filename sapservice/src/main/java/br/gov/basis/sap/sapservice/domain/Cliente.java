@@ -1,5 +1,6 @@
 package br.gov.basis.sap.sapservice.domain;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.Getter;
 import lombok.Setter;
 

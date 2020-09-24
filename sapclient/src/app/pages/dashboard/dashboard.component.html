@@ -1,5 +1,5 @@
 <h1 style="text-align: center;">Controle de Projetos</h1>
-<!-- <pre>{{( listaClientes | json )}}</pre> -->
+
 
 <p-panel [toggleable]="true" >
   <p-header id="titleHeader">Filtros</p-header>
@@ -51,12 +51,14 @@
   <div>
     <p-panel >
       <ul id="DescricaoProjeto">
-        <li><span>Lider:</span> {{obterNomeLider(projeto.idLider)}}</li>
-        <li><span>Testador:</span> {{obterNomeTestador(projeto.id)}}</li>
-        <li><span>Revisor:</span> {{obterNomeRevisor(projeto.id)}}</li>
-        <li><span>Gerente:</span> {{obterNomeGerente(projeto.id)}}</li>
+        <li><span>Lider:</span> {{obterNomeLider(projeto.idLider) | uppercase}}</li>
+        <li><span>Testador:</span> {{obterNomeTestador(projeto.id) | uppercase}}</li>
+        <li><span>Revisor:</span> {{obterNomeRevisor(projeto.id) | uppercase}}</li>
+        <li><span>Gerente:</span> {{obterNomeGerente(projeto.id) | uppercase}}</li>
       </ul>
     </p-panel>
+
+    <!-- <pre>{{( projeto.listaOs | json )}}</pre> -->
 
   </div>
 
@@ -79,12 +81,72 @@
             <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
           </a>
         </td>
-        <td>{{ ordemservico.nome | titlecase}}</td>
-        <td>{{ obterNomeSituacao(ordemservico.idSituacao) | titlecase}}</td>
-        <td>{{ ordemservico.dataProximaEntrega | date: 'dd/MM/yyyy'}}</td>
-        <td>{{ ordemservico.prazo | date: 'dd/MM/yyyy'}}</td>
-        <td>{{ ordemservico.pontosFuncao}}</td>
-        <td>{{ ordemservico.fabrica | uppercase}}</td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="ordemservico.nome">
+            </ng-template>
+            <ng-template  pTemplate="output">
+            {{ ordemservico.nome | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, ordemservico)" [options]="situacaoDropdown" [(ngModel)]="ordemservico.idSituacao"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterNomeSituacao(ordemservico.idSituacao) | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar [(ngModel)]="ordemservico.dataProximaEntrega"  showButtonBar="true" [showIcon]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            </ng-template>
+          <ng-template pTemplate="output">
+            {{ ordemservico.dataProximaEntrega | date: 'dd/MM/yyyy'}}
+          </ng-template>
+        </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar [(ngModel)]="ordemservico.prazo"  showButtonBar="true" [showIcon]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            </ng-template>
+          <ng-template pTemplate="output">
+            {{ ordemservico.prazo | date: 'dd/MM/yyyy'}}
+          </ng-template>
+        </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="ordemservico.pontosFuncao">
+            </ng-template>
+            <ng-template  pTemplate="output">
+              {{ ordemservico.pontosFuncao}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="ordemservico.fabrica">
+            </ng-template>
+            <ng-template  pTemplate="output">
+              {{ ordemservico.fabrica | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage" let-columns>
@@ -113,13 +175,84 @@
 
     <ng-template pTemplate="body" let-sprints let-expanded="expanded">
       <tr *ngIf="sprints.idOrdemServico == ordemservico.id">
-        <td>{{ sprints.nome }}</td>
-        <td>{{ sprints.dataInicio }}</td>
-        <td>{{ sprints.dataTermino }}</td>
-        <td>{{ sprints.pontosFuncao }}</td>
-        <td>{{ obterBoolean(sprints.impedimento)}}</td>
-        <td>{{ obterBoolean(sprints.prazo) }}</td>
-        <td>{{ obterNomeStatus(sprints.idStatus)}}</td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="sprints.nome">
+            </ng-template>
+            <ng-template  pTemplate="output">
+            {{ sprints.nome | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar [(ngModel)]="sprints.dataInicio"  showButtonBar="true" [showIcon]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ sprints.dataInicio | date: 'dd/MM/yyyy'}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar [(ngModel)]="sprints.dataTermino"  showButtonBar="true" [showIcon]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ sprints.dataTermino | date: 'dd/MM/yyyy'}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+          <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="sprints.pontosFuncao">
+            </ng-template>
+            <ng-template  pTemplate="output">
+            {{ sprints.pontosFuncao}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="simNaoDropDown" [(ngModel)]="sprints.impedimento"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterSimNao(sprints.impedimento) }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="simNaoDropDown" [(ngModel)]="sprints.prazo"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterSimNao(sprints.prazo) }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="statusDropdown" [(ngModel)]="sprints.idStatus"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterNomeStatus(sprints.idStatus) | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
       </tr>
     </ng-template>
 
@@ -127,7 +260,7 @@
       <tr>
         <td [attr.colspan]="columns.length">
           <div class="text-center">
-            <h3>Nenhuma OS cadastrada!</h3>
+            <h3>Nenhuma sprint cadastrada!</h3>
           </div>
         </td>
       </tr>
