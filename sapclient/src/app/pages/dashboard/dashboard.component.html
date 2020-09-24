@@ -51,10 +51,10 @@
   <div>
     <p-panel >
       <ul id="DescricaoProjeto">
-        <li><span>Lider:</span> {{obterNomeLider(projeto.idLider)}}</li>
-        <li><span>Testador:</span> {{obterNomeTestador(projeto.id)}}</li>
-        <li><span>Revisor:</span> {{obterNomeRevisor(projeto.id)}}</li>
-        <li><span>Gerente:</span> {{obterNomeGerente(projeto.id)}}</li>
+        <li><span>Lider:</span> {{obterNomeLider(projeto.idLider) | uppercase}}</li>
+        <li><span>Testador:</span> {{obterNomeTestador(projeto.id)| uppercase }}</li>
+        <li><span>Revisor:</span> {{obterNomeRevisor(projeto.id)| uppercase}}</li>
+        <li><span>Gerente:</span> {{obterNomeGerente(projeto.id) | uppercase}}</li>
       </ul>
     </p-panel>
 
@@ -113,13 +113,13 @@
 
     <ng-template pTemplate="body" let-sprints let-expanded="expanded">
       <tr *ngIf="sprints.idOrdemServico == ordemservico.id">
-        <td>{{ sprints.nome }}</td>
+        <td>{{ sprints.nome | uppercase}}</td>
         <td>{{ sprints.dataInicio }}</td>
         <td>{{ sprints.dataTermino }}</td>
         <td>{{ sprints.pontosFuncao }}</td>
         <td>{{ obterBoolean(sprints.impedimento)}}</td>
         <td>{{ obterBoolean(sprints.prazo) }}</td>
-        <td>{{ obterNomeStatus(sprints.idStatus)}}</td>
+        <td>{{ obterNomeStatus(sprints.idStatus) | uppercase}}</td>
       </tr>
     </ng-template>
 

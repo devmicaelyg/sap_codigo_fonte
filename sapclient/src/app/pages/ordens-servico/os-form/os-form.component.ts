@@ -30,6 +30,7 @@ export class OsFormComponent implements OnInit {
   acaoAtual: string;
   form: FormGroup;
   formSubmetido: boolean = false;
+  digitavel: boolean =false;
   listaProjetos: SelectItem[];
   listaStatus: any = [];
   situacoes: SelectItem[];
@@ -87,6 +88,7 @@ export class OsFormComponent implements OnInit {
 
   private setAcaoAtual() {
     if (this.route.snapshot.url[0].path == 'novo') {
+      this.digitavel=true;
       this.titulo = 'Cadastro de Ordens de Serviço';
       return;
     }
@@ -170,9 +172,14 @@ export class OsFormComponent implements OnInit {
   }
 
   // Colocar um blockUI aqui
-  deletar(id: number) {
-    this.sprintService.deletar(id).subscribe(
-          () => this.sprints = this.sprints.filter(res => res.id !== id)
+  deletar(sprint) {
+
+    if(!sprint.id){
+    
+      this.sprints.splice(this.sprints.indexOf(sprint))
+    }
+    this.sprintService.deletar(sprint.id).subscribe(
+          () => this.sprints = this.sprints.filter(res => res.id !== sprint.id)
       ),
       finalize(() => this.blockUI.stop());
   }
@@ -255,7 +262,7 @@ adicionarEditarSprint(event) {
   this.sprints = this.sprints.filter(sprint => sprint.id !== event.id).concat(event);
 }
 
-showDialogSprint(sprint = null) {
+showDialogSprint(sprint=null) {
   this.sprintDialog.mostrarDialog(sprint);
 }
 

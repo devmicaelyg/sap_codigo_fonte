@@ -1,6 +1,6 @@
-<p-dialog header="Gerenciamento de Sprints" [(visible)]="exibir" [style]="{ 'width': '80vw' }">
+<p-dialog header="Gerenciamento de Sprints" [(visible)]="exibir" [style]="{ 'width': '70vw' ,'height' : '90vw' }">
 
-  <p-card [header]="titulo" resizable="true">
+  <p-card [header]="titulo" class="test" resizable="true">
     <form [formGroup]="form">
       <div class="ui-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-6">
@@ -14,15 +14,15 @@
       <div class="ui-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-6">
           <label>Data Inicio <span>*</span>:</label>
-          <p-calendar formControlName="dataInicio" showButtonBar="true" [readonlyInput]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
-            <p-message severity="error" text="É necessário uma data de início" *ngIf="form.get('dataInicio').errors && form.get('dataInicio').errors.required && form.get('dataInicio').touched"></p-message>
+          <p-calendar appendTo="body" formControlName="dataInicio" showButtonBar="true" [readonlyInput]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            <p-message severity="error" text="É necessário uma data de início" *ngIf="!form.get('dataInicio').valid && !form.get('dataInicio').valid.required && form.get('dataInicio').touched"></p-message>
           </div>
       </div>
 
       <div class="ui-fluid p-formgrid p-grid">
-        <div class="p-field p-col-12 p-md-6">
+        <div class="p-field p-col-24 p-md-12">
           <label>Data Termino <span>*</span>:</label>
-          <p-calendar formControlName="dataTermino" showButtonBar="true" [readonlyInput]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+          <p-calendar appendTo="body" formControlName="dataTermino" showButtonBar="true" [readonlyInput]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
             <p-message severity="error" text="É necessário uma data de término" *ngIf="form.get('dataTermino').errors && form.get('dataTermino').errors.required && form.get('dataTermino').touched"></p-message>
           </div>
       </div>
