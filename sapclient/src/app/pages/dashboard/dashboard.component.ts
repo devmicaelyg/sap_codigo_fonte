@@ -1,3 +1,5 @@
+import { OrdemServico } from './../../models/ordem-servico.model';
+import { Sprint } from './../../models/sprint.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { StatusService } from './../../services/status.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -12,12 +14,13 @@ import { SituacaoService } from './../../services/situacao.service';
 import { Observable, forkJoin } from 'rxjs';
 
 import { finalize, map, tap } from 'rxjs/operators';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Output, EventEmitter,Component, OnInit, ViewChild } from '@angular/core';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem, Table } from 'primeng';
 import { Projeto } from 'src/app/models/projeto.model';
 import { element } from 'protractor';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -43,6 +46,7 @@ import { element } from 'protractor';
 export class DashboardComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
+  @Output() salvarSprint = new EventEmitter();
 
   titulo: string = 'Dashboard'
   listaOrdemServico$: Observable<any>;
@@ -83,6 +87,7 @@ export class DashboardComponent implements OnInit {
     { header: 'Prazo' },
     { header: 'PF' },
     { header: 'Fábrica(s)' },
+    { header: 'Ações' },
   ];
 
   colunaSprint: any[] = [
@@ -93,6 +98,7 @@ export class DashboardComponent implements OnInit {
     { header: 'Impedimento?' },
     { header: 'No Prazo?' },
     { header: 'Status' },
+    { header: 'Ações' },
   ];
 
   dataBr = {
@@ -181,6 +187,17 @@ export class DashboardComponent implements OnInit {
     ).subscribe(
       ordemServico => this.listaOrdemServico = ordemServico
     );
+  }
+  enviarFormOs(OrdemServico) {
+    this.ordemServicoService.salvar(OrdemServico).pipe(
+      finalize(() => this.blockUI.stop())
+  ).subscribe(res => OrdemServico.edit = false);
+  }
+
+  enviarFormSprint(sprint) {
+    this.sprintService.atualizar(sprint).pipe(
+      finalize(() => this.blockUI.stop())
+  ).subscribe(res => sprint.edit = false);
   }
 
   obterLideres() {

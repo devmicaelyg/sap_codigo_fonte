@@ -58,8 +58,6 @@
       </ul>
     </p-panel>
 
-    <!-- <pre>{{( projeto.listaOs | json )}}</pre> -->
-
   </div>
 
 
@@ -146,6 +144,11 @@
               {{ ordemservico.fabrica | uppercase}}
             </ng-template>
           </p-cellEditor>
+        </td>
+
+        <td>
+          <button pButton icon="ui-icon-check-circle" label="Salvar" (click)="enviarFormOs(ordemservico)"></button>
+
         </td>
       </tr>
     </ng-template>
@@ -251,6 +254,9 @@
               {{ obterNomeStatus(sprints.idStatus) | uppercase}}
             </ng-template>
           </p-cellEditor>
+        </td>
+        <td>
+          <button pButton icon="ui-icon-check-circle" label="Salvar" (click)="enviarFormSprint(sprints)"></button>
         </td>
 
       </tr>
