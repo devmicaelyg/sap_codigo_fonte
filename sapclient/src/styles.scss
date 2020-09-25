@@ -27,10 +27,11 @@ body .ui-message.ui-message-error {
   border-color: #e62a10;
   color: #ffffff;
   margin-top: 5px;
+  display: block !important;
 }
 
 body .ui-message .ui-message-icon.pi-times {
-  margin-right: 5px;
+  display: block !important;
 }
 
 input {
