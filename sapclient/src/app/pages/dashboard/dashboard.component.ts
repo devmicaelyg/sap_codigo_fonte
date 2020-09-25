@@ -221,7 +221,6 @@ export class DashboardComponent implements OnInit {
       sprints.forEach(element => {
         element.dataInicio = new Date (`${element.dataInicio}T00:00:00`);
         element.dataTermino = new Date(`${element.dataTermino}T00:00:00`);
-        console.log(element)
       })
     }
     );
@@ -234,11 +233,10 @@ export class DashboardComponent implements OnInit {
         finalize(() => this.blockUI.stop()),
       ).subscribe(osProjeto => {
         projeto.listaOs = osProjeto;
-        console.log(projeto)
         projeto.listaOs.forEach(e => {
           e.dataProximaEntrega = new Date (`${e.dataProximaEntrega}T00:00:00`);
           e.prazo = new Date(`${e.prazo}T00:00:00`);
-        console.log(e);
+
         });
       })
   }
@@ -276,7 +274,7 @@ export class DashboardComponent implements OnInit {
             (this.filtroCliente && this.filtroCliente.some(sel => sel == item.idCliente)) ||
             (this.filtroProjeto && this.filtroProjeto.some(sel => sel == item.idProjeto));
     });
-    console.log(this.listaFiltrada)
+
   }
 
   habilitarBotao(e, projeto) {

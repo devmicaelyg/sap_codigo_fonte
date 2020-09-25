@@ -55,8 +55,11 @@
       </div>
     </div>
 
+    <div class="grid-container"> 
+
+  
     <div id="containerDropdowns" class="p-fluid p-formgrid p-grid">
-      <div class="p-field p-col-6">
+      <div class="p-col-6">
         <label>Lider <span>*</span> :</label>
         <p-dropdown [options]="lideres" placeholder="Selecione um líder de projeto" formControlName="idLider">
         </p-dropdown>
@@ -68,7 +71,7 @@
         </p-message>
       </div>
 
-      <div class="p-field p-col-6">
+      <div class="p-col-6">
         <label>Cliente <span>*</span>:</label>
         <p-dropdown [options]="clientes" placeholder="Selecione um cliente" formControlName="idCliente"></p-dropdown>
         <p-message severity="error" text="O cliente é obrigatório"
@@ -80,20 +83,23 @@
       </div>
     </div>
 
+  </div>
+
     <div id="containerButton" class="ui-g text-right">
       <p-message id="info" severity="info" text="Todos os campos com * são obrigatórios">
       </p-message>
-
+      
+      <div id="buttonCancelar" class="ui-lg-2 ui-md-3 ui-sm-6">
+        <button pButton icon="pi pi-times" iconPos="left" label="Cancelar" routerLink="/projetos">
+        </button>
+      </div>
+      
       <div class="ui-lg-2 ui-md-3 ui-sm-6">
         <button pButton icon="ui-icon-check-circle" iconPos="left" label="Salvar" (click)="enviarForm()"
           [disabled]="this.form.invalid">
         </button>
       </div>
 
-      <div id="buttonCancelar" class="ui-lg-2 ui-md-3 ui-sm-6">
-        <button pButton icon="pi pi-times" iconPos="left" label="Cancelar" routerLink="/projetos">
-        </button>
-      </div>
     </div>
   </form>
 </p-card>

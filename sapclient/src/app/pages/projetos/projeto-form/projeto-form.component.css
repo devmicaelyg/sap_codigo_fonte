@@ -11,13 +11,13 @@ span{
 }
 
 #info{
-        float: right;
-        margin-top: 1rem;
+        float: left;
 }
 
 #containerButton{
-    display: block;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
 }
 
 #buttonCancelar{
@@ -27,4 +27,5 @@ span{
 #containerDropdowns{
     display: flex;
     justify-content: space-around;
+    flex: 1;
 }
