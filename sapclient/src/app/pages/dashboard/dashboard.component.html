@@ -58,8 +58,6 @@
       </ul>
     </p-panel>
 
-    <!-- <pre>{{( projeto.listaOs | json )}}</pre> -->
-
   </div>
 
 
@@ -147,6 +145,11 @@
             </ng-template>
           </p-cellEditor>
         </td>
+
+        <td>
+          <button pButton icon="ui-icon-check-circle" label="Salvar" (click)="enviarFormOs(ordemservico)"></button>
+
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage" let-columns>
@@ -175,7 +178,6 @@
 
     <ng-template pTemplate="body" let-sprints let-expanded="expanded">
       <tr *ngIf="sprints.idOrdemServico == ordemservico.id">
-<<<<<<< HEAD
 
         <td pEditableColumn>
           <p-cellEditor>
@@ -253,16 +255,10 @@
             </ng-template>
           </p-cellEditor>
         </td>
+        <td>
+          <button pButton icon="ui-icon-check-circle" label="Salvar" (click)="enviarFormSprint(sprints)"></button>
+        </td>
 
-=======
-        <td>{{ sprints.nome | uppercase}}</td>
-        <td>{{ sprints.dataInicio }}</td>
-        <td>{{ sprints.dataTermino }}</td>
-        <td>{{ sprints.pontosFuncao }}</td>
-        <td>{{ obterBoolean(sprints.impedimento)}}</td>
-        <td>{{ obterBoolean(sprints.prazo) }}</td>
-        <td>{{ obterNomeStatus(sprints.idStatus) | uppercase}}</td>
->>>>>>> fc9c4189357ae892afd2417611c85df3d52d7cdd
       </tr>
     </ng-template>
 
