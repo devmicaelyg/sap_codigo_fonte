@@ -175,13 +175,84 @@
 
     <ng-template pTemplate="body" let-sprints let-expanded="expanded">
       <tr *ngIf="sprints.idOrdemServico == ordemservico.id">
-        <td>{{ sprints.nome | uppercase}}</td>
-        <td>{{ sprints.dataInicio }}</td>
-        <td>{{ sprints.dataTermino }}</td>
-        <td>{{ sprints.pontosFuncao }}</td>
-        <td>{{ obterBoolean(sprints.impedimento)}}</td>
-        <td>{{ obterBoolean(sprints.prazo) }}</td>
-        <td>{{ obterNomeStatus(sprints.idStatus) | uppercase}}</td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="sprints.nome">
+            </ng-template>
+            <ng-template  pTemplate="output">
+            {{ sprints.nome | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar [(ngModel)]="sprints.dataInicio"  showButtonBar="true" [showIcon]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ sprints.dataInicio | date: 'dd/MM/yyyy'}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar [(ngModel)]="sprints.dataTermino"  showButtonBar="true" [showIcon]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ sprints.dataTermino | date: 'dd/MM/yyyy'}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+          <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="sprints.pontosFuncao">
+            </ng-template>
+            <ng-template  pTemplate="output">
+            {{ sprints.pontosFuncao}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="simNaoDropDown" [(ngModel)]="sprints.impedimento"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterSimNao(sprints.impedimento) }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="simNaoDropDown" [(ngModel)]="sprints.prazo"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterSimNao(sprints.prazo) }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="statusDropdown" [(ngModel)]="sprints.idStatus"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterNomeStatus(sprints.idStatus) | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
       </tr>
     </ng-template>
 
