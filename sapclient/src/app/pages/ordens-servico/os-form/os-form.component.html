@@ -37,7 +37,7 @@
       <div class="p-field p-col-12 p-md-6">
         <label>Pontos Função <span>*</span>:</label>
         <input type="text" pInputText formControlName="pontosFuncao">
-        <p-message severity="error" text="É necessário colocar a quantidade de pontos de função" *ngIf="form.get('pontosFuncao').errors && form.get('pontosFuncao').errors.required && form.get('pontosFuncao').touched"></p-message>
+        <p-message severity="error" text="É necessário colocar apenas números de pontos de função" *ngIf="form.get('pontosFuncao').errors && form.get('pontosFuncao').errors.required && form.get('pontosFuncao').touched"></p-message>
       </div>
     </div>
 
@@ -71,9 +71,9 @@
       </div>
 
     </div>
-
-    <p-fieldset legend="Sprints" [toggleable]="true">
-      <p-table [paginator]="true" [rows]="2" [responsive]="true" 
+<div *ngIf="!digitavel">
+    <p-fieldset legend="Sprints" [disable]="digitavel" [toggleable]="!digitavel" [collapsed]="true" >
+      <p-table [rows]="2" [responsive]="true" 
       [rowsPerPageOptions]="[2, 4, 8, 10]" [columns]="colunas" [value]="sprints"
       [value]="sprint" editMode="row">
         <ng-template let-columns pTemplate="header">
@@ -109,7 +109,7 @@
 
             <td class="action-buttons">
               <button pButton icon="ui-icon-mode-edit" (click)="showDialogSprint(sprint)" ></button>
-              <button pButton icon="pi pi-times" (click)="deletar(sprint.id)" ></button>
+              <button pButton icon="pi pi-times" (click)="deletar(sprint)" ></button>
             </td>   
 
           </tr>
@@ -131,6 +131,8 @@
       </div>
 
     </p-fieldset>
+
+  </div>
 
     <div id="containerButton">
       <p-message id="info" severity="info" text="Todos os campos com * são obrigatórios"></p-message>

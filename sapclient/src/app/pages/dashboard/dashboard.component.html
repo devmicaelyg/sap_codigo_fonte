@@ -175,6 +175,7 @@
 
     <ng-template pTemplate="body" let-sprints let-expanded="expanded">
       <tr *ngIf="sprints.idOrdemServico == ordemservico.id">
+<<<<<<< HEAD
 
         <td pEditableColumn>
           <p-cellEditor>
@@ -253,6 +254,15 @@
           </p-cellEditor>
         </td>
 
+=======
+        <td>{{ sprints.nome | uppercase}}</td>
+        <td>{{ sprints.dataInicio }}</td>
+        <td>{{ sprints.dataTermino }}</td>
+        <td>{{ sprints.pontosFuncao }}</td>
+        <td>{{ obterBoolean(sprints.impedimento)}}</td>
+        <td>{{ obterBoolean(sprints.prazo) }}</td>
+        <td>{{ obterNomeStatus(sprints.idStatus) | uppercase}}</td>
+>>>>>>> fc9c4189357ae892afd2417611c85df3d52d7cdd
       </tr>
     </ng-template>
 

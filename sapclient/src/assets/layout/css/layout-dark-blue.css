@@ -1203,10 +1203,10 @@ body a {
 .layout-container .topbar .logo {
   display: inline-block;
   vertical-align: middle;
-  width: 200px;
+  width: 150px;
   height: 50px;
   background: url("../images/basis.jpg") top left no-repeat;
-  background-size: 200px 50px;
+  background-size: 150px 50px;
 }
 
 .layout-container .topbar .topbar-left {
