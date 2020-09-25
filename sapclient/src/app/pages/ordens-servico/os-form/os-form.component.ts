@@ -109,6 +109,7 @@ export class OsFormComponent implements OnInit {
       pontosFuncao: [null
         , [
           Validators.required,
+          Validators.pattern('^[0-9]+?.?[0-9]{1,3}$'),
         ]],
       fabrica: [null
         , [
