@@ -87,7 +87,7 @@ export class DashboardComponent implements OnInit {
     { header: 'Prazo' },
     { header: 'PF' },
     { header: 'Fábrica(s)' },
-    { header: 'Ações' },
+    { header: 'Ação' },
   ];
 
   colunaSprint: any[] = [
@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit {
     { header: 'Impedimento?' },
     { header: 'No Prazo?' },
     { header: 'Status' },
-    { header: 'Ações' },
+    { header: 'Ação' },
   ];
 
   dataBr = {

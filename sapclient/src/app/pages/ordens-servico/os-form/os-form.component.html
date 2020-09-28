@@ -37,7 +37,7 @@
       <div class="p-field p-col-12 p-md-6">
         <label>Pontos Função <span>*</span>:</label>
         <input type="text" pInputText formControlName="pontosFuncao">
-        <p-message severity="error" text="É necessário colocar apenas números de pontos de função" *ngIf="form.get('pontosFuncao').errors && form.get('pontosFuncao').errors.required && form.get('pontosFuncao').touched"></p-message>
+        <p-message severity="error" text="É necessário a utilização de apenas números, veja exemplos:09, 99.9, 99.99, 999.999" *ngIf="form.get('pontosFuncao').errors && form.get('pontosFuncao').errors.required && form.get('pontosFuncao').touched"></p-message>
       </div>
     </div>
 

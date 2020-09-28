@@ -2,7 +2,7 @@
 <h2 style="text-align: center">Sistema de Apoio a Projetos</h2>
 
 
-<p-panel [toggleable]="true" >
+<p-panel [toggleable]="true" [collapsed]="true" >
   <p-header id="titleHeader">Filtros</p-header>
 
   <div id="filtros">
@@ -227,7 +227,7 @@
         <td pEditableColumn>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="simNaoDropDown" [(ngModel)]="sprints.impedimento"></p-dropdown>
+              <p-dropdown class="dropdownDash" (onChange)="habilitarBotao($event, sprints)" [options]="simNaoDropDown" [(ngModel)]="sprints.impedimento"></p-dropdown>
             </ng-template>
             <ng-template pTemplate="output">
               {{ obterSimNao(sprints.impedimento) }}

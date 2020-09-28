@@ -1,3 +1,4 @@
+import { MessageService } from 'primeng';
 import { Component, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
@@ -24,7 +25,8 @@ export class LiderListComponent implements OnInit {
     ];
 
   constructor(
-      private liderService: LiderService
+      private liderService: LiderService,
+      private messageService: MessageService
   ) { }
   ngOnInit(): void {
       this.obterTodos();
@@ -41,8 +43,11 @@ export class LiderListComponent implements OnInit {
     this.blockUI.start();
     this.liderService.deletar(id).pipe(
         finalize(() => this.blockUI.stop())
-    ).subscribe(
-        () => this.obterTodos()
+    ).subscribe(() => {this.obterTodos()
+      this.messageService.add({ severity: 'success', summary: 'Lider deletado com sucesso' });
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Erro ao cadastrar novo lider' })
+    }
     );
   }
 

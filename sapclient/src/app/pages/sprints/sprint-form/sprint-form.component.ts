@@ -4,7 +4,7 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { finalize, switchMap } from 'rxjs/operators';
-import { SelectItem } from 'primeng';
+import { SelectItem, MessageService } from 'primeng';
 
 import { OrdemServicoService } from './../../../services/ordem-servico.service';
 import { Sprint } from './../../../models/sprint.model';
@@ -48,7 +48,8 @@ export class SprintFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private sprintService: SprintService,
     private statusService: StatusService,
-    private ordemServico: OrdemServicoService
+    private ordemServico: OrdemServicoService,
+    private messageService: MessageService
 
   ) { }
 
@@ -98,8 +99,9 @@ export class SprintFormComponent implements OnInit {
       const recurso = Object.assign(new Sprint(), this.form.value);
       this.salvarSprint.emit(recurso);
       this.fecharModal();
-    }
+      this.messageService.add({ severity: 'info', summary: 'Cadastrado nova sprint' })
   }
+}
 
   fecharModal() {
     this.form.reset();

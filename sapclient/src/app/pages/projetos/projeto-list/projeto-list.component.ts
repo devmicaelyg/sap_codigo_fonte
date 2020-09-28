@@ -1,4 +1,4 @@
-import { SelectItem } from 'primeng';
+import { SelectItem, MessageService } from 'primeng';
 import { LiderService } from './../../../services/lider.service';
 import { ClienteService } from './../../../services/cliente.service';
 import { Component, OnInit } from '@angular/core';
@@ -36,7 +36,8 @@ export class ProjetoListComponent implements OnInit {
   constructor(
     private projetoService: ProjetoService,
     private clienteService: ClienteService,
-    private liderService: LiderService
+    private liderService: LiderService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -57,7 +58,9 @@ export class ProjetoListComponent implements OnInit {
     this.projetoService.deletar(id).pipe(
       finalize(() => this.blockUI.stop())
     ).subscribe(
-      () => this.obterTodos()
+      () => {this.obterTodos()
+        this.messageService.add({ severity: 'success', summary: 'Projeto deletado com sucesso' }); 
+      }
     );
   }
 

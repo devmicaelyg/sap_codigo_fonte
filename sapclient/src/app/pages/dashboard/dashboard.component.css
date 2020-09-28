@@ -28,3 +28,10 @@ body .ui-tabview {
 #DescricaoProjeto span{
     font-weight: bolder;
 }
+
+.dropdownDash{
+    width: 100% !important;
+}
+
+/* .ng-tns-c89-40 ui-dropdown ui-widget ui-state-default ui-corner-all ui-dropdown-open ng-reflect-ng- [object Object] .ui-helper-hidden-accessible ng-tns-c89-40 .ng-tns-c89-40 .ui-dropdown-label-container .ng-tns-c89-40 .ng-tns-c89-40 ui-dropdown-label ui-inputtext ui-corner-all ng-star-inserted ng-reflect-ng-[object Object] */
+    

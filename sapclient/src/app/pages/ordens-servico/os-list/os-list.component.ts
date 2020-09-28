@@ -1,3 +1,4 @@
+import { MessageService } from 'primeng';
 import { SituacaoService } from './../../../services/situacao.service';
 import { ProjetoService } from './../../../services/projeto.service';
 import { Component, OnInit } from '@angular/core';
@@ -19,7 +20,6 @@ export class OsListComponent implements OnInit {
 
   titulo: string = 'Lista de Ordens de Serviço'
   listaOrdemServico$: Observable<any>;
-  listaOrdemServico: any = [];
   situacoes: any = [];
   projetos: any = [];
   status: any = [];
@@ -42,7 +42,8 @@ export class OsListComponent implements OnInit {
   constructor(
     private ordemServicoService: OrdemServicoService,
     private projetoService: ProjetoService,
-    private situacaoService: SituacaoService
+    private situacaoService: SituacaoService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -69,8 +70,12 @@ export class OsListComponent implements OnInit {
     this.blockUI.start();
     this.ordemServicoService.deletar(id).pipe(
       finalize(() => this.blockUI.stop())
-    ).subscribe(
-      () => this.obterTodos()
+    ).subscribe(() =>{
+      this.obterTodos()
+      this.messageService.add({ severity: 'success', summary: 'Ordem de serviço deletado com sucesso' });
+      }, error => {
+        this.messageService.add({ severity: 'error', summary: 'Erro ao deletar ordem de serviço' })
+      }
     );
   }
 

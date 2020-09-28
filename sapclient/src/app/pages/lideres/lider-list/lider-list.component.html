@@ -26,7 +26,7 @@
       <ng-template pTemplate="body" let-lider>
         <tr>
           <td>{{ lider.nome  | uppercase}}</td>
-          <td>{{ lider.contato  | uppercase}}</td>
+          <td>{{ lider.contato  }}</td>
           <td class="action-buttons">
             <button [routerLink]="[lider.id]" pButton icon="ui-icon-mode-edit"></button>
             <button pButton icon="pi pi-times" (click)="deletar(lider.id)"></button>
@@ -48,11 +48,7 @@
     <div class="ui-g-12 loading ">
       <div class="ui-g-2 ui-g-offset-5 ">
         <p><i class="pi pi-spin pi-spinner " style="font-size: 3em "></i></p>
-<<<<<<< HEAD
-        <p>Preparando Dashboard...</p>
-=======
-        <p>Preprando Lideres...</p>
->>>>>>> 7a7bbbd92ba48e97637660743ae6b35ce25e4d72
+        <p>Preparando Lideres...</p>
       </div>
     </div>
   </ng-template>

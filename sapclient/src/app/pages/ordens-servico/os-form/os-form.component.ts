@@ -152,9 +152,9 @@ export class OsFormComponent implements OnInit {
     ).subscribe(() => {
       const path: string = this.route.snapshot.parent.url[0].path;
       this.router.navigate([path]);
-      this.messageService.add({ severity: 'info', summary: 'Cadastrado com sucesso' })
+      this.messageService.add({ severity: 'info', summary: 'Ordem de serviço cadastrado com sucesso' })
     }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Erro ao cadastrar' })
+      this.messageService.add({ severity: 'error', summary: 'Erro ao cadastrar ordem de serviço' })
     })
   }
 
@@ -172,17 +172,18 @@ export class OsFormComponent implements OnInit {
     )
   }
 
-  // Colocar um blockUI aqui
   deletar(sprint) {
-
+    this.blockUI.start();
     if(!sprint.id){
-    
       this.sprints.splice(this.sprints.indexOf(sprint))
     }
     this.sprintService.deletar(sprint.id).subscribe(
-          () => this.sprints = this.sprints.filter(res => res.id !== sprint.id)
-      ),
-      finalize(() => this.blockUI.stop());
+          () => {
+            this.sprints = this.sprints.filter(res => res.id !== sprint.id),
+            this.messageService.add({ severity: 'success', summary: 'Deletado com sucesso' });
+            this.blockUI.stop();
+          } 
+      );
   }
 
 
