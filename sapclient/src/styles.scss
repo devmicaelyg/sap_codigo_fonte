@@ -89,3 +89,13 @@ div[_ngcontent-qse-c241] {
 body .ui-dropdown{
   min-width: 7.7rem;
 }
+
+.layout-container .topbar .topbar-left {
+  padding: 0  !important;
+}
+
+.layout-container .topbar .logo {
+  width: 250px !important;
+  height: 75px  !important;
+  background-size: 250px 75px  !important;
+}
