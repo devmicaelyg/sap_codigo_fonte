@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { SelectItem ,MessageService } from 'primeng';
 
-
+import {Message} from 'primeng/api';
 import { LiderService } from './../../../services/lider.service';
 
 @Component({
@@ -22,6 +22,7 @@ export class LiderListComponent implements OnInit {
     @BlockUI() blockUI: NgBlockUI;
     listaLideres$: Observable<any>;
     listaLideres: any = [];
+    msgs: Message[] = [];
     colunas: any = [
         { header: 'Nome' },
         { header: 'Contato(s)' },
@@ -56,13 +57,27 @@ export class LiderListComponent implements OnInit {
     }
     );
   }
+  confirm2(id) {
+    this.confirmationService.confirm({
+        message: 'Você deseja excluir o Lider?',
+        header: 'Confirmação de exclusão',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+            this.msgs = [{severity:'info', summary:'Confirmed', detail:'Lider excluído'}];
+            this.deletar(id);
+        },
+        reject: () => {
+        },
+        key:"confirm"
+    });
+}
 
-  private deletadoSucesso(id) {
-    this.liderService.deletar(id).pipe(
-      finalize(() => this.blockUI.stop())
-    ).subscribe(
-      () => this.obterTodos()
-    );
-    this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
-  }
+private deletadoSucesso(id) {
+  this.liderService.deletar(id).pipe(
+    finalize(() => this.blockUI.stop())
+  ).subscribe(
+    () => this.obterTodos()
+  );
+  this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
+}
 }
