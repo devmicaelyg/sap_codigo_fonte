@@ -100,6 +100,12 @@ export class SprintFormComponent implements OnInit {
       this.fecharModal();
     }
   }
+  validaDatas(data){
+    if(data < this.sprint.dataInicio){
+      return false;
+    }
+
+  }
 
   fecharModal() {
     this.form.reset();

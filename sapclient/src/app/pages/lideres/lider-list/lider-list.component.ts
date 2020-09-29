@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
+
 
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { SelectItem ,MessageService } from 'primeng';
+
 
 import { LiderService } from './../../../services/lider.service';
 
@@ -24,8 +29,10 @@ export class LiderListComponent implements OnInit {
     ];
 
   constructor(
-      private liderService: LiderService
-  ) { }
+      private liderService: LiderService,
+      private confirmationService: ConfirmationService,
+      private messageService: MessageService
+      ) { }
   ngOnInit(): void {
       this.obterTodos();
   }
@@ -44,6 +51,7 @@ export class LiderListComponent implements OnInit {
     ).subscribe(
         () => this.obterTodos()
     );
+    this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
   }
 
 }

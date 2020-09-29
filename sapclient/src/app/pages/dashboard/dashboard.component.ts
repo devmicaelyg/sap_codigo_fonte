@@ -1,3 +1,4 @@
+import { Lider } from './../../models/lider.model';
 import { OrdemServico } from './../../models/ordem-servico.model';
 import { Sprint } from './../../models/sprint.model';
 import { ClienteService } from 'src/app/services/cliente.service';
@@ -63,12 +64,16 @@ export class DashboardComponent implements OnInit {
   clienteItensFiltro: any [] = [];
   projetoItensFiltro: any [] = [];
   liderItensFiltro: any [] = [];
+
+  lider : any;
   
   sprints: any = [];
   sprintsFiltradas: any = [];
   lideres: any = [];
   status: any = [];
   testeExibe: boolean;
+
+  lid : Lider;
 
   lista: any = [];
   // listaFiltrada: any = [];
@@ -142,6 +147,7 @@ export class DashboardComponent implements OnInit {
     this.obterTodos();
     this.obterSprint();
     this.obterLideres();
+    this.obterNomeLider;
     this.obterStatus();
     this.carregarLideres();
     this.carregarProjetos();
@@ -309,8 +315,9 @@ export class DashboardComponent implements OnInit {
     return this.status.find(status => status.id == id).descricao
   }
 
-  obterNomeLider(id: number) {
-    return this.lideres.find(lider => lider.id == id).nome
+  obterNomeLider(id: number){
+    this.lid=this.lideres.find(lider => lider.id == id)
+  return this.lid?.nome
   }
 
   obterSituacaoSprint(id: number) {

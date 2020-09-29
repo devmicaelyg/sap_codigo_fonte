@@ -13,6 +13,8 @@ body .ui-table .ui-table-tfoot>tr>td {
   width: 10vw;
 }
 
+
+
 .action-buttons {
   display: flex;
   justify-content: center;
@@ -60,3 +62,6 @@ body .ui-tabview {
 }body .ui-dialog.ui-shadow {
   box-shadow: 10px 5px 5px #00000085;
 }
+body .ui-dropdown{
+  min-width: 7pc !important;
+} 
