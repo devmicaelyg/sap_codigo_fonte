@@ -2,6 +2,7 @@
 <h2 style="text-align: center">Sistema de Apoio a Projetos</h2>
 
 
+
 <p-panel [toggleable]="true" [collapsed]="true" >
   <p-header id="titleHeader">Filtros</p-header>
 
@@ -63,6 +64,8 @@
 
 
   <p-table #dt [value]="projeto.listaOs" [paginator]="true" [rows]="4" [response]="true" [columns]="colunas" dataKey="nome">
+
+    <!-- <pre>{{ projeto.listaOs | json }}</pre> -->
 
     <ng-template let-columns pTemplate="header">
       <tr>

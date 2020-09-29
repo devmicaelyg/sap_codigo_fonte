@@ -1,3 +1,4 @@
+import { OrdemServicoService } from './../../../services/ordem-servico.service';
 import { SelectItem, MessageService } from 'primeng';
 import { LiderService } from './../../../services/lider.service';
 import { ClienteService } from './../../../services/cliente.service';
@@ -24,7 +25,7 @@ export class ProjetoListComponent implements OnInit {
   listaClientes: any[] = [];
   listaLideres: any[] = [];
 
-  colunas:any = [
+  colunas: any = [
     { field: 'nome', header: 'Nome' },
     { field: 'cliente', header: 'Cliente' },
     { field: 'lider', header: 'Lider' },
@@ -37,13 +38,14 @@ export class ProjetoListComponent implements OnInit {
     private projetoService: ProjetoService,
     private clienteService: ClienteService,
     private liderService: LiderService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private ordemServicoService: OrdemServicoService
   ) { }
 
   ngOnInit(): void {
-      this.listarClientes();
-      this.listarLideres();
-      this.obterTodos();
+    this.listarClientes();
+    this.listarLideres();
+    this.obterTodos();
   }
 
   obterTodos() {
@@ -53,37 +55,58 @@ export class ProjetoListComponent implements OnInit {
     )
   }
 
+  // deletar(id: number) {
+  //   this.blockUI.start();
+  //   this.projetoService.deletar(id).pipe(
+  //     finalize(() => this.blockUI.stop())
+  //   ).subscribe(
+  //     () => {this.obterTodos()
+  //       this.messageService.add({ severity: 'success', summary: 'Projeto deletado com sucesso' }); 
+  //     }
+  //   );
+  // }
+
   deletar(id: number) {
     this.blockUI.start();
-    this.projetoService.deletar(id).pipe(
-      finalize(() => this.blockUI.stop())
-    ).subscribe(
-      () => {this.obterTodos()
-        this.messageService.add({ severity: 'success', summary: 'Projeto deletado com sucesso' }); 
-      }
-    );
+    this.ordemServicoService.obterPorIdProjeto(id)
+      .pipe(
+        finalize(() => this.blockUI.stop()),
+      ).subscribe(resultado => {
+        console.log(resultado)
+        if (resultado.length != 0) {
+
+          this.messageService.add({ severity: 'error', summary: 'Erro ao deletar! Existem OS vinculadas ao projeto' })
+        } else {
+          this.projetoService.deletar(id).pipe(
+            finalize(() => this.blockUI.stop())
+          ).subscribe(
+            () => this.obterTodos()
+          );
+          this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
+        }
+      });
   }
 
   listarLideres() {
-      this.blockUI.start();
-      this.liderService.obterTodos().pipe(
-          finalize(() => this.blockUI.stop())
-      ).subscribe(lideres => this.listaLideres = lideres);
+    this.blockUI.start();
+    this.liderService.obterTodos().pipe(
+      finalize(() => this.blockUI.stop())
+    ).subscribe(lideres => this.listaLideres = lideres);
   }
 
   listarClientes() {
     this.blockUI.start();
     this.clienteService.obterTodos().pipe(
-        finalize(() => this.blockUI.stop())
+      finalize(() => this.blockUI.stop())
     ).subscribe(clientes => this.listaClientes = clientes);
-    }
+  }
 
-    filtrarClientePorId(id: number):string  {
-        return this.listaClientes.find(cliente => cliente.id == id).descricao;
-    }
+  filtrarClientePorId(id: number): string {
+    return this.listaClientes.find(cliente => cliente.id == id).descricao;
+  }
 
-    filtrarLiderPorId(id: number):string  {
-        return this.listaLideres.find(lider => lider.id == id).nome;
-    }
+  filtrarLiderPorId(id: number): string {
+    return this.listaLideres.find(lider => lider.id == id).nome;
+  }
 
 }

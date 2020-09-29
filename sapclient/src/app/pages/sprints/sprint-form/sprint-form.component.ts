@@ -70,7 +70,7 @@ export class SprintFormComponent implements OnInit {
     this.exibir = true;
   }
 
- 
+
   private setAcaoAtual() {
     if (this.route.snapshot.url[0].path == 'novo') {
       this.titulo = 'Cadastro de Sprints';
@@ -85,7 +85,7 @@ export class SprintFormComponent implements OnInit {
       id: [null],
       nome: [null, [Validators.required, Validators.minLength(3)]],
       dataInicio: [null, [Validators.required]],
-      dataTermino: [null, [Validators.required]],
+      dataTermino: [null, [Validators.required],],
       pontosFuncao: [null, [Validators.required]],
       impedimento: [null, [Validators.required]],
       prazo: [null, [Validators.required]],
@@ -100,8 +100,8 @@ export class SprintFormComponent implements OnInit {
       this.salvarSprint.emit(recurso);
       this.fecharModal();
       this.messageService.add({ severity: 'info', summary: 'Cadastrado nova sprint' })
+    }
   }
-}
 
   fecharModal() {
     this.form.reset();
@@ -134,6 +134,19 @@ export class SprintFormComponent implements OnInit {
       })
     })
   }
+
+  // duracaoSprintInvalida() {
+  //   console.log(this.sprint);
+  //   let intervaloMinimo = 1000 * 60 * 60 * 24 * 15;
+  //   if (this.sprint.dataInicio) {
+  //     console.log(this.sprint.dataTermino.getTime() + ' ' + this.sprint.dataInicio.getTime());
+  //     let intervaloAtual: number = this.sprint.dataTermino.getTime() - this.sprint.dataInicio.getTime();
+  //     return intervaloAtual >= intervaloMinimo ? false : true;
+  //   }
+  //   console.log(this.sprint);
+  //   this.sprint.dataInicio = new Date(this.sprint.dataTermino.getTime() - intervaloMinimo);
+  //   return false;
+  // }
 
 }
 
