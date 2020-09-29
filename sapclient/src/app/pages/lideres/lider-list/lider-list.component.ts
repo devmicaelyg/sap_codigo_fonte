@@ -1,3 +1,5 @@
+import { ProjetoService } from './../../../services/projeto.service';
+import { Projeto } from './../../../models/projeto.model';
 import { Component, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
@@ -22,6 +24,10 @@ export class LiderListComponent implements OnInit {
     @BlockUI() blockUI: NgBlockUI;
     listaLideres$: Observable<any>;
     listaLideres: any = [];
+    projetos  : Projeto;
+    projetosFiltrados: Projeto[]=[];
+    id : any;
+
     colunas: any = [
         { header: 'Nome' },
         { header: 'Contato(s)' },
@@ -31,10 +37,12 @@ export class LiderListComponent implements OnInit {
   constructor(
       private liderService: LiderService,
       private confirmationService: ConfirmationService,
-      private messageService: MessageService
+      private messageService: MessageService,
+      private projetoservice : ProjetoService
       ) { }
   ngOnInit(): void {
       this.obterTodos();
+      this.obterTodosProjetos();
   }
   
   obterTodos() {
@@ -43,15 +51,30 @@ export class LiderListComponent implements OnInit {
         finalize(() => this.blockUI.stop())
     )
   }
+  obterTodosProjetos(){
+    this.blockUI.start();
+    this.projetoservice.obterTodos().pipe(
+      finalize(() => this.blockUI.stop())
+    ).subscribe(
+      projetos => {
+        this.projetos = projetos;
+        this.projetosFiltrados = projetos;
+      }
+    );
+  }
 
   deletar(id: number) {
-    this.blockUI.start();
-    this.liderService.deletar(id).pipe(
+    this.projetos=this.projetosFiltrados.find(projeto=>projeto.idLider==id)
+    if(this.projetos?.idLider==id){
+      this.messageService.add({ severity: 'error', summary: 'Erro ao Deletar,Existem projetos vinculadas ao lider' })
+    } else if(this.projetos==undefined){
+      this.liderService.deletar(id).pipe(
         finalize(() => this.blockUI.stop())
     ).subscribe(
         () => this.obterTodos()
     );
     this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
+    }
   }
 
 }
