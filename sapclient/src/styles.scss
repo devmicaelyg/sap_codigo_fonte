@@ -88,3 +88,10 @@ body .ui-dropdown{
   height: 75px  !important;
   background-size: 250px 75px  !important;
 }
+body .ui-dialog.ui-shadow {
+  box-shadow: 10px 5px 5px #00000085;
+}
+body .ui-widget-overlay {
+  opacity: 1;
+  background-color: transparent;
+}

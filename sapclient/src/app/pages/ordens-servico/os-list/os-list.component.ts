@@ -9,6 +9,8 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { OrdemServicoService } from './../../../services/ordem-servico.service';
 
 import { finalize, map } from 'rxjs/operators';
+import {ConfirmationService} from 'primeng/api';
+import {Message} from 'primeng/api';
 
 @Component({
   selector: 'app-os-list',
@@ -26,6 +28,7 @@ export class OsListComponent implements OnInit {
   status: any = [];
   display: boolean = false;
   projeto: Projeto;
+  msgs: Message[] = [];
   
   colunas: any = [
     { header: 'Nome' },
@@ -45,7 +48,8 @@ export class OsListComponent implements OnInit {
     private ordemServicoService: OrdemServicoService,
     private projetoService: ProjetoService,
     private situacaoService: SituacaoService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -80,6 +84,21 @@ export class OsListComponent implements OnInit {
       }
     );
   }
+  confirm2(id) {
+    this.confirmationService.confirm({
+        message: 'Você deseja excluir a ordem de serviço?',
+        header: 'Confirmação de exclusão',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+            this.msgs = [{severity:'info', summary:'Confirmed', detail:'Ordem de serviço excluída'}];
+            this.deletar(id);
+        },
+        reject: () => {
+
+        },
+        key:"confirm"
+    });
+}
 
   obterSituacoes() {
     this.blockUI.start();

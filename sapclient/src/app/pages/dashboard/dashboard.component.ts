@@ -20,7 +20,7 @@ import { Output, EventEmitter,Component, OnInit, ViewChild } from '@angular/core
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem, Table } from 'primeng';
 import { Projeto } from 'src/app/models/projeto.model';
-import { Lider } from 'src/app/models/lider.model';
+
 
 
 @Component({
@@ -312,14 +312,6 @@ export class DashboardComponent implements OnInit {
     return this.status.find(status => status.id == id).descricao
   }
 
-<<<<<<< HEAD
-=======
-  obterNomeLider(id: number){
-    this.lid=this.lideres.find(lider => lider.id == id)
-  return this.lid?.nome
-  }
-
->>>>>>> 9040e238567e24ef0ea761b2ecfd55b6bd7fa319
   obterSituacaoSprint(id: number) {
     return this.sprints.find(sprint => sprint.idOrdemServico == id).prazo
   }
@@ -332,9 +324,10 @@ export class DashboardComponent implements OnInit {
     return this.situacoes.find(situacao => situacao.id == id).descricao
   }
 
-  obterNomeLider(id: number) {
-    return this.lideres.find(lider => lider.id == id).nome
-  }
+  obterNomeLider(id: number){
+    this.lid=this.lideres.find(lider => lider.id == id)
+    return this.lid?.nome
+    }
 
   obterNomeProjeto(id: number) {
     return this.projetos.find(projeto => projeto.id == id).nome

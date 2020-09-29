@@ -6,7 +6,8 @@ import { MessageService } from 'primeng';
 import { LiderService } from './../../../services/lider.service';
 import { ClienteService } from './../../../services/cliente.service';
 import { Component, OnInit } from '@angular/core';
-
+import {ConfirmationService} from 'primeng/api';
+import {Message} from 'primeng/api';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -24,14 +25,13 @@ export class ProjetoListComponent implements OnInit {
   listaProjetos$: Observable<any>;
   listaProjetos: any[] = [];
 
+  msgs: Message[] = [];
   listaClientes: any[] = [];
   listaLideres: any[] = [];
   projeto: Projeto;
 
   cliente: Cliente;
   lider: Lider;
-
-
 
   colunas: any = [
     { field: 'nome', header: 'Nome' },
@@ -47,7 +47,8 @@ export class ProjetoListComponent implements OnInit {
     private clienteService: ClienteService,
     private liderService: LiderService,
     private messageService: MessageService,
-    private ordemServicoService: OrdemServicoService
+    private ordemServicoService: OrdemServicoService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -63,17 +64,6 @@ export class ProjetoListComponent implements OnInit {
     )
   }
 
-  // deletar(id: number) {
-  //   this.blockUI.start();
-  //   this.projetoService.deletar(id).pipe(
-  //     finalize(() => this.blockUI.stop())
-  //   ).subscribe(
-  //     () => {this.obterTodos()
-  //       this.messageService.add({ severity: 'success', summary: 'Projeto deletado com sucesso' }); 
-  //     }
-  //   );
-  // }
-
   deletar(id: number) {
     this.blockUI.start();
     this.ordemServicoService.obterPorIdProjeto(id)
@@ -87,6 +77,21 @@ export class ProjetoListComponent implements OnInit {
         }
       });
   }
+  confirm2(id) {
+    this.confirmationService.confirm({
+        message: 'Você deseja excluir o Projeto?',
+        header: 'Confirmação de exclusão',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+            this.msgs = [{severity:'info', summary:'Confirmed', detail:'Projeto excluído'}];
+            this.deletar(id);
+        },
+        reject: () => {
+
+        },
+        key:"confirm"
+    });
+}
 
   listarLideres() {
     this.blockUI.start();
@@ -111,8 +116,6 @@ export class ProjetoListComponent implements OnInit {
     this.lider = this.listaLideres.find(lider => lider.id == id);
     return this.lider?.nome
   }
-
-
 
   private deletadoSucesso(id) {
     this.projetoService.deletar(id).pipe(

@@ -44,6 +44,7 @@ import {ConfirmationService} from 'primeng/api';
         MenuModule,
         PaginatorModule,
         TableModule,
+
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
