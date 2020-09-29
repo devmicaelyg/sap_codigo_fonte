@@ -2,7 +2,6 @@
 <h2 style="text-align: center">Sistema de Apoio a Projetos</h2>
 
 
-
 <p-panel [toggleable]="true" [collapsed]="true" >
   <p-header id="titleHeader">Filtros</p-header>
 
@@ -46,7 +45,7 @@
 
 </p-panel>
 
-<p-fieldset (onBeforeToggle)="obterOsPorProjeto(projeto)" *ngFor="let projeto of projetosFiltrados" [toggleable]="true"
+<p-fieldset (onBeforeToggle)="obterOsPorProjeto(projeto)"    *ngFor="let projeto of projetosFiltrados" [toggleable]="true "
 [collapsed]="true">
 
   <p-header>{{projeto.nome | uppercase}}</p-header>
@@ -230,7 +229,11 @@
         <td pEditableColumn>
           <p-cellEditor>
             <ng-template pTemplate="input">
+<<<<<<< HEAD
               <p-dropdown class="dropdownDash" (onChange)="habilitarBotao($event, sprints)" [options]="simNaoDropDown" [(ngModel)]="sprints.impedimento"></p-dropdown>
+=======
+              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="simNaoDropDown"  [(ngModel)]="sprints.impedimento" style="width:400px;" ></p-dropdown>
+>>>>>>> 9040e238567e24ef0ea761b2ecfd55b6bd7fa319
             </ng-template>
             <ng-template pTemplate="output">
               {{ obterSimNao(sprints.impedimento) }}

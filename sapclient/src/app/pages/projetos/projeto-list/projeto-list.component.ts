@@ -1,5 +1,8 @@
+import { Lider } from './../../../models/lider.model';
+import { Cliente } from './../../../models/cliente.model';
 import { OrdemServicoService } from './../../../services/ordem-servico.service';
-import { SelectItem, MessageService } from 'primeng';
+import { Projeto } from 'src/app/models/projeto.model';
+import { MessageService } from 'primeng';
 import { LiderService } from './../../../services/lider.service';
 import { ClienteService } from './../../../services/cliente.service';
 import { Component, OnInit } from '@angular/core';
@@ -7,7 +10,6 @@ import { Component, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-
 import { ProjetoService } from '../../../services/projeto.service';
 
 @Component({
@@ -20,10 +22,16 @@ export class ProjetoListComponent implements OnInit {
   titulo: string = 'Lista de projetos';
   @BlockUI() blockUI: NgBlockUI;
   listaProjetos$: Observable<any>;
-  listaProjetos: any = [];
+  listaProjetos: any[] = [];
 
   listaClientes: any[] = [];
   listaLideres: any[] = [];
+  projeto: Projeto;
+
+  cliente: Cliente;
+  lider: Lider;
+
+
 
   colunas: any = [
     { field: 'nome', header: 'Nome' },
@@ -94,14 +102,18 @@ export class ProjetoListComponent implements OnInit {
     ).subscribe(clientes => this.listaClientes = clientes);
   }
 
-  filtrarClientePorId(id: number): string {
-    return this.listaClientes.find(cliente => cliente.id == id).descricao;
+  filtrarClientePorId(id: number) {
+    this.cliente = this.listaClientes.find(cliente => cliente.id == id);
+    return this.cliente?.descricao;
   }
 
-  filtrarLiderPorId(id: number): string {
-    return this.listaLideres.find(lider => lider.id == id).nome;
+  filtrarLiderPorId(id: number) {
+    this.lider = this.listaLideres.find(lider => lider.id == id);
+    return this.lider?.nome
   }
-  
+
+
+
   private deletadoSucesso(id) {
     this.projetoService.deletar(id).pipe(
       finalize(() => this.blockUI.stop())
@@ -110,5 +122,4 @@ export class ProjetoListComponent implements OnInit {
     );
     this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
   }
-
 }

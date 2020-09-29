@@ -1,4 +1,5 @@
 import { MessageService } from 'primeng';
+import { Projeto } from './../../../models/projeto.model';
 import { SituacaoService } from './../../../services/situacao.service';
 import { ProjetoService } from './../../../services/projeto.service';
 import { Component, OnInit } from '@angular/core';
@@ -24,6 +25,7 @@ export class OsListComponent implements OnInit {
   projetos: any = [];
   status: any = [];
   display: boolean = false;
+  projeto: Projeto;
   
   colunas: any = [
     { header: 'Nome' },
@@ -103,7 +105,8 @@ export class OsListComponent implements OnInit {
   }
 
   obterNomeProjeto(id: number) {
-    return this.projetos.find(projeto => projeto.id == id).nome
+    this.projeto=this.projetos.find(projeto => projeto.id == id);
+    return this.projeto?.nome
   }
 
   showDialog() {

@@ -1,9 +1,9 @@
-import { MessageService } from 'primeng';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize, switchMap } from 'rxjs/operators';
+import { SelectItem ,MessageService } from 'primeng';
 
 import { LiderService } from './../../../services/lider.service';
 import { Lider } from './../../../models/lider.model';

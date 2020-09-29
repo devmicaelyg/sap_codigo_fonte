@@ -102,6 +102,12 @@ export class SprintFormComponent implements OnInit {
       this.messageService.add({ severity: 'info', summary: 'Cadastrado nova sprint' })
     }
   }
+  validaDatas(data){
+    if(data < this.sprint.dataInicio){
+      return false;
+    }
+
+  }
 
   fecharModal() {
     this.form.reset();
