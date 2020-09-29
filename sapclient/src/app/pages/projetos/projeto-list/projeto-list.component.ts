@@ -1,3 +1,5 @@
+import { Lider } from './../../../models/lider.model';
+import { Cliente } from './../../../models/cliente.model';
 import { OrdemServicoService } from './../../../services/ordem-servico.service';
 import { OrdemServico } from './../../../models/ordem-servico.model';
 import { Projeto } from 'src/app/models/projeto.model';
@@ -26,6 +28,10 @@ export class ProjetoListComponent implements OnInit {
   listaClientes: any[] = [];
   listaLideres: any[] = [];
   projeto : Projeto;
+  
+  cliente : Cliente;
+  lider : Lider;
+
 
 
   colunas:any = [
@@ -95,11 +101,13 @@ export class ProjetoListComponent implements OnInit {
     }
 
     filtrarClientePorId(id: number) {
-        return this.listaClientes.find(cliente => cliente.id == id).descricao;
+      this.cliente=this.listaClientes.find(cliente => cliente.id == id);
+        return this.cliente?.descricao;
     }
 
     filtrarLiderPorId(id: number){
-        return this.listaLideres.find(lider => lider.id == id).nome;
+      this.lider=this.listaLideres.find(lider => lider.id == id);
+        return this.lider?.nome
     }
 
 }
