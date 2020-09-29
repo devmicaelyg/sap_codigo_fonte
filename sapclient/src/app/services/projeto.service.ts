@@ -22,6 +22,10 @@ import { Projeto } from './../models/projeto.model';
       return this.http.get(`${this.api}`)
     }
 
+    obterPorLider(id: number): Observable<any> {
+        return this.http.get(`${this.api}/${id}/lider`);
+    }
+
     salvar(recurso: Projeto): Observable<any> {
         if (recurso.id) {
             return this.atualizar(recurso);

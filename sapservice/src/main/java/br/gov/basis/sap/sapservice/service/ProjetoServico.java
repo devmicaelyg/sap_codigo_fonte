@@ -37,6 +37,10 @@ public class ProjetoServico {
         return projetoMapper.toDto(projetoRepository.save(projetoMapper.toEntity(projetoDTO)));
     }
 
+    public List<ProjetoDTO> ObterPorLider(Integer id){
+        return projetoMapper.toDto(projetoRepository.findLiderById(id));
+    }
+
     public void removerPorId(Integer id) {
         projetoRepository.deleteById(id);
     }

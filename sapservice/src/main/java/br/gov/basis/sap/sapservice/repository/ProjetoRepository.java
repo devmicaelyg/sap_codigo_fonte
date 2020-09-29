@@ -13,4 +13,6 @@ public interface ProjetoRepository extends JpaRepository<Projeto,Integer> {
     List<ProjetoDetalheDTO> buscarTodosDetalhes();
 
     List<Projeto> findByClienteId(Integer id);
+
+    List<Projeto> findLiderById(Integer id);
 }

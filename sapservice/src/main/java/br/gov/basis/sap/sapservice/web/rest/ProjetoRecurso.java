@@ -42,6 +42,12 @@ public class ProjetoRecurso {
         return ResponseEntity.ok().body(dto);
     }
 
+    @GetMapping("/{id}/lider")
+    public ResponseEntity<List<ProjetoDTO>> obterPorLider(@PathVariable Integer id){
+        List<ProjetoDTO> projetoDTOS = projetoServico.ObterPorLider(id);
+        return ResponseEntity.ok().body(projetoDTOS);
+    }
+
     @PostMapping
     public ResponseEntity<ProjetoDTO> salvar(@RequestBody ProjetoDTO projetoDTO) throws URISyntaxException {
         ProjetoDTO dto = projetoServico.salvar(projetoDTO);

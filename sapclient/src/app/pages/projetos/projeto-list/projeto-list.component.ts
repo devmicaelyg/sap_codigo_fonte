@@ -77,6 +77,7 @@ export class ProjetoListComponent implements OnInit {
         }
       });
   }
+  
   confirm2(id) {
     this.confirmationService.confirm({
         message: 'Você deseja excluir o Projeto?',

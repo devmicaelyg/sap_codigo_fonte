@@ -36,6 +36,13 @@ public class ProjetoRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void obterPorLider() throws Exception{
+        Projeto projeto = projetoBuilder.construir();
+        getMockMvc().perform(get(RECURSO + projeto.getLider().getId() + "/lider"))
+        .andExpect(status().isOk());
+    }
+
+    @Test
     public void obterPorIdInexistenteTest() throws Exception {
         getMockMvc().perform(get(RECURSO + "0"))
             .andExpect(status().isBadRequest());

@@ -1,3 +1,4 @@
+import { ProjetoService } from './../../../services/projeto.service';
 import { Component, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
@@ -32,7 +33,8 @@ export class LiderListComponent implements OnInit {
   constructor(
       private liderService: LiderService,
       private confirmationService: ConfirmationService,
-      private messageService: MessageService
+      private messageService: MessageService,
+      private projetoService: ProjetoService
       ) { }
   ngOnInit(): void {
       this.obterTodos();
@@ -47,17 +49,32 @@ export class LiderListComponent implements OnInit {
 
   deletar(id: number) {
     this.blockUI.start();
-    this.liderService.deletar(id).pipe(
-        finalize(() => this.blockUI.stop())
-    ).subscribe(() => {
-      this.obterTodos()
-      this.messageService.add({ severity: 'success', summary: 'Lider deletado com sucesso' });
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Erro ao deletar lider. Existem projetos vinculados a ele.' })
-    }
-    );
-  }
+    this.projetoService.obterPorLider(id)
+    .pipe(
+        finalize(() => this.blockUI.stop()),
+    ).subscribe(resultado => {
+      if (resultado.length != 0) {
+        this.messageService.add({ severity: 'error', summary: 'Erro ao deletar! Existem OS vinculadas ao projeto' });
+      } else {
+        this.deletadoSucesso(id);
+        
+      }
+      console.log(resultado);
+    });}
   
+  // deletar(id: number) {
+  //   this.blockUI.start();
+  //   this.projetoService.obterPorLider(id)
+  //     .pipe(
+  //       finalize(() => this.blockUI.stop()),
+  //     ).subscribe(resultado => {
+  //       if (resultado.length != 0) {
+  //         this.messageService.add({ severity: 'error', summary: 'Erro ao deletar! Existem OS vinculadas ao projeto' });
+  //       } else {
+  //         this.deletadoSucesso(id);
+  //       }
+  //     });
+
   confirm2(id) {
     this.confirmationService.confirm({
         message: 'Você deseja excluir o Lider?',
@@ -74,7 +91,7 @@ export class LiderListComponent implements OnInit {
 }
 
 private deletadoSucesso(id) {
-  this.liderService.deletar(id).pipe(
+  this.projetoService.obterPorLider(id).pipe(
     finalize(() => this.blockUI.stop())
   ).subscribe(
     () => this.obterTodos()
