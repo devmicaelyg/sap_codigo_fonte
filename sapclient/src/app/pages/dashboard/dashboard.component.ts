@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit {
   
   sprints: any = [];
   sprintsFiltradas: any = [];
-  lideres: Lider [] = [];
+  lideres: Lider[] = [];
   status: any = [];
   testeExibe: boolean;
 
