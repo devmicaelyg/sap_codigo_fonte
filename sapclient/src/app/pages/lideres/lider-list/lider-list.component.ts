@@ -57,6 +57,7 @@ export class LiderListComponent implements OnInit {
     }
     );
   }
+  
   confirm2(id) {
     this.confirmationService.confirm({
         message: 'Você deseja excluir o Lider?',
