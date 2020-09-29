@@ -74,30 +74,11 @@ export class ProjetoListComponent implements OnInit {
       ).subscribe(resultado => {
         if (resultado.length != 0) {
           this.messageService.add({ severity: 'error', summary: 'Erro ao deletar! Existem OS vinculadas ao projeto' });
-        
         } else {
-              this.projetoService.deletar(id).pipe(
-                finalize(() => this.blockUI.stop())
-              ).subscribe(
-                () => this.obterTodos()
-              );
-              this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
-            }
-
-        
-        // return this.deletadoSucesso(id);
-        
+          this.deletadoSucesso(id);
+        }
       });
   }
-
-  // private deletadoSucesso(id) {
-  //   this.projetoService.deletar(id).pipe(
-  //     finalize(() => this.blockUI.stop())
-  //   ).subscribe(
-  //     () => this.obterTodos()
-  //   );
-  //   this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
-  // }
 
   listarLideres() {
     this.blockUI.start();
@@ -119,6 +100,15 @@ export class ProjetoListComponent implements OnInit {
 
   filtrarLiderPorId(id: number): string {
     return this.listaLideres.find(lider => lider.id == id).nome;
+  }
+  
+  private deletadoSucesso(id) {
+    this.projetoService.deletar(id).pipe(
+      finalize(() => this.blockUI.stop())
+    ).subscribe(
+      () => this.obterTodos()
+    );
+    this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
   }
 
 }
