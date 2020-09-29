@@ -55,7 +55,14 @@ export class LiderListComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Erro ao deletar lider. Existem projetos vinculados a ele.' })
     }
     );
-    this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
   }
 
+  private deletadoSucesso(id) {
+    this.liderService.deletar(id).pipe(
+      finalize(() => this.blockUI.stop())
+    ).subscribe(
+      () => this.obterTodos()
+    );
+    this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
+  }
 }

@@ -31,8 +31,6 @@ export class ProjetoListComponent implements OnInit {
   cliente: Cliente;
   lider: Lider;
 
-
-
   colunas: any = [
     { field: 'nome', header: 'Nome' },
     { field: 'cliente', header: 'Cliente' },
@@ -62,17 +60,6 @@ export class ProjetoListComponent implements OnInit {
       finalize(() => this.blockUI.stop())
     )
   }
-
-  // deletar(id: number) {
-  //   this.blockUI.start();
-  //   this.projetoService.deletar(id).pipe(
-  //     finalize(() => this.blockUI.stop())
-  //   ).subscribe(
-  //     () => {this.obterTodos()
-  //       this.messageService.add({ severity: 'success', summary: 'Projeto deletado com sucesso' }); 
-  //     }
-  //   );
-  // }
 
   deletar(id: number) {
     this.blockUI.start();
@@ -111,8 +98,6 @@ export class ProjetoListComponent implements OnInit {
     this.lider = this.listaLideres.find(lider => lider.id == id);
     return this.lider?.nome
   }
-
-
 
   private deletadoSucesso(id) {
     this.projetoService.deletar(id).pipe(
