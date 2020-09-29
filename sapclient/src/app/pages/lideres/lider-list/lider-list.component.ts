@@ -64,6 +64,7 @@ export class LiderListComponent implements OnInit {
   }
 
   deletar(id: number) {
+    
     this.projetos=this.projetosFiltrados.find(projeto=>projeto.idLider==id)
     if(this.projetos?.idLider==id){
       this.messageService.add({ severity: 'error', summary: 'Erro ao Deletar,Existem projetos vinculadas ao lider' })
