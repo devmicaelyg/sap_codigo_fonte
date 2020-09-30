@@ -5,6 +5,7 @@ export class OrdemServico {
     constructor(
         public id?: number,
         public nome?: string,
+        public chave?:string,
         public idProjeto?: number,
         public idSituacao?: number,
         public dataProximaEntrega?: Date,

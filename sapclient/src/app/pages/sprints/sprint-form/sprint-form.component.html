@@ -20,6 +20,13 @@
       </div>
 
       <div class="ui-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-6">
+          <label>Descrição<span>*</span>:</label>
+          <input type="text" pInputText formControlName="descricao">
+        </div>
+      </div>
+
+      <div class="ui-fluid p-formgrid p-grid">
         <div class="p-field p-col-24 p-md-12">
           <label>Data Termino <span>*</span>:</label>
           <p-calendar appendTo="body" formControlName="dataTermino" showButtonBar="true" [readonlyInput]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
@@ -42,6 +49,10 @@
             <p-radioButton class="espacamento" name="impedimento" [value]="true" [(ngModel)]="sprint.impedimento" formControlName="impedimento" label="Sim"></p-radioButton>
             <p-radioButton name="impedimento" [value]="false" formControlName="impedimento" [(ngModel)]="sprint.impedimento" label="Não"></p-radioButton>
         </div>
+
+        
+
+        
 
           <div class="p-field p-col-3 p-md-3">
             <label>Dentro Do Prazo <span>*</span>:</label>

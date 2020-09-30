@@ -85,6 +85,7 @@ export class SprintFormComponent implements OnInit {
       nome: [null, [Validators.required, Validators.minLength(3)]],
       dataInicio: [null, [Validators.required]],
       dataTermino: [null, [Validators.required]],
+      descricao:[null],
       pontosFuncao: [null, [Validators.required]],
       impedimento: [null, [Validators.required]],
       prazo: [null, [Validators.required]],

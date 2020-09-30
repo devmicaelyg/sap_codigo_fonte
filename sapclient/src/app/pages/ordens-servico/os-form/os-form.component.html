@@ -14,6 +14,15 @@
 
     <div class="ui-fluid p-formgrid p-grid">
       <div class="p-field p-col-12 p-md-6">
+        <label>Chave OS <span>*</span>:</label>
+        <input type="text" pInputText formControlName="chave">
+        <p-message severity="error" text="É necessário indicar a chave da OS" *ngIf="form.get('chave').errors && form.get('chave').errors.required && form.get('chave').touched"></p-message>
+        <p-message severity="error" text="Quantidade mínima de 2 caracteres" *ngIf="form.get('chave').errors && form.get('chave').errors.minlength && form.get('chave').invalid && form.get('chave').touched"></p-message>
+      </div>
+    </div>
+
+    <div class="ui-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-6">
         <label>Data Proxima Entrega <span>*</span>:</label>
         <p-calendar formControlName="dataProximaEntrega" [showIcon]="true" showButtonBar="true" [readonlyInput]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
         <p-message severity="error" text="É necessário uma data para a próxima entrega" *ngIf="form.get('dataProximaEntrega').errors && form.get('dataProximaEntrega').errors.required && form.get('dataProximaEntrega').touched"></p-message>
@@ -97,6 +106,22 @@
 
             <td>
               {{ sprint.dataTermino | date:'dd/MM/yyyy' }}
+            </td>
+
+            <td>
+              
+                
+              <p-dialog header="Descrição da Sprint" [(visible)]="display" [position]="position"  [style]="{width: '50vw'}" [maximizable]="true"
+              >
+              <p>{{sprint.descricao}}.</p>
+                  <p-footer>
+                      <button type="button" pButton icon="pi pi-check" (click)="showDialog()" label="Yes"></button>
+                      <button type="button" pButton icon="pi pi-times" (click)="showDialog()" label="No" class="ui-button-secondary"></button>
+                  </p-footer>
+          </p-dialog>
+           
+              <button type="button" (click)="showDialog()" pButton icon="pi pi-info-circle" label="Descrição"></button>
+            
             </td>
 
             <td>
