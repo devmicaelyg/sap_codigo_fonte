@@ -17,7 +17,6 @@ span {
 
 #dropdown {
     display: flex;
-    
 }
 
 #info {
@@ -33,6 +32,7 @@ span {
 #formQtdDefeitos p-inputMask{
     width: 100%;
 }
+
 @media screen and (max-width: 868px) {
 
     #containerButton {

@@ -12,6 +12,9 @@ span{
     color: red;
 }
 
+p-message{
+    text-align: center;
+}
 #container{
     padding: 5px;
 }    
