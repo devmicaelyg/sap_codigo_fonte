@@ -6,7 +6,7 @@
   </p-header>
 
   <ng-container *ngIf="listaProjetos$ | async as listaProjetos; else loading">
-    <p-table #dt [columns]="colunas" [value]="listaProjetos" 
+    <p-table #dt [columns]="colunas" [value]="listaProjetos" [responsive]="true"
     [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
       <ng-template pTemplate="header" let-columns>
         <tr>

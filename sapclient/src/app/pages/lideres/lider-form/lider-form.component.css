@@ -6,10 +6,17 @@ span{
     color: red;
 }
 
-#info{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 8px;
-    margin-left: 22rem;
-    height: 35px;
+@media screen and (max-width: 868px) {
+
+    #containerButton {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
+    #containerButton p-message{
+        display: flex;
+        justify-content: center;
+    }
+
 }
