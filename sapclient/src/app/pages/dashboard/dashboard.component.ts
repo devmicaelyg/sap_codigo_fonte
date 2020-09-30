@@ -179,7 +179,6 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-
   
   obterOrdemServico() {
     this.blockUI.start();
@@ -189,6 +188,7 @@ export class DashboardComponent implements OnInit {
       ordemServico => this.listaOrdemServico = ordemServico
     );
   }
+
   enviarFormOs(OrdemServico) {
     this.ordemServicoService.salvar(OrdemServico).pipe(
       finalize(() => this.blockUI.stop())
