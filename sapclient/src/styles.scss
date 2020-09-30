@@ -84,10 +84,14 @@ body .ui-dropdown{
 }
 
 .layout-container .topbar .logo {
-  width: 250px !important;
-  height: 75px  !important;
-  background-size: 250px 75px  !important;
+  margin-left: 46px;
+     margin-top: 12px;
 }
+
+.layout-container .topbar .topbar-left{
+  background-color: #fff;
+}
+
 body .ui-dialog.ui-shadow {
   box-shadow: 10px 5px 5px #00000085;
 }
