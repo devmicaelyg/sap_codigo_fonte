@@ -23,7 +23,7 @@ body .ui-tabview {
 
 #DescricaoProjeto{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 #DescricaoProjeto span{
@@ -33,6 +33,18 @@ body .ui-tabview {
 .dropdownDash{
     width: 100% !important;
 }
+
+#botaoSalvar{
+    padding-right: 50px;
+}
+
+@media screen and (min-width: 40.063em){
+    .ui-md-3 {
+        width: 25%;
+        padding-right: 20px;
+    }
+}
+
 
 /* .ng-tns-c89-40 ui-dropdown ui-widget ui-state-default ui-corner-all ui-dropdown-open ng-reflect-ng- [object Object] .ui-helper-hidden-accessible ng-tns-c89-40 .ng-tns-c89-40 .ui-dropdown-label-container .ng-tns-c89-40 .ng-tns-c89-40 ui-dropdown-label ui-inputtext ui-corner-all ng-star-inserted ng-reflect-ng-[object Object] */
     

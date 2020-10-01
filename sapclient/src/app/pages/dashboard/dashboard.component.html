@@ -52,10 +52,12 @@
   <div>
     <p-panel >
       <ul id="DescricaoProjeto">
-        <li><span>Lider:</span> {{obterNomeLider(projeto.idLider) | uppercase}}</li>
-        <li><span>Testador:</span> {{obterNomeTestador(projeto.id) | uppercase}}</li>
-        <li><span>Revisor:</span> {{obterNomeRevisor(projeto.id) | uppercase}}</li>
-        <li><span>Gerente:</span> {{obterNomeGerente(projeto.id) | uppercase}}</li>
+          <div class="ui-fluid p-formgrid p-grid">
+            <li class="ui-g-3 ui-md-5 ui-sm-12"><span>Lider:</span> {{obterNomeLider(projeto.idLider) | uppercase}}</li>
+            <li class="ui-g-3 ui-md-5 ui-sm-12"><span>Testador:</span> {{obterNomeTestador(projeto.id) | uppercase}}</li>
+            <li class="ui-g-3 ui-md-5 ui-sm-12"><span>Revisor:</span> {{obterNomeRevisor(projeto.id) | uppercase}}</li>
+            <li class="ui-g-3 ui-md-5 ui-sm-12"><span>Gerente:</span> {{obterNomeGerente(projeto.id) | uppercase}}</li>
+          </div>
       </ul>
     </p-panel>
 
@@ -90,6 +92,17 @@
             </ng-template>
             <ng-template  pTemplate="output">
             {{ ordemservico.nome | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="ordemservico.chave">
+            </ng-template>
+            <ng-template  pTemplate="output">
+            {{ ordemservico.chave | uppercase}}
             </ng-template>
           </p-cellEditor>
         </td>
@@ -253,7 +266,7 @@
             <ng-template pTemplate="output">
             </ng-template>
           </p-cellEditor>
-          <button (click)="showDialog()" pButton icon="pi pi-info-circle" label="Descrição"></button>
+          <button (click)="showDialog()" pButton icon="pi pi-info-circle" label="Info"></button>
 
         </td>
 
@@ -278,8 +291,9 @@
             </ng-template>
           </p-cellEditor>
         </td>
+
         <td>
-          <button pButton icon="ui-icon-check-circle" label="Salvar" (click)="enviarFormSprint(sprints)"></button>
+          <button pButton id="botaoSalvar" icon="ui-icon-check-circle" label="Salvar" (click)="enviarFormSprint(sprints)"></button>
         </td>
 
       </tr>
