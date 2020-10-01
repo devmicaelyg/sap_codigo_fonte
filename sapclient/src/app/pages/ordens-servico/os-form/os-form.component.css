@@ -24,7 +24,13 @@ span {
     margin-top: 1rem;
 }
 
-#containerButton {
+@media screen and (max-width: 40em) {
+    .mydialog {
+        width: 75vw;
+    }
+}
+
+#containerButton{
     display: block;
     justify-content: space-between;
 }
@@ -47,3 +53,4 @@ span {
     }
 
 }
+

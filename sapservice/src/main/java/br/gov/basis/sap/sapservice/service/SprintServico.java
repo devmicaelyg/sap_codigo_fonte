@@ -22,6 +22,7 @@ public class SprintServico {
         return sprintMapper.toDto(sprintRepository.findAll());
     }
 
+
     public SprintDTO obterPorId(Integer id) {
         return sprintMapper.toDto(sprintRepository.findById(id).get());
     }

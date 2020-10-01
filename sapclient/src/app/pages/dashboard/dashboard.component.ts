@@ -1,3 +1,4 @@
+import { Sprint } from './../../models/sprint.model';
 import { Lider } from './../../models/lider.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { StatusService } from './../../services/status.service';
@@ -18,6 +19,8 @@ import { Output, EventEmitter,Component, OnInit, ViewChild } from '@angular/core
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem, Table } from 'primeng';
 import { Projeto } from 'src/app/models/projeto.model';
+
+
 
 
 
@@ -55,6 +58,8 @@ export class DashboardComponent implements OnInit {
   situacaoDropdown: SelectItem[] = [];
   statusDropdown: SelectItem[] = [];
 
+  
+
   projetos: Projeto [] = [];
   projetosFiltrados: Projeto [] = [];
   clienteItensFiltro: any [] = [];
@@ -63,12 +68,13 @@ export class DashboardComponent implements OnInit {
 
   lider : any;
   
-  sprints: any = [];
+  sprints: Sprint[] = [];
   sprintsFiltradas: any = [];
   lideres: Lider[] = [];
   status: any = [];
   testeExibe: boolean;
 
+  x :any []=[];
   lid : Lider;
 
   lista: any = [];
@@ -78,6 +84,7 @@ export class DashboardComponent implements OnInit {
   filtroCliente: any = [];
   filtroProjeto: any = [];
   filtroOs: any = [];
+  display : boolean =false;
 
 
   colunas: any[] = [
@@ -96,6 +103,7 @@ export class DashboardComponent implements OnInit {
     { header: 'Término' },
     { header: 'PF' },
     { header: 'Impedimento?' },
+    { header: 'Descrição' },
     { header: 'No Prazo?' },
     { header: 'Status' },
     { header: 'Ação' },
@@ -240,6 +248,14 @@ export class DashboardComponent implements OnInit {
         element.dataInicio = new Date (`${element.dataInicio}T00:00:00`);
         element.dataTermino = new Date(`${element.dataTermino}T00:00:00`);
       })
+      console.log(this.sprints);
+      this.sprints = this.sprints.slice().sort((a, b) => new Date(b.dataInicio).getTime() - new Date(a.dataInicio).getTime());
+      console.log(this.sprints);
+      // sprints.forEach(element => {
+      //   element.dataInicio = new Date (`${element.dataInicio}T00:00:00`);
+      //   element.dataTermino = new Date(`${element.dataTermino}T00:00:00`);
+      //   console.log(this.sprints)
+      // })
     }
     );
   }
@@ -311,6 +327,12 @@ export class DashboardComponent implements OnInit {
   obterSituacaoSprint(id: number) {
     return this.sprints.find(sprint => sprint.idOrdemServico == id).prazo
   }
+
+  obterDescricaocaoSprint(id: number) {
+    return this.sprints.find(sprint => sprint.idOrdemServico == id).descricao
+  }
+
+
 
   obterImpedimentoSprint(id: number) {
     return this.sprints.find(sprint => sprint.idOrdemServico == id).impedimento
@@ -432,6 +454,10 @@ export class DashboardComponent implements OnInit {
     this.projetosFiltrados = this.projetosFiltrados.filter(pf => !!(this.projetoItensFiltro.length ? this.projetoItensFiltro.find(lif => lif === pf.id) : true));
     this.projetosFiltrados = this.projetosFiltrados.filter(pf => !!(this.clienteItensFiltro.length ? this.clienteItensFiltro.find(lif => lif === pf.idCliente) : true));
 
+  }
+
+  showDialog() {
+    this.display = !this.display;
   }
 
 }

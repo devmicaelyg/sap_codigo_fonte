@@ -173,13 +173,13 @@
             <p-table [responsive]="true" paginator="true" [rows]="10" [columns]="coluna" [value]="sprints" dataKey="nome">
               <ng-template pTemplate="header" let-subcolumns>
       <tr>
-        <th [class.action]="coluna.header == 'Ações'" *ngFor="let coluna of colunaSprint" pResizableColumn>
+        <th [class.action]="coluna.header == 'Ações'" *ngFor="let coluna of colunaSprint"   pResizableColumn  >
           {{coluna.header}}
         </th>
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-sprints let-expanded="expanded">
+    <ng-template pTemplate="body" let-sprints let-expanded="expanded" >
       <tr *ngIf="sprints.idOrdemServico == ordemservico.id">
 
         <td pEditableColumn>
@@ -235,6 +235,26 @@
               {{ obterSimNao(sprints.impedimento) }}
             </ng-template>
           </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dialog header="Descrição da Sprint" [(visible)]="display" [position]="position"  [style]="{width: '50vw'}" [maximizable]="true" [(ngModel)]="sprints.descricao" >
+              <p>
+                    <input type="text" pInputText [(ngModel)]="sprints.descricao">
+              </p>
+                  <p-footer>
+                      <button type="button" pButton icon="pi pi-check" (click)="showDialog()" label="Yes"></button>
+                      <button type="button" pButton icon="pi pi-times" (click)="showDialog()" label="No" class="ui-button-secondary"></button>
+                  </p-footer>
+          </p-dialog>
+            </ng-template>
+            <ng-template pTemplate="output">
+            </ng-template>
+          </p-cellEditor>
+          <button (click)="showDialog()" pButton icon="pi pi-info-circle" label="Descrição"></button>
+
         </td>
 
         <td pEditableColumn>

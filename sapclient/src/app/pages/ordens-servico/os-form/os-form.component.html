@@ -1,6 +1,5 @@
 <p-card header="{{titulo}}">
 
-
     <form [formGroup]="form">
         <div class="ui-fluid p-formgrid p-grid">
             <div class="p-col-12 p-md-6 p-lg-6">
@@ -15,11 +14,16 @@
             </div>
 
             <div class="p-col-12 p-md-6 p-lg-6">
-              <label>Chave OS <span>*</span>:</label>
-              <input type="text" pInputText>
+                <label>Chave OS <span>*</span>:</label>
+                <input type="text" pInputText formControlName="chave">
+                <p-message severity="error" text="É necessário indicar a chave da OS"
+                    *ngIf="form.get('chave').errors && form.get('chave').errors.required && form.get('chave').touched">
+                </p-message>
+                <p-message severity="error" text="Quantidade mínima de 2 caracteres"
+                    *ngIf="form.get('chave').errors && form.get('chave').errors.minlength && form.get('chave').invalid && form.get('chave').touched">
+                </p-message>
             </div>
-
-        </div>>
+        </div>
 
         <div class="ui-fluid p-formgrid p-grid">
             <div id="formQtdDefeitosCliente" class="p-field p-col-12 p-md-6 p-lg-6">
@@ -35,13 +39,11 @@
             </div>
         </div>
 
-
         <div class="ui-fluid p-formgrid p-grid">
-            <div class="p-field p-col-12 p-md-6 p-sm-12">
+            <div class="p-field p-col-12 p-md-6">
                 <label>Pontos Função <span>*</span>:</label>
                 <input type="text" pInputText formControlName="pontosFuncao">
-                <p-message severity="error"
-                    text="É necessário a utilização de apenas números, veja exemplos:09, 99.9, 99.99, 999.999"
+                <p-message severity="error" text="É necessário colocar apenas números de pontos de função"
                     *ngIf="form.get('pontosFuncao').errors && form.get('pontosFuncao').errors.required && form.get('pontosFuncao').touched">
                 </p-message>
             </div>
@@ -57,7 +59,29 @@
                 </p-message>
             </div>
         </div>
-        
+
+        <div class="ui-fluid p-formgrid p-grid">
+            <div class="p-field ui-g-4 p-col-12 p-md-6">
+                <label>Data Proxima Entrega <span>*</span>:</label>
+                <p-calendar formControlName="dataProximaEntrega" [showIcon]="true" showButtonBar="true"
+                    [readonlyInput]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true"
+                    [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+                <p-message severity="error" text="É necessário uma data para a próxima entrega"
+                    *ngIf="form.get('dataProximaEntrega').errors && form.get('dataProximaEntrega').errors.required && form.get('dataProximaEntrega').touched">
+                </p-message>
+            </div>
+
+            <div class="p-field p-col-12 p-md-6 p-sm-12">
+                <label>Prazo <span>*</span>:</label>
+                <p-calendar formControlName="prazo" showButtonBar="true" [readonlyInput]="true" [showIcon]="true"
+                    [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true"
+                    yearRange="1950:2060"></p-calendar>
+                <p-message severity="error" text="É necessário uma data de prazo"
+                    *ngIf="form.get('prazo').errors && form.get('prazo').errors.required && form.get('prazo').touched">
+                </p-message>
+            </div>
+        </div>
+
         <div id="dropdown" class="ui-fluid p-formgrid p-grid">
             <div class="p-col-12 p-md-6 p-lg-6">
                 <label>Projetos <span>*</span>:</label>
@@ -77,29 +101,6 @@
                 </p-message>
             </div>
         </div>
-
-        <div class="ui-fluid p-formgrid p-grid">
-          <div class="p-field ui-g-4 p-col-12 p-md-6">
-              <label>Data Proxima Entrega <span>*</span>:</label>
-              <p-calendar formControlName="dataProximaEntrega" [showIcon]="true" showButtonBar="true"
-                  [readonlyInput]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true"
-                  [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
-              <p-message severity="error" text="É necessário uma data para a próxima entrega"
-                  *ngIf="form.get('dataProximaEntrega').errors && form.get('dataProximaEntrega').errors.required && form.get('dataProximaEntrega').touched">
-              </p-message>
-          </div>
-       
-
-        <div class="p-field p-col-12 p-md-6 p-sm-12">
-            <label>Prazo <span>*</span>:</label>
-            <p-calendar formControlName="prazo" showButtonBar="true" [readonlyInput]="true" [showIcon]="true"
-                [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true"
-                yearRange="1950:2060"></p-calendar>
-            <p-message severity="error" text="É necessário uma data de prazo"
-                *ngIf="form.get('prazo').errors && form.get('prazo').errors.required && form.get('prazo').touched">
-            </p-message>
-        </div>
-    </div>
 
         <div *ngIf="!digitavel">
             <p-fieldset legend="Sprints" [disable]="digitavel" [toggleable]="!digitavel" [collapsed]="true">
@@ -126,6 +127,23 @@
 
                             <td>
                                 {{ sprint.dataTermino | date:'dd/MM/yyyy' }}
+                            </td>
+
+                            <td>
+                                <p-dialog header="Descrição da Sprint" [(visible)]="display" [position]="position"
+                                    [style]="{width: '50vw'}" [maximizable]="true">
+                                    <p>{{sprint.descricao}}</p>
+                                    <p-footer>
+                                        <button type="button" pButton icon="pi pi-check" (click)="showDialog()"
+                                            label="Yes"></button>
+                                        <button type="button" pButton icon="pi pi-times" (click)="showDialog()"
+                                            label="No" class="ui-button-secondary"></button>
+                                    </p-footer>
+                                </p-dialog>
+
+                                <button type="button" (click)="showDialog()" pButton icon="pi pi-info-circle"
+                                    label="Descrição"></button>
+
                             </td>
 
                             <td>
@@ -180,6 +198,7 @@
                 </div>
             </div>
         </div>
+
     </form>
 </p-card>
 

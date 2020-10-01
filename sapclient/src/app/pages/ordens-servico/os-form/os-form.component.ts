@@ -13,6 +13,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize, switchMap, map, tap } from 'rxjs/operators'
 
+import {DialogModule} from 'primeng/dialog';
 
 import { Observable } from 'rxjs';
 import { OrdemServico } from './../../../models/ordem-servico.model';
@@ -39,6 +40,9 @@ export class OsFormComponent implements OnInit {
   listaSprint$: Observable<any>;
   listaSprint: any = [];
   ordemService$: Observable<any>;
+  display: boolean = false;
+
+
 
   @ViewChild('sprintDialog') sprintDialog: SprintFormComponent;
 
@@ -46,6 +50,7 @@ export class OsFormComponent implements OnInit {
     { header: 'Nome' },
     { header: 'Ínicio' },
     { header: 'Término' },
+    { header : 'Descrição'},
     { header: 'PF' },
     { header: 'Status' },
     { header: 'Ações' },
@@ -99,6 +104,7 @@ export class OsFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       id: [null],
       nome: [null, [Validators.required, Validators.minLength(3)]],
+      chave :[null, [Validators.required, Validators.minLength(3)]],
       dataProximaEntrega: [null
         , [
           Validators.required,
@@ -266,6 +272,10 @@ adicionarEditarSprint(event) {
 
 showDialogSprint(sprint=null) {
   this.sprintDialog.mostrarDialog(sprint);
+}
+
+showDialog() {
+  this.display = !this.display;
 }
 
   defaultDate(){

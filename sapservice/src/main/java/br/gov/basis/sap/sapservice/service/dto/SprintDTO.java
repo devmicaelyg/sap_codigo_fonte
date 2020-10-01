@@ -13,6 +13,8 @@ public class SprintDTO {
 
     private String nome;
 
+    private String descricao;
+
     private LocalDate dataInicio;
 
     private LocalDate dataTermino;
