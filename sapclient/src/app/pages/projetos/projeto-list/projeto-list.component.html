@@ -6,37 +6,41 @@
   </p-header>
 
   <ng-container *ngIf="listaProjetos$ | async as listaProjetos; else loading">
-    <p-table #dt [columns]="colunas" [value]="listaProjetos" [responsive]="true"
-    [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
+    <p-table #dt [columns]="colunas" [value]="projetosFiltrados" [responsive]="true" [paginator]="true" [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 20]">
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th [class.action]="coluna.header == 'AÃ§Ãµes'" *ngFor="let coluna of columns">
+          <th [class.action]="coluna.header == 'Ações'" *ngFor="let coluna of columns">
             {{ coluna.header }}
           </th>
         </tr>
-        <!-- <tr>
+        <tr>
           <th *ngFor="let coluna of columns" [ngSwitch]="coluna.field">
-            <p-multiSelect class="filtro" maxSelectedLabels="5"
-              [options]="listaLideres"
-              selectedItemsLabel="{0} itens selecionados"
-              [(ngModel)]="filtroLider">
+            <input *ngSwitchCase="'nome'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'nome', 'contains')">
+              <p-multiSelect *ngSwitchCase="'cliente'" [options]="clientesSelecionaveis" placeholder="Todos" 
+              defaultLabel="" (onChange)="filtrarPorCliente($event)" styleClass="p-column-filter">
             </p-multiSelect>
-            <p-multiSelect *ngSwitchCase="'cliente'" [options]="listaClientes" defaultLabel="Filtrar por Cliente" (onChange)="dt.filter($event.value, coluna.field, 'in')"></p-multiSelect>
-            <input *ngSwitchCase="'nome'" pInputText type="text" (input)="dt.filter($event.target.value, coluna.field, 'contains')">
-            <input *ngSwitchCase="'testador'" pInputText type="text" (input)="dt.filter($event.target.value, coluna.field, 'contains')">
-            <input *ngSwitchCase="'revisor'" pInputText type="text" (input)="dt.filter($event.target.value, coluna.field, 'contains')">
-            <input *ngSwitchCase="'gerente'" pInputText type="text" (input)="dt.filter($event.target.value, coluna.field, 'contains')">
+            <p-multiSelect *ngSwitchCase="'lider'" [options]="lideresSelecionaveis" placeholder="Todos" 
+            defaultLabel="" (onChange)="filtrarPorLider($event)" styleClass="p-column-filter">
+          </p-multiSelect>
+            <input *ngSwitchCase="'testador'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'testador', 'contains')">
+            <input *ngSwitchCase="'revisor'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'revisor', 'contains')">
+            <input *ngSwitchCase="'gerente'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'gerente', 'contains')">
           </th>
-        </tr>  -->
+        </tr>
       </ng-template>
       <ng-template pTemplate="body" let-projeto>
         <tr>
-          <td>{{ projeto.nome  | uppercase }}</td>
-          <td>{{ filtrarClientePorId(projeto.idCliente) | uppercase }}</td>
-          <td>{{ filtrarLiderPorId(projeto.idLider) | uppercase }}</td>
-          <td>{{ projeto.testador  | uppercase }}</td>
-          <td>{{ projeto.revisor  | uppercase }}</td>
-          <td>{{ projeto.gerente  | uppercase }}</td>
+          <td>{{ projeto.nome | uppercase }}</td>
+          <td>{{ filtrarClientePorId(projeto.idCliente).descricao | uppercase }}</td>
+          <td>{{ filtrarLiderPorId(projeto.idLider).nome | uppercase }}</td>
+          <td>{{ projeto.testador | uppercase }}</td>
+          <td>{{ projeto.revisor | uppercase }}</td>
+          <td>{{ projeto.gerente | uppercase }}</td>
           <td class="action-buttons">
             <button [routerLink]="[projeto.id]" pButton icon="ui-icon-mode-edit"></button>
             <button pButton icon="pi pi-times" (click)="confirm2(projeto.id)"></button>
@@ -67,6 +71,5 @@
   <p-footer>
     <button type="button" pButton icon="pi pi-times" label="NÃ£o" (click)="cd.reject()"></button>
     <button type="button" pButton icon="pi pi-check" label="Sim" (click)="cd.accept()"></button>
-</p-footer>
+  </p-footer>
 </p-confirmDialog>
-
