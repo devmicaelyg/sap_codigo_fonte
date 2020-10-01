@@ -53,3 +53,21 @@ body .ui-tabview {
 .filtro div.ui-multiselect {
   width: 100% !important;
 }
+body .ui-dialog.ui-shadow {
+  box-shadow: 10px 5px 5px #00000085;
+}
+body .ui-widget-overlay {
+  opacity: 1;
+  background-color: transparent;
+}
+
+p-sortIcon i {
+  font-size: 14px;
+  margin-top: -10px;
+  color: #fff !important;
+}
+
+.alinhaCampoAcao {
+  position: relative;
+  top: -11px;
+}
