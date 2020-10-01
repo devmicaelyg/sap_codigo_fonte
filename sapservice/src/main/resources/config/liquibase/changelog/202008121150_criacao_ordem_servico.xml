@@ -13,6 +13,9 @@
             <column  name="nome"  type="varchar(80)" remarks="Nome/descrção da OS">
                 <constraints nullable="false" />
             </column>
+            <column  name="chave"  type="varchar(80)" remarks="chave da OS">
+                <constraints nullable="false" />
+            </column>
             <column  name="dt_proxima_entrega"  type="date" remarks="Data da entrega">
                 <constraints nullable="true" />
             </column>

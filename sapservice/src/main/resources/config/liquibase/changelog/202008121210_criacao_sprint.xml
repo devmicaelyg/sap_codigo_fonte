@@ -13,6 +13,9 @@
             <column  name="nome"  type="varchar(80)" remarks="Nome da sprint">
                 <constraints nullable="false" />
             </column>
+            <column  name="descricao"  type="varchar(80)" remarks="descricao da sprint">
+                <constraints nullable="true" />
+            </column>
             <column  name="impedimento" defaultValueBoolean="false" type="boolean" remarks="Indica se ha impedimento na sprint">
                 <constraints nullable="false" />
             </column>
