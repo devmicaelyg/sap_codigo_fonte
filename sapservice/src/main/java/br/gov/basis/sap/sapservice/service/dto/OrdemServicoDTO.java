@@ -15,6 +15,8 @@ public class OrdemServicoDTO {
 
     private String nome;
 
+    private String chave;
+
     private Integer idProjeto;
 
     private Integer idSituacao;

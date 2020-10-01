@@ -1,6 +1,5 @@
 package br.gov.basis.sap.sapservice.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,6 +33,9 @@ public class OrdemServico {
 
     @Column(name = "nome")
     private String nome;
+
+    @Column(name = "chave")
+    private String chave;
 
     @ManyToOne
     @JoinColumn(name = "id_projeto")

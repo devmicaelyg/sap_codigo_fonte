@@ -32,6 +32,7 @@ export class OsListComponent implements OnInit {
   
   colunas: any = [
     { header: 'Nome' },
+    {header : 'Chave OS'},
     { header: 'Próxima Entrega' },
     { header: 'Prazo' },
     { header: 'Defeitos do Cliente' },
@@ -129,7 +130,7 @@ export class OsListComponent implements OnInit {
   }
 
   showDialog() {
-    this.display = true;
+    this.display = !this.display;
   }
 
 }

@@ -14,13 +14,13 @@ import org.mapstruct.MappingTarget;
     SprintMapper.class
 })
 public interface OrdemServicoMapper extends EntityMapper<OrdemServicoDTO, OrdemServico> {
+
     @Mapping(source = "idSituacao", target = "situacao.id")
     @Mapping(source = "idProjeto", target = "projeto.id")
     OrdemServico toEntity(OrdemServicoDTO ordemServicoDTO);
 
     @Mapping(source = "situacao.id", target = "idSituacao")
     @Mapping(source = "projeto.id", target = "idProjeto")
-//
     OrdemServicoDTO toDto(OrdemServico ordemServico);
 
     @AfterMapping
