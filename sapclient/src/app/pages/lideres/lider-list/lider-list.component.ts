@@ -162,7 +162,9 @@ prepararFiltroLider(event){
 // }
 
 filtrar(){
-  this.lideresFiltrados = this.lideres.filter(pf => !!(this.liderItensFiltro.length ? this.liderItensFiltro.find(lif => lif === pf.id) : true));
+  console.log(this.lideresFiltrados)
+  this.lideresFiltrados = this.listaLideres.filter(pf => !!(this.liderItensFiltro.length ? this.liderItensFiltro.find(lif => lif === pf.value) : true));
+console.log(this.lideresFiltrados)
 }
 
 }
