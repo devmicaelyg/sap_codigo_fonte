@@ -31,6 +31,7 @@ public class SapserviceApp implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         AppUtil.checkProfiles(env, log);
+
     }
 
     public static void main(String[] args) {
