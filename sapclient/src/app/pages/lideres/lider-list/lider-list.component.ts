@@ -11,7 +11,6 @@ import { MessageService, SelectItem } from 'primeng';
 import {Message} from 'primeng/api';
 import { LiderService } from './../../../services/lider.service';
 import { Lider } from 'src/app/models/lider.model';
-import { log } from 'console';
 
 @Component({
   selector: 'app-lider-list',
@@ -154,23 +153,13 @@ prepararFiltroLider(event){
   this.filtrar();
 }
 
-// preencherFiltros() {
-//   this.listaFiltrada = this.lista.filter(item => {
-//       if (!this.filtroLider.length) {
-//           return true;
-//       }
-//       return (this.filtroLider && this.filtroLider.some(sel => sel == item.idLider))
-//   });
-// }
-
 filtrar(){
-  console.log(this.liderItensFiltro, this.listaLideres);
+    // console.log(this.liderItensFiltro, this.listaLideres);
 
   if (!this.liderItensFiltro.length) {
     this.lideresFiltrados = this.listaLideres;
     return;
   }
-
   this.lideresFiltrados = this.listaLideres.filter(lider => this.liderItensFiltro.some(idLider => idLider == lider.id));
 
 }
