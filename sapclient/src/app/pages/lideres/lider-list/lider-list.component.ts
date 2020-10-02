@@ -11,6 +11,7 @@ import { MessageService, SelectItem } from 'primeng';
 import {Message} from 'primeng/api';
 import { LiderService } from './../../../services/lider.service';
 import { Lider } from 'src/app/models/lider.model';
+import { log } from 'console';
 
 @Component({
   selector: 'app-lider-list',
@@ -30,11 +31,13 @@ export class LiderListComponent implements OnInit {
     lideresFiltrados: any = [];
 
     listaLideres$: Observable<any>;
-    listaLideres: SelectItem[];
+    listaLideres: Lider[] = [];
+    listaLideresDropDown: SelectItem[] = [];
     msgs: Message[] = [];
     projetos  : Projeto;
     projetosFiltrados: Projeto[]=[];
     id : any;
+    lideresSelecionaveis: SelectItem[] = [];
 
     colunas: any = [
         { header: 'Nome', field:'nome', sort:'nome' },
@@ -129,12 +132,11 @@ private deletadoSucesso(id) {
 carregarLideres() {
   this.blockUI.start();
   this.liderService.obterTodos().pipe(
-    finalize(() => this.blockUI.stop()),
-    map(this.converterDropDownLider)
+    finalize(() => this.blockUI.stop())
   ).subscribe(lider => {
     this.listaLideres = lider;
+    this.listaLideresDropDown = this.converterDropDownLider(lider);
     this.lideresFiltrados = this.listaLideres;
-    console.log(this.lideresFiltrados)
   });
 }
 
@@ -162,7 +164,17 @@ prepararFiltroLider(event){
 // }
 
 filtrar(){
-  this.lideresFiltrados = this.lideres.filter(pf => !!(this.liderItensFiltro.length ? this.liderItensFiltro.find(lif => lif === pf.id) : true));
+  console.log(this.liderItensFiltro, this.listaLideres);
+
+  if (!this.liderItensFiltro.length) {
+    this.lideresFiltrados = this.listaLideres;
+    return;
+  }
+
+  this.lideresFiltrados = this.listaLideres.filter(lider => this.liderItensFiltro.some(idLider => idLider == lider.id));
+
 }
+
+
 
 }
