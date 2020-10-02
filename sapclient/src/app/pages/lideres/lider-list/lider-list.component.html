@@ -5,10 +5,12 @@
         <div class="ui-fluid p-formgrid p-grid">
             <div class="ui-g-6 ui-md-4 ui-sm-12 p-col-12">
                 <span class="ui-float-label">
+
                     <p-multiSelect class="filtro" maxSelectedLabels="4" [options]="listaLideres" defaultLabel="&nbsp;"
                         selectedItemsLabel="{0} itens selecionados" [(ngModel)]="filtroLider"
                         (onChange)="prepararFiltroLider($event)">
                     </p-multiSelect>
+                    <!-- <p-multiSelect  [options]="listaLideres" defaultLabel="Lideres" (onChange)="dt.filter($event.target.value, coluna.field, 'contains')"></p-multiSelect> -->
                     <label>Lider</label>
                 </span>
             </div>
@@ -28,6 +30,7 @@
                 <tr>
                     <th [class.action]="coluna.header == 'Ações'" *ngFor="let coluna of columns">
                         <span [ngClass]="{'alinhaCampoAcao': coluna.header == 'Ações'}">{{ coluna.header }}</span>
+                        
                         <p-sortIcon *ngIf="coluna.header != 'Ações'" [field]="coluna.field"
                             [pSortableColumn]="coluna.field"></p-sortIcon>
                         <input class="inputFilter" *ngIf="coluna.header != 'Ações'" pInputText type="text"

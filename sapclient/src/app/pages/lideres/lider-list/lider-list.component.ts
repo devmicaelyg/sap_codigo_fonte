@@ -6,7 +6,7 @@ import {ConfirmationService} from 'primeng/api';
 
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-import { MessageService } from 'primeng';
+import { MessageService, SelectItem } from 'primeng';
 
 import {Message} from 'primeng/api';
 import { LiderService } from './../../../services/lider.service';
@@ -30,7 +30,7 @@ export class LiderListComponent implements OnInit {
     lideresFiltrados: any = [];
 
     listaLideres$: Observable<any>;
-    listaLideres: any = [];
+    listaLideres: SelectItem[];
     msgs: Message[] = [];
     projetos  : Projeto;
     projetosFiltrados: Projeto[]=[];
@@ -162,7 +162,7 @@ prepararFiltroLider(event){
 // }
 
 filtrar(){
-  this.lideresFiltrados = this.listaLideres.filter(pf => !!(this.liderItensFiltro.length ? this.liderItensFiltro.find(lif => lif === pf.id) : true));
+  this.lideresFiltrados = this.lideres.filter(pf => !!(this.liderItensFiltro.length ? this.liderItensFiltro.find(lif => lif === pf.id) : true));
 }
 
 }
