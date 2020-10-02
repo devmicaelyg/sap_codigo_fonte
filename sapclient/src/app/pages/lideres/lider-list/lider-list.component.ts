@@ -2,16 +2,15 @@ import { ProjetoService } from './../../../services/projeto.service';
 import { Projeto } from './../../../models/projeto.model';
 import { Component, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 
-
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { SelectItem ,MessageService } from 'primeng';
+import { finalize, map } from 'rxjs/operators';
+import { MessageService } from 'primeng';
 
 import {Message} from 'primeng/api';
 import { LiderService } from './../../../services/lider.service';
+import { Lider } from 'src/app/models/lider.model';
 
 @Component({
   selector: 'app-lider-list',
@@ -22,6 +21,14 @@ import { LiderService } from './../../../services/lider.service';
 export class LiderListComponent implements OnInit {
     titulo: string = 'Lista de líderes';
     @BlockUI() blockUI: NgBlockUI;
+
+    lista: any = [];
+    filtroLider: any = [];
+    filtroCliente: any = [];
+    liderItensFiltro: any [] = [];
+    lideres: Lider [] = [];
+    lideresFiltrados: any = [];
+
     listaLideres$: Observable<any>;
     listaLideres: any = [];
     msgs: Message[] = [];
@@ -44,6 +51,7 @@ export class LiderListComponent implements OnInit {
   ngOnInit(): void {
       this.obterTodos();
       this.obterTodosProjetos();
+      this.carregarLideres();
   }
   
   obterTodos() {
@@ -52,6 +60,7 @@ export class LiderListComponent implements OnInit {
         finalize(() => this.blockUI.stop())
     )
   }
+  
   obterTodosProjetos(){
     this.blockUI.start();
     this.projetoservice.obterTodos().pipe(
@@ -60,6 +69,17 @@ export class LiderListComponent implements OnInit {
       projetos => {
         this.projetos = projetos;
         this.projetosFiltrados = projetos;
+      }
+    );
+  }
+
+  obterLider() {
+    this.blockUI.start();
+    this.liderService.obterTodos().pipe(
+      finalize(() => this.blockUI.stop())
+    ).subscribe(
+      lideres => {
+        this.lideres = lideres;
       }
     );
   }
@@ -105,4 +125,44 @@ private deletadoSucesso(id) {
   );
   this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
 }
+
+carregarLideres() {
+  this.blockUI.start();
+  this.liderService.obterTodos().pipe(
+    finalize(() => this.blockUI.stop()),
+    map(this.converterDropDownLider)
+  ).subscribe(lider => {
+    this.listaLideres = lider;
+    this.lideresFiltrados = this.listaLideres;
+    console.log(this.lideresFiltrados)
+  });
+}
+
+private converterDropDownLider(lista) {
+  return lista.map(item => {
+      return {
+          label: item['nome'].toUpperCase(),
+          value: item['id']
+      }
+  })
+}
+
+prepararFiltroLider(event){
+  this.liderItensFiltro = event["value"];
+  this.filtrar();
+}
+
+// preencherFiltros() {
+//   this.listaFiltrada = this.lista.filter(item => {
+//       if (!this.filtroLider.length) {
+//           return true;
+//       }
+//       return (this.filtroLider && this.filtroLider.some(sel => sel == item.idLider))
+//   });
+// }
+
+filtrar(){
+  this.lideresFiltrados = this.listaLideres.filter(pf => !!(this.liderItensFiltro.length ? this.liderItensFiltro.find(lif => lif === pf.id) : true));
+}
+
 }

@@ -2,11 +2,12 @@
 <h2 style="text-align: center">Sistema de Apoio a Projetos</h2>
 
 
-<p-panel [toggleable]="true" [collapsed]="true" >
+<p-panel [toggleable]="true" [collapsed]="true">
   <p-header id="titleHeader">Filtros</p-header>
 
   <div id="filtros" class="ui-fluid p-formgrid p-grid">
-      <div class="ui-g-4 ui-md-4 ui-sm-12 p-col-12 dashboardFiltro">
+
+      <div class="ui-g-4 ui-md-4 ui-sm-12  dashboardFiltro">
         <span class="ui-float-label">
             <p-multiSelect class="filtro" maxSelectedLabels="4"
                 [options]="listaClientes" defaultLabel="&nbsp;"
@@ -45,7 +46,7 @@
 
 </p-panel>
 
-<p-fieldset (onBeforeToggle)="obterOsPorProjeto(projeto)"    *ngFor="let projeto of projetosFiltrados" [toggleable]="true "
+<p-fieldset (onBeforeToggle)="obterOsPorProjeto(projeto)"  *ngFor="let projeto of projetosFiltrados" [toggleable]="true "
 [collapsed]="true">
 
   <p-header>{{projeto.nome | uppercase}}</p-header>
@@ -255,7 +256,7 @@
             <ng-template pTemplate="input">
               <p-dialog header="Descrição da Sprint" [(visible)]="display" [position]="position"  [style]="{width: '50vw'}" [maximizable]="true" [(ngModel)]="sprints.descricao" >
               <p>
-                    <input type="text" pInputText [(ngModel)]="sprints.descricao">
+                    <textarea type="text" pInputText [(ngModel)]="sprints.descricao" style="width: 100%;"></textarea>
               </p>
                   <p-footer>
                       <button type="button" pButton icon="pi pi-check" (click)="showDialog()" label="Yes"></button>
