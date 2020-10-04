@@ -164,8 +164,10 @@ export class ProjetoListComponent implements OnInit {
   }
 
   filtrar() {
+    console.log(this.projetosFiltrados)
     this.projetosFiltrados = this.listaProjetos.filter(pf => !!(this.clienteItensFiltro?.length ? this.clienteItensFiltro.find(lif => lif === pf.idCliente) : true));
     this.projetosFiltrados = this.projetosFiltrados.filter(pf => !!(this.liderItensFiltro?.length ? this.liderItensFiltro.find(lif => lif === pf.idLider) : true));
+    console.log(this.projetosFiltrados)
   }
 
   carregarFiltroCliente() {

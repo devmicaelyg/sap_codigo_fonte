@@ -38,22 +38,23 @@ export class OsListComponent implements OnInit {
   projetosSelecionaveis: SelectItem[] = [];
   situacoesSelecionaveis: SelectItem[] = [];
   osFiltradas: OrdemServico[];
+  new:OrdemServico[];
   osItemFiltro:any[];
   situacaoItemFiltro:any[];
-
+  ordemServico: any[]=[];
   
   colunas: any = [
-    { field: 'nome',header: 'Nome' },
-    { field: 'chave' ,header : 'Chave OS'},
-    { field: 'proximaEntrega',header: 'Próxima Entrega' },
-    { field: 'prazo',header: 'Prazo' },
-    { field: 'defeitosCliente',header: 'Defeitos do Cliente' },
-    { field: 'defeitosInternos',header: 'Defeitos Internos' },
-    { field: 'pontosFuncao',header: 'Pontos de Função' },
-    { field: 'fabrica',header: 'Fábrica' },
-    { field: 'projeto',header: 'Projeto' },
-    { field: 'situacao',header: 'Situação' },
-    { field: 'acoes', header: 'Ações' },
+    { field: 'nome' , header: 'Nome' },
+    { field: 'chave' , header : 'Chave OS'},
+    { field: 'proximaEntrega', header: 'Próxima Entrega' },
+    { field: 'prazo' , header: 'Prazo' },
+    { field: 'qtdDefeitosCliente' , header: 'Defeitos do Cliente' },
+    { field: 'qtdDefeitosInterno' , header: 'Defeitos Internos' },
+    { field: 'pontosFuncao' , header: 'Pontos de Função' },
+    { field: 'fabrica' , header: 'Fábrica' },
+    { field: 'idProjeto' , header: 'Projeto' },
+    { field: 'idSituacao' , header: 'Situação' },
+    { field: 'acoes' , header: 'Ações' },
 
   ];
 
@@ -72,7 +73,8 @@ export class OsListComponent implements OnInit {
     this.obterProjetos();
     this.obterTodos();
     this.carregarFiltroLider();
-    this.carregarFiltroSituacao()
+    this.carregarFiltroSituacao();
+    this.carregarOs();
   }
 
   obterTodos() {
@@ -112,10 +114,11 @@ formatDate(date) {
     this.blockUI.start();
     this.ordemServicoService.obterTodos().pipe(
       finalize(() => this.blockUI.stop())
-    ).subscribe(OrdemServico => { 
-      this.listaOrdemServico = OrdemServico
-      this.osFiltradas = this.listaOrdemServico;
-    });
+    ).subscribe(ordemServico => { 
+      this.listaOrdemServico=ordemServico;
+      this.osFiltradas =ordemServico;
+   
+      });
   }
 
 
@@ -184,10 +187,9 @@ formatDate(date) {
   }
 
   filtrar() {
-    console.log(this.listaOrdemServico)
-    this.osFiltradas = this.listaOrdemServico.filter(pf => !!(this.osItemFiltro?.length ? this.osItemFiltro.find(lif => lif === pf.idProjeto) : true));
-    this.osFiltradas = this.listaOrdemServico.filter(pf => !!(this.situacaoItemFiltro?.length ? this.situacaoItemFiltro.find(lif => lif === pf.idSituacao) : true));
-    console.log(this.osFiltradas )
+    this.osFiltradas = this.listaOrdemServico.filter(pf => !!(this.osItemFiltro?.length ? this.osItemFiltro.find(lif => lif === pf.idProjeto ) : true));
+    this.osFiltradas = this.osFiltradas.filter(pf => !!(this.situacaoItemFiltro?.length ? this.situacaoItemFiltro.find(lif => lif === pf.idSituacao) : true));
+    
   }
 
   showDialog() {

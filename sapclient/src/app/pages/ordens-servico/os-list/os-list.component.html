@@ -7,7 +7,7 @@
   </p-header>
 
   <ng-container *ngIf="listaOrdemServico$ | async as listaOrdemServico; else loading ">
-    <p-table #dt [paginator]="true" [rows]="4"  [response]="true" [responsive]="true" [rowsPerPageOptions]="[2, 4, 8, 10]" [columns]="colunas" [value]="listaOrdemServico">
+    <p-table #dt [paginator]="true" [rows]="4"  [response]="true" [responsive]="true" [rowsPerPageOptions]="[2, 4, 8, 10]" [columns]="colunas" [value]="osFiltradas">
       <ng-template let-columns pTemplate="header">
         <tr>
           <th [class.action]="coluna.header == 'Ações'" *ngFor="let coluna of columns">
@@ -23,27 +23,27 @@
               (input)="dt.filter($event.target.value, 'chave', 'contains')">
               
               <input *ngSwitchCase="'proximaEntrega'" pInputText type="date"
-              (onSelect)="onDateSelect($event)" (onClearClick)="dt.filter('', 'date', 'equals')">
-              
-              <input *ngSwitchCase="'prazo'" pInputText type="date"
               (input)="dt.filter($event.target.value, 'prazo', 'contains')">
               
-              <input *ngSwitchCase="'defeitosCliente'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'defeitosCliente', 'equals')">
+              <input *ngSwitchCase="'prazo'" pInputText type="date"
+              (input)="dt.filter($event.target.value, 'proximaEntrega', 'contains')">
               
-              <input *ngSwitchCase="'defeitosInternos'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'defeitosInternos', 'contains')">
+              <input *ngSwitchCase="'qtdDefeitosCliente'" pInputText type="number"
+              (input)="dt.filter($event.target.value, 'qtdDefeitosCliente', 'contains')">
+              
+              <input *ngSwitchCase="'qtdDefeitosInterno'" pInputText type="number"
+              (input)="dt.filter($event.target.value, 'qtdDefeitosInterno', 'contains')">
               
               <input *ngSwitchCase="'pontosFuncao'" pInputText type="number"
               (input)="dt.filter($event.target.value, 'pontosFuncao', 'contains')">
             <input *ngSwitchCase="'fabrica'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'fabrica', 'contains')">
               
-              <p-multiSelect *ngSwitchCase="'projeto'" [options]="projetosSelecionaveis" placeholder="Todos" 
+              <p-multiSelect *ngSwitchCase="'idProjeto'" [options]="projetosSelecionaveis" placeholder="Todos" 
               defaultLabel="" (onChange)="filtrarPorProjeto($event)" styleClass="p-column-filter">
               </p-multiSelect>
               
-              <p-multiSelect *ngSwitchCase="'situacao'" [options]="situacoesSelecionaveis" placeholder="Todos" 
+              <p-multiSelect *ngSwitchCase="'idSituacao'" [options]="situacoesSelecionaveis" placeholder="Todos" 
               defaultLabel="" (onChange)="filtrarPorSituacao($event)" styleClass="p-column-filter">
               </p-multiSelect>
           </th>
