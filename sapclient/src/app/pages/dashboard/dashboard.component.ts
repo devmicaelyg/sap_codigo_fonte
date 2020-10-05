@@ -17,7 +17,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Output, EventEmitter,Component, OnInit, ViewChild } from '@angular/core';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { SelectItem, Table } from 'primeng';
+import { SelectItem, Table, MessageService } from 'primeng';
 import { Projeto } from 'src/app/models/projeto.model';
 
 
@@ -141,7 +141,8 @@ export class DashboardComponent implements OnInit {
     private liderService: LiderService,
     private sprintService: SprintService,
     private statusService: StatusService,
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -202,9 +203,13 @@ export class DashboardComponent implements OnInit {
   enviarFormOs(OrdemServico) {
     this.ordemServicoService.salvar(OrdemServico).pipe(
       finalize(() => this.blockUI.stop())
-  ).subscribe(res => OrdemServico.edit = false);
-  }
-
+  ).subscribe(res => {
+    OrdemServico.edit = false;
+    this.messageService.add({ severity: 'info', summary: 'Alteração salva com sucesso.' })
+  }, error => {
+    this.messageService.add({ severity: 'error', summary: 'Erro ao efetuar alteração.' })
+  })
+}
   enviarFormSprint(sprint) {
     this.sprintService.atualizar(sprint).pipe(
       finalize(() => this.blockUI.stop())
