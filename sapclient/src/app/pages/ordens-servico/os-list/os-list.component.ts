@@ -1,6 +1,7 @@
 import { OrdemServico } from './../../../models/ordem-servico.model';
 import { MessageService,Table} from 'primeng';
 import { Projeto } from './../../../models/projeto.model';
+
 import { SituacaoService } from './../../../services/situacao.service';
 import { ProjetoService } from './../../../services/projeto.service';
 import { Component, OnInit,ViewChild } from '@angular/core';
@@ -25,20 +26,22 @@ export class OsListComponent implements OnInit {
   
   @ViewChild('dt') table: Table;
 
-
   titulo: string = 'Lista de Ordens de Serviço'
   listaOrdemServico$: Observable<any>;
   listaOrdemServico: any[]=[];
+
   situacoes: any = [];
   projetos: any = [];
   status: any = [];
+
   display: boolean = false;
   projeto: Projeto;
   msgs: Message[] = [];
+
   projetosSelecionaveis: SelectItem[] = [];
   situacoesSelecionaveis: SelectItem[] = [];
   osFiltradas: OrdemServico[];
-  new:OrdemServico[];
+
   osItemFiltro:any[];
   situacaoItemFiltro:any[];
   ordemServico: any[]=[];
@@ -90,26 +93,6 @@ export class OsListComponent implements OnInit {
       finalize(() => this.blockUI.stop())
     )
   }
-
-  onDateSelect(value) {
-    this.table.filter(this.formatDate(value), 'date', 'equals')
-}
-
-formatDate(date) {
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-
-    if (month < 10) {
-        month = '0' + month;
-    }
-
-    if (day < 10) {
-        day = '0' + day;
-    }
-
-    return date.getFullYear() + '-' + month + '-' + day;
-}
-
   carregarOs() {
     this.blockUI.start();
     this.ordemServicoService.obterTodos().pipe(
