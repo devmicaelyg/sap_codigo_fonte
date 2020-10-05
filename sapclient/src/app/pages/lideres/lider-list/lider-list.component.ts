@@ -154,8 +154,6 @@ prepararFiltroLider(event){
 }
 
 filtrar(){
-    // console.log(this.liderItensFiltro, this.listaLideres);
-
   if (!this.liderItensFiltro.length) {
     this.lideresFiltrados = this.listaLideres;
     return;

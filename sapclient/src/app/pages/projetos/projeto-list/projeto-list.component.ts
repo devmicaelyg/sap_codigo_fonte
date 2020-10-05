@@ -26,7 +26,6 @@ export class ProjetoListComponent implements OnInit {
   listaProjetos$: Observable<any>;
   msgs: Message[] = [];
 
-  // projeto: Projeto;
   listaProjetos: any[] = [];
   projetosFiltrados: Projeto[] = [];
   
@@ -159,17 +158,6 @@ export class ProjetoListComponent implements OnInit {
     this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
   }
 
-  // filtrarPorCliente(event?){
-  //   this.clienteItensFiltro = event["value"];
-  //   this.filtrar();  
-  // }
-  
-  // filtrarPorLider(event?){
-  //   this.liderItensFiltro = event["value"];
-  //   this.filtrar();  
-  // }
-
-
   filtrar(){
     console.log("Olhe aqui:" + this.listaProjetos, this.liderItensFiltro + "Mosquitos");
     this.projetosFiltrados = this.listaProjetos.filter(pf => !!(this.projetoItensFiltro?.length ? this.projetoItensFiltro.find(lif => lif === pf.id) : true));
@@ -191,18 +179,6 @@ export class ProjetoListComponent implements OnInit {
     this.liderItensFiltro = event["value"];
     this.filtrar();
   }
-
-//   filtrar(){
-
-//     if (!(this.liderItensFiltro.length || this.projetoItensFiltro.length || this.clienteItensFiltro.length)) {
-//       this.projetosFiltrados = this.listaProjetos;
-//       return;
-//     }
-    
-//     this.listaLideres = this.listaLideres.filter(lider => this.liderItensFiltro.some(idLider => idLider == lider.id));
-//     this.projetosFiltrados = this.listaProjetos.filter(projetos => this.projetoItensFiltro.some(idProjeto => idProjeto == projetos.id));
-//     this.listaClientes = this.listaClientes.filter(clientes => this.clienteItensFiltro.some(idCliente => idCliente == clientes.id));
-// }
 
   carregarFiltroCliente() {
     this.blockUI.start();
