@@ -255,7 +255,7 @@
             <ng-template pTemplate="input">
               <p-dialog header="Descrição da Sprint" [(visible)]="display" [position]="position"  [style]="{width: '50vw'}" [maximizable]="true" [(ngModel)]="sprints.descricao" >
               <p>
-                    <textarea type="text" pInputText [(ngModel)]="sprints.descricao" style="width: 100%;"></textarea>
+                    <textarea type="text" pInputText  rows="5" [(ngModel)]="sprints.descricao" style="width: 100%;"></textarea>
               </p>
                   <p-footer>
                       <button type="button" pButton icon="pi pi-check" (click)="showDialog()" label="Yes"></button>
