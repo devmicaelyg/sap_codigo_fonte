@@ -7,7 +7,7 @@
   </p-header>
 
   <ng-container *ngIf="listaOrdemServico$ | async as listaOrdemServico; else loading ">
-    <p-table #dt [paginator]="true" [rows]="4" [response]="true" [responsive]="true"
+    <p-table #dt [paginator]="true" [rows]="4" [responsive]="true"
       [rowsPerPageOptions]="[2, 4, 8, 10]" [columns]="colunas" [value]="osFiltradas">
       <ng-template let-columns pTemplate="header">
         <tr>
@@ -52,7 +52,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-ordemservico>
         <tr>
-          <td>{{ ordemservico.nome  | uppercase}}</td>
+          <td>{{ ordemservico.nome | uppercase}}</td>
           <td>{{ ordemservico.chave }}</td>
           <td>{{ ordemservico.dataProximaEntrega | date:'dd/MM/yyyy'}}</td>
           <td>{{ ordemservico.prazo | date:'dd/MM/yyyy' }}</td>
