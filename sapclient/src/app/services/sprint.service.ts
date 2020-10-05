@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { environment } from './../../environments/environment.prod';
 
 
@@ -54,7 +54,8 @@ export class SprintService {
 
     atualizar(recurso: Sprint): Observable<Sprint> {
         return this.http.put(`${this.api}`, recurso).pipe(
-            map(recurso => Object.assign(new Sprint(), recurso))
+            map(recurso => Object.assign(new Sprint(), recurso)),
+            tap(console.log)
         );
     }
 }

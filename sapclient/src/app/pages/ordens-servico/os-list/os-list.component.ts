@@ -100,7 +100,6 @@ export class OsListComponent implements OnInit {
     ).subscribe(ordemServico => { 
       this.listaOrdemServico=ordemServico;
       this.osFiltradas =ordemServico;
-   
       });
   }
 

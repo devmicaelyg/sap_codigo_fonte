@@ -23,7 +23,7 @@
             <input *ngSwitchCase="'chave'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'chave', 'contains')">
 
-            <input *ngSwitchCase="'proximaEntrega'" pInputText type="date"
+            <input placeholder="Data" *ngSwitchCase="'proximaEntrega'" pInputText type="date" class="teste"
               (input)="dt.filter($event.target.value, 'prazo', 'contains')">
 
             <input *ngSwitchCase="'prazo'" pInputText type="date"
@@ -41,7 +41,7 @@
               (input)="dt.filter($event.target.value, 'fabrica', 'contains')">
 
             <p-multiSelect *ngSwitchCase="'idProjeto'" [options]="projetosSelecionaveis" placeholder="Todos"
-              defaultLabel="" (onChange)="filtrarPorProjeto($event)" styleClass="p-column-filter">
+              defaultLabel="" (onChange)="filtrarPorProjeto($event)" >
             </p-multiSelect>
 
             <p-multiSelect *ngSwitchCase="'idSituacao'" [options]="situacoesSelecionaveis" placeholder="Todos"

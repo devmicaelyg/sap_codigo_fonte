@@ -1,3 +1,4 @@
+import { OrdemServico } from './../../models/ordem-servico.model';
 import { Sprint } from './../../models/sprint.model';
 import { Lider } from './../../models/lider.model';
 import { ClienteService } from 'src/app/services/cliente.service';
@@ -145,7 +146,10 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+      this.iniciar();    
+    }
 
+  iniciar() {
     this.obterSituacoes();
     this.obterProjetos();
     this.obterTodos();
@@ -158,7 +162,7 @@ export class DashboardComponent implements OnInit {
     this.carregarCliente();
     this.carregarDropdownSituacao();
     this.carregarDropdownStatus();
-    }
+  }
 
   obterTodos() {
     this.listaOrdemServico$ = this.ordemServicoService.obterTodos().pipe(
@@ -208,7 +212,13 @@ export class DashboardComponent implements OnInit {
   enviarFormSprint(sprint) {
     this.sprintService.atualizar(sprint).pipe(
       finalize(() => this.blockUI.stop())
-  ).subscribe(res => sprint.edit = false);
+  ).subscribe((res) => {
+    sprint.edit = false
+    console.log(res)
+    console.log(this.sprints)
+    console.log(this.projetos);
+    this.iniciar();
+  });
   }
 
   obterLideres() {
