@@ -6,11 +6,10 @@
             <div class="ui-g-6 ui-md-4 ui-sm-12 p-col-12">
                 <span class="ui-float-label">
 
-                    <p-multiSelect class="filtro" maxSelectedLabels="4" [options]="listaLideres" defaultLabel="&nbsp;"
-                        selectedItemsLabel="{0} itens selecionados" [(ngModel)]="filtroLider"
-                        (onChange)="prepararFiltroLider($event)">
+                    <p-multiSelect class="filtro" maxSelectedLabels="4" [options]="listaLideresDropDown" defaultLabel="&nbsp;"
+                        selectedItemsLabel="{0} itens selecionados" 
+                        (onChange)="prepararFiltroLider($event)" styleClass="p-column-filter">
                     </p-multiSelect>
-                    <!-- <p-multiSelect  [options]="listaLideres" defaultLabel="Lideres" (onChange)="dt.filter($event.target.value, coluna.field, 'contains')"></p-multiSelect> -->
                     <label>Lider</label>
                 </span>
             </div>
@@ -24,7 +23,7 @@
     </p-header>
     <ng-container *ngIf="listaLideres$ | async as listaLideres; else loading" >
         <p-table #dt id='dt' [paginator]="true" [rows]="4" [rowsPerPageOptions]="[2, 4, 8, 10]" [responsive]="true"
-            [columns]="colunas" [value]="listaLideres" [filterDelay]="0"  >
+            [columns]="colunas" [value]="lideresFiltrados" [filterDelay]="0"  >
 
             <ng-template let-columns pTemplate="header">
                 <tr>

@@ -30,11 +30,13 @@ export class LiderListComponent implements OnInit {
     lideresFiltrados: any = [];
 
     listaLideres$: Observable<any>;
-    listaLideres: SelectItem[];
+    listaLideres: Lider[] = [];
+    listaLideresDropDown: SelectItem[] = [];
     msgs: Message[] = [];
     projetos  : Projeto;
     projetosFiltrados: Projeto[]=[];
     id : any;
+    lideresSelecionaveis: SelectItem[] = [];
 
     colunas: any = [
         { header: 'Nome', field:'nome', sort:'nome' },
@@ -129,12 +131,11 @@ private deletadoSucesso(id) {
 carregarLideres() {
   this.blockUI.start();
   this.liderService.obterTodos().pipe(
-    finalize(() => this.blockUI.stop()),
-    map(this.converterDropDownLider)
+    finalize(() => this.blockUI.stop())
   ).subscribe(lider => {
     this.listaLideres = lider;
+    this.listaLideresDropDown = this.converterDropDownLider(lider);
     this.lideresFiltrados = this.listaLideres;
-    console.log(this.lideresFiltrados)
   });
 }
 
@@ -153,7 +154,14 @@ prepararFiltroLider(event){
 }
 
 filtrar(){
-  this.lideresFiltrados = this.listaLideres.filter(pf => !!(this.liderItensFiltro.length ? this.liderItensFiltro.find(lif => lif === pf.value) : true));
+  if (!this.liderItensFiltro.length) {
+    this.lideresFiltrados = this.listaLideres;
+    return;
+  }
+  this.lideresFiltrados = this.listaLideres.filter(lider => this.liderItensFiltro.some(idLider => idLider == lider.id));
+
 }
+
+
 
 }
