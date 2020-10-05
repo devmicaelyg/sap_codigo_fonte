@@ -27,7 +27,7 @@ public class SapserviceApp implements InitializingBean {
 
     private final Environment env;
 
-
+    
     @Override
     public void afterPropertiesSet() throws Exception {
         AppUtil.checkProfiles(env, log);

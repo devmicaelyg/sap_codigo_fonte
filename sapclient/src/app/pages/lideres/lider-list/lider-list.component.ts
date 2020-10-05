@@ -152,19 +152,8 @@ prepararFiltroLider(event){
   this.filtrar();
 }
 
-// preencherFiltros() {
-//   this.listaFiltrada = this.lista.filter(item => {
-//       if (!this.filtroLider.length) {
-//           return true;
-//       }
-//       return (this.filtroLider && this.filtroLider.some(sel => sel == item.idLider))
-//   });
-// }
-
 filtrar(){
-  console.log(this.lideresFiltrados)
   this.lideresFiltrados = this.listaLideres.filter(pf => !!(this.liderItensFiltro.length ? this.liderItensFiltro.find(lif => lif === pf.value) : true));
-console.log(this.lideresFiltrados)
 }
 
 }

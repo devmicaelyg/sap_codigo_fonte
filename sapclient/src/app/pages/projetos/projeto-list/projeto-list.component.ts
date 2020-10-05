@@ -53,7 +53,7 @@ export class ProjetoListComponent implements OnInit {
     { field: 'testador', header: 'Testador' },
     { field: 'revisor', header: 'Revisor' },
     { field: 'gerente', header: 'Gerente' },
-    { field: 'a��es', header: 'Ações' }
+    { field: 'acoes', header: 'Ações' }
   ];
   constructor(
     private projetoService: ProjetoService,
@@ -164,10 +164,8 @@ export class ProjetoListComponent implements OnInit {
   }
 
   filtrar() {
-    console.log(this.projetosFiltrados)
     this.projetosFiltrados = this.listaProjetos.filter(pf => !!(this.clienteItensFiltro?.length ? this.clienteItensFiltro.find(lif => lif === pf.idCliente) : true));
     this.projetosFiltrados = this.projetosFiltrados.filter(pf => !!(this.liderItensFiltro?.length ? this.liderItensFiltro.find(lif => lif === pf.idLider) : true));
-    console.log(this.projetosFiltrados)
   }
 
   carregarFiltroCliente() {
