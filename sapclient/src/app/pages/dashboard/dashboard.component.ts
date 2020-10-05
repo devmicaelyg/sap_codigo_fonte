@@ -158,7 +158,7 @@ export class DashboardComponent implements OnInit {
     this.carregarCliente();
     this.carregarDropdownSituacao();
     this.carregarDropdownStatus();
-  }
+    }
 
   obterTodos() {
     // this.blockUI.start();
@@ -195,7 +195,10 @@ export class DashboardComponent implements OnInit {
       finalize(() => this.blockUI.stop())
     ).subscribe(
       ordemServico => this.listaOrdemServico = ordemServico
+      
     );
+
+  
   }
 
   enviarFormOs(OrdemServico) {
