@@ -38,6 +38,10 @@ body .ui-tabview {
     padding-right: 50px;
 }
 
+#botoesDeAcao .salvar{
+    margin-bottom: 5px;
+}
+
 @media screen and (min-width: 40.063em){
     .ui-md-3 {
         width: 25%;

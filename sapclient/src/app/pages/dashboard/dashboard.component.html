@@ -162,9 +162,9 @@
           </p-cellEditor>
         </td>
 
-        <td>
-          <button pButton icon="ui-icon-check-circle" label="Salvar" (click)="enviarFormOs(ordemservico)"></button>
-
+        <td id="botoesDeAcao">
+          <button pButton class="salvar" icon="ui-icon-check-circle" label="Salvar" (click)="enviarFormOs(ordemservico)"></button>
+          <a href="https://sgo.basis.com.br/browse/{{ordemservico.nome}}"><button pButton icon="ui-icon-check-circle" label="SGO" type="submit"></button></a>
         </td>
       </tr>
     </ng-template>
