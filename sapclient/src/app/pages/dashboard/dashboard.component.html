@@ -12,7 +12,6 @@
             <p-multiSelect class="filtro" maxSelectedLabels="4"
                 [options]="listaClientes" defaultLabel="&nbsp;"
                 selectedItemsLabel="{0} itens selecionados"
-                [(ngModel)]="filtroCliente"
                 (onChange)="prepararFiltroCliente($event)">
             </p-multiSelect>
             <label>Cliente</label>

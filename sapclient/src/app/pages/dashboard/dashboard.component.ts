@@ -158,7 +158,7 @@ export class DashboardComponent implements OnInit {
     this.carregarProjetos();
     this.carregarCliente();
     this.carregarDropdownSituacao();
-    this.carregarDropdownStatus()
+    this.carregarDropdownStatus();
     }
 
   obterTodos() {
