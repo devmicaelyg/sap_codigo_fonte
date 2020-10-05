@@ -7,10 +7,9 @@
                 <span class="ui-float-label">
 
                     <p-multiSelect class="filtro" maxSelectedLabels="4" [options]="listaLideresDropDown" defaultLabel="&nbsp;"
-                        selectedItemsLabel="{0} itens selecionados" [(ngModel)]="filtroLider"
+                        selectedItemsLabel="{0} itens selecionados" 
                         (onChange)="prepararFiltroLider($event)" styleClass="p-column-filter">
                     </p-multiSelect>
-                    <!-- <p-multiSelect  [options]="listaLideres" defaultLabel="Lideres" (onChange)="dt.filter($event.target.value, 'lider', 'contains')"></p-multiSelect> -->
                     <label>Lider</label>
                 </span>
             </div>
