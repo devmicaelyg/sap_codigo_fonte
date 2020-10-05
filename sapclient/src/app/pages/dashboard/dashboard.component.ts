@@ -161,7 +161,6 @@ export class DashboardComponent implements OnInit {
     }
 
   obterTodos() {
-    // this.blockUI.start();
     this.listaOrdemServico$ = this.ordemServicoService.obterTodos().pipe(
       map(this.converterDatas),
       finalize(() => this.blockUI.stop())
@@ -170,7 +169,6 @@ export class DashboardComponent implements OnInit {
 
   private converterDatas(res) {
     return res.map(item => {
-      console.log(item)
       item.dataProximaEntrega = new Date(`${item.dataProximaEntrega}T00:00:00`);
       item.prazo = new Date(`${item.prazo}T00:00:00`);
       return item;
@@ -252,14 +250,7 @@ export class DashboardComponent implements OnInit {
         element.dataInicio = new Date (`${element.dataInicio}T00:00:00`);
         element.dataTermino = new Date(`${element.dataTermino}T00:00:00`);
       })
-      console.log(this.sprints);
       this.sprints = this.sprints.slice().sort((a, b) => new Date(b.dataInicio).getTime() - new Date(a.dataInicio).getTime());
-      console.log(this.sprints);
-      // sprints.forEach(element => {
-      //   element.dataInicio = new Date (`${element.dataInicio}T00:00:00`);
-      //   element.dataTermino = new Date(`${element.dataTermino}T00:00:00`);
-      //   console.log(this.sprints)
-      // })
     }
     );
   }
