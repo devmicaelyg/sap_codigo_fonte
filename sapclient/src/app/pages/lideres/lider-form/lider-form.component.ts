@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize, switchMap } from 'rxjs/operators';
+import { SelectItem ,MessageService } from 'primeng';
 
 import { LiderService } from './../../../services/lider.service';
 import { Lider } from './../../../models/lider.model';
@@ -22,7 +23,8 @@ export class LiderFormComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private formBuilder: FormBuilder,
-        private liderService: LiderService
+        private liderService: LiderService,
+        private messageService: MessageService
     ) { }
 
     ngOnInit(): void {
@@ -62,7 +64,10 @@ export class LiderFormComponent implements OnInit {
         ).subscribe(() => {
             const path: string = this.route.snapshot.parent.url[0].path;
             this.router.navigate([path]);
-        })
+            this.messageService.add({ severity: 'success', summary: 'Lider cadastrado com sucesso' });
+        }, error => {
+            this.messageService.add({ severity: 'error', summary: 'Erro ao cadastrar novo lider' })}
+            )
     }
 
     carregarLider() {
@@ -76,5 +81,7 @@ export class LiderFormComponent implements OnInit {
             })
         }
     }
+
+    
 
 }

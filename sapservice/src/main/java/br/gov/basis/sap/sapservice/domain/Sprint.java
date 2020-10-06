@@ -27,6 +27,9 @@ public class Sprint {
     @Column(name = "nome")
     private String nome;
 
+    @Column(name = "descricao")
+    private String descricao;
+
     @Column(name = "data_inicio")
     private LocalDate dataInicio;
 

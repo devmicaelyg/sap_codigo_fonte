@@ -12,6 +12,9 @@ span{
     color: red;
 }
 
+p-message{
+    text-align: center;
+}
 #container{
     padding: 5px;
 }    
@@ -23,12 +26,16 @@ span{
 #selection{
     padding-top: 10px;
     display: flex;
-    justify-content: space-between;
+
 }
 
 #info {
     float: right;
     margin-right: 1rem;
+}
+.test{
+width: 65vw ;
+height: 65vw
 }
 
 

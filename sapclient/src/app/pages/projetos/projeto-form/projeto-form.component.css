@@ -2,23 +2,36 @@ div {
     padding: 10px;
 }
 
-#labelNome{
+/* #labelNome{
     margin-bottom: 100px;
-}
+} */
 
 span{
     color: red;
 }
 
 #info{
-        float: right;
-        margin-top: 1rem;
+        float: left;
 }
 
 #containerButton{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+   
+}
+
+#containerButton button {
+    width: 100%;
+}
+
+
+
+/* #containerButton {
     display: block;
     justify-content: space-between;
-}
+    align-items: center;
+} */
 
 #buttonCancelar{
     display: flex;
@@ -27,4 +40,22 @@ span{
 #containerDropdowns{
     display: flex;
     justify-content: space-around;
+    flex: 1;
+}
+
+@media screen and (max-width: 868px) {
+
+    #containerButton {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+
+    #containerButton p-message{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
 }

@@ -43,9 +43,9 @@ public class SprintRecurso {
     }
 
     @PutMapping
-    public ResponseEntity<Void> atualizar(@RequestBody SprintDTO sprintDTO) {
+    public ResponseEntity<SprintDTO> atualizar(@RequestBody SprintDTO sprintDTO) {
         sprintServico.salvar(sprintDTO);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(sprintDTO);
     }
 
     @DeleteMapping("/{id}")

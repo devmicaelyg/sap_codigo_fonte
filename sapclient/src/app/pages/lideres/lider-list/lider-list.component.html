@@ -1,55 +1,78 @@
 <p-card header="{{ titulo }}">
-  <p-header>
-    <div class="ui-lg-2 ui-md-3 ui-sm-6 float-right">
-      <button routerLink="novo" pButton icon="pi pi-check" iconPost="left" label="Novo"></button>
-    </div>
-  </p-header>
-  <ng-container *ngIf="listaLideres$ | async as listaLideres; else loading">
-    <p-table #dt [paginator]="true" [rows]="2" [rowsPerPageOptions]="[2, 4, 8, 10]" [responsive]="true"
-    [columns]="colunas" [value]="listaLideres" [filterDelay]="0">
-      <!-- <ng-template pTemplate="caption">
-        <div class="table-header">
-          Filtro
-            <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'startsWith')" placeholder="Busca global" />
-            </span>
-        </div>
-      </ng-template> -->
-      <ng-template let-columns pTemplate="header">
-        <tr>
-          <th [class.action]="coluna.header == 'Ações'" *ngFor="let coluna of columns">
-            {{ coluna.header }}
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-lider>
-        <tr>
-          <td>{{ lider.nome  | uppercase}}</td>
-          <td>{{ lider.contato  | uppercase}}</td>
-          <td class="action-buttons">
-            <button [routerLink]="[lider.id]" pButton icon="ui-icon-mode-edit"></button>
-            <button pButton icon="pi pi-times" (click)="deletar(lider.id)"></button>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="emptymessage" let-columns>
-        <tr>
-          <td [attr.colspan]="columns.length">
-            <div class="text-center">
-              <h3>Nenhum Registro cadastrado!</h3>
+
+    <p-panel class="filtroMobile" [toggleable]="true" [collapsed]="true" >
+        <p-header id="titleHeader">Filtros</p-header>
+        <div class="ui-fluid p-formgrid p-grid">
+            <div class="ui-g-6 ui-md-4 ui-sm-12 p-col-12">
+                <span class="ui-float-label">
+
+                    <p-multiSelect class="filtro" maxSelectedLabels="4" [options]="listaLideresDropDown" defaultLabel="&nbsp;"
+                        selectedItemsLabel="{0} itens selecionados" 
+                        (onChange)="prepararFiltroLider($event)" styleClass="p-column-filter">
+                    </p-multiSelect>
+                    <label>Lider</label>
+                </span>
             </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </ng-container>
-  <ng-template #loading>
-    <div class="ui-g-12 loading ">
-      <div class="ui-g-2 ui-g-offset-5 ">
-        <p><i class="pi pi-spin pi-spinner " style="font-size: 3em "></i></p>
-        <p>Preprando Dashboard...</p>
-      </div>
-    </div>
-  </ng-template>
+        </div>
+    </p-panel>
+
+    <p-header>
+        <div class="ui-lg-2 ui-md-3 ui-sm-6 float-right">
+            <button routerLink="novo" pButton icon="pi pi-check" iconPost="left" label="Novo"></button>
+        </div>
+    </p-header>
+    <ng-container *ngIf="listaLideres$ | async as listaLideres; else loading" >
+        <p-table #dt id='dt' [paginator]="true" [rows]="4" [rowsPerPageOptions]="[2, 4, 8, 10]" [responsive]="true"
+            [columns]="colunas" [value]="lideresFiltrados" [filterDelay]="0"  >
+
+            <ng-template let-columns pTemplate="header">
+                <tr>
+                    <th [class.action]="coluna.header == 'Ações'" *ngFor="let coluna of columns">
+                        <span [ngClass]="{'alinhaCampoAcao': coluna.header == 'Ações'}">{{ coluna.header }}</span>
+                        
+                        <p-sortIcon *ngIf="coluna.header != 'Ações'" [field]="coluna.field"
+                            [pSortableColumn]="coluna.field"></p-sortIcon>
+                        <input class="inputFilter" *ngIf="coluna.header != 'Ações'" pInputText type="text"
+                            (input)="dt.filter($event.target.value, coluna.field, 'contains')" />
+                    </th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-lider let-columns="colunas">
+                <tr style="text-transform: uppercase;">
+                    <td>{{ lider.nome  }}</td>
+                    <td>{{ lider.contato  }}</td>
+                    <td class="action-buttons">
+                        <button [routerLink]="[lider.id]" pButton icon="ui-icon-mode-edit"></button>
+                        <button pButton icon="pi pi-times" (click)="confirm2(lider.id)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="columns.length">
+                        <div class="text-center">
+                            <h3>Nenhum Registro cadastrado!</h3>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+    </ng-container>
+    <ng-template #loading>
+        <div class="ui-g-12 loading ">
+            <div class="ui-g-2 ui-g-offset-5 ">
+                <p><i class="pi pi-spin pi-spinner " style="font-size: 3em "></i></p>
+                <p>Preparando lideres...</p>
+            </div>
+        </div>
+    </ng-template>
 </p-card>
+<p-confirmDialog #cd [style]="{width: '50vw'}" key="confirm" [baseZIndex]="10000">
+    <p-footer>
+        <button type="button" pButton icon="pi pi-times" label="Não" (click)="cd.reject()"></button>
+        <button type="button" pButton icon="pi pi-check" label="Sim" (click)="cd.accept()"></button>
+    </p-footer>
+</p-confirmDialog>

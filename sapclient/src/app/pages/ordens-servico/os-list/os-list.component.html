@@ -7,17 +7,53 @@
   </p-header>
 
   <ng-container *ngIf="listaOrdemServico$ | async as listaOrdemServico; else loading ">
-    <p-table [paginator]="true" [rows]="4"  [response]="true" [responsive]="true" [rowsPerPageOptions]="[2, 4, 8, 10]" [columns]="colunas" [value]="listaOrdemServico">
+    <p-table #dt [paginator]="true" [rows]="4" [responsive]="true"
+      [rowsPerPageOptions]="[2, 4, 8, 10]" [columns]="colunas" [value]="osFiltradas">
       <ng-template let-columns pTemplate="header">
         <tr>
           <th [class.action]="coluna.header == 'Ações'" *ngFor="let coluna of columns">
             {{ coluna.header }}
           </th>
         </tr>
+        <tr>
+          <th *ngFor="let coluna of columns" [ngSwitch]="coluna.field">
+            <input *ngSwitchCase="'nome'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'nome', 'contains')">
+
+            <input *ngSwitchCase="'chave'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'chave', 'contains')">
+
+            <input placeholder="Data" *ngSwitchCase="'proximaEntrega'" pInputText type="date" class="teste"
+              (input)="dt.filter($event.target.value, 'prazo', 'contains')">
+
+            <input *ngSwitchCase="'prazo'" pInputText type="date"
+              (input)="dt.filter($event.target.value, 'proximaEntrega', 'contains')">
+
+            <input *ngSwitchCase="'qtdDefeitosCliente'" pInputText type="number"
+              (input)="dt.filter($event.target.value, 'qtdDefeitosCliente', 'contains')">
+
+            <input *ngSwitchCase="'qtdDefeitosInterno'" pInputText type="number"
+              (input)="dt.filter($event.target.value, 'qtdDefeitosInterno', 'contains')">
+
+            <input *ngSwitchCase="'pontosFuncao'" pInputText type="number"
+              (input)="dt.filter($event.target.value, 'pontosFuncao', 'contains')">
+            <input *ngSwitchCase="'fabrica'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'fabrica', 'contains')">
+
+            <p-multiSelect *ngSwitchCase="'idProjeto'" [options]="projetosSelecionaveis" placeholder="Todos"
+              defaultLabel="" (onChange)="filtrarPorProjeto($event)" >
+            </p-multiSelect>
+
+            <p-multiSelect *ngSwitchCase="'idSituacao'" [options]="situacoesSelecionaveis" placeholder="Todos"
+              defaultLabel="" (onChange)="filtrarPorSituacao($event)" styleClass="p-column-filter">
+            </p-multiSelect>
+          </th>
+        </tr>
       </ng-template>
       <ng-template pTemplate="body" let-ordemservico>
         <tr>
-          <td>{{ ordemservico.nome  | uppercase}}</td>
+          <td>{{ ordemservico.nome | uppercase}}</td>
+          <td>{{ ordemservico.chave }}</td>
           <td>{{ ordemservico.dataProximaEntrega | date:'dd/MM/yyyy'}}</td>
           <td>{{ ordemservico.prazo | date:'dd/MM/yyyy' }}</td>
           <td>{{ ordemservico.qtdDefeitosCliente || 0 }}</td>
@@ -28,11 +64,11 @@
           <td>{{ obterNomeSituacao(ordemservico.idSituacao)  | uppercase}}</td>
           <td class="action-buttons">
             <button [routerLink]="[ordemservico.id]" pButton icon="ui-icon-mode-edit"></button>
-            <button pButton icon="pi pi-times" (click)="deletar(ordemservico.id)"></button>
+            <button pButton icon="pi pi-times" (click)="confirm2(ordemservico.id)"></button>
           </td>
         </tr>
       </ng-template>
-      
+
       <ng-template pTemplate="emptymessage" let-columns>
         <tr>
           <td [attr.colspan]="columns.length">
@@ -50,8 +86,14 @@
     <div class="ui-g-12 loading ">
       <div class="ui-g-2 ui-g-offset-5 ">
         <p><i class="pi pi-spin pi-spinner " style="font-size: 3em "></i></p>
-        <p>Preparando OS's...</p>
+        <p>Preparando Ordens de Serviço...</p>
       </div>
     </div>
   </ng-template>
 </p-card>
+<p-confirmDialog #cd [style]="{width: '50vw'}" key="confirm" [baseZIndex]="10000">
+  <p-footer>
+    <button type="button" pButton icon="pi pi-times" label="Não" (click)="cd.reject()"></button>
+    <button type="button" pButton icon="pi pi-check" label="Sim" (click)="cd.accept()"></button>
+  </p-footer>
+</p-confirmDialog>

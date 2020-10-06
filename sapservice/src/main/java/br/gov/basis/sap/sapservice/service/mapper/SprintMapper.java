@@ -10,9 +10,11 @@ import org.mapstruct.Mapping;
 public interface SprintMapper extends EntityMapper<SprintDTO, Sprint> {
     @Mapping(source = "idStatus", target = "status.id" )
     @Mapping(source = "idOrdemServico", target = "ordemServico.id" )
+    @Mapping(source = "descricao", target = "descricao" )
     Sprint toEntity(SprintDTO sprintDTO);
 
     @Mapping(source = "status.id", target = "idStatus" )
     @Mapping(source = "ordemServico.id", target = "idOrdemServico" )
+    @Mapping(source = " descricao", target = "descricao" )
     SprintDTO toDto(Sprint sprint);
 }

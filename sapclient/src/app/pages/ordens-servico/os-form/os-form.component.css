@@ -1,23 +1,22 @@
-#formQtdDefeitos{
+#formQtdDefeitos {
     display: flex;
     justify-content: space-between;
 }
 
 div {
-    padding: 10px ;
+    padding: 10px;
 }
 
-label{
+label {
     font-size: 15px;
 }
 
-span{
+span {
     color: red;
 }
 
-#dropdown{
+#dropdown {
     display: flex;
-    justify-content: space-between;
 }
 
 #info {
@@ -25,8 +24,33 @@ span{
     margin-top: 1rem;
 }
 
+@media screen and (max-width: 40em) {
+    .mydialog {
+        width: 75vw;
+    }
+}
+
 #containerButton{
     display: block;
     justify-content: space-between;
+}
+
+#formQtdDefeitos p-inputMask{
+    width: 100%;
+}
+
+@media screen and (max-width: 868px) {
+
+    #containerButton {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column-reverse;
+    }
+
+    #containerButton p-message{
+        display: flex;
+        justify-content: center;
+    }
+
 }
 

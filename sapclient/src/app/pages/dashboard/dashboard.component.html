@@ -1,16 +1,17 @@
-<h1 style="text-align: center;">Controle de Projetos</h1>
-<!-- <pre>{{( listaClientes | json )}}</pre> -->
+<h1 style="text-align: center;">DASHBOARD</h1>
+<h2 style="text-align: center">Sistema de Apoio a Projetos</h2>
 
-<p-panel [toggleable]="true" >
+
+<p-panel [toggleable]="true" [collapsed]="true">
   <p-header id="titleHeader">Filtros</p-header>
 
-  <div id="filtros">
-      <div class="ui-g-4 ui-md-4 ui-sm-12 dashboardFiltro">
+  <div id="filtros" class="ui-fluid p-formgrid p-grid">
+
+      <div class="ui-g-4 ui-md-4 ui-sm-12  dashboardFiltro">
         <span class="ui-float-label">
             <p-multiSelect class="filtro" maxSelectedLabels="4"
                 [options]="listaClientes" defaultLabel="&nbsp;"
                 selectedItemsLabel="{0} itens selecionados"
-                [(ngModel)]="filtroCliente"
                 (onChange)="prepararFiltroCliente($event)">
             </p-multiSelect>
             <label>Cliente</label>
@@ -44,24 +45,28 @@
 
 </p-panel>
 
-<p-fieldset (onBeforeToggle)="obterOsPorProjeto(projeto)" *ngFor="let projeto of projetosFiltrados" [toggleable]="true"
+<p-fieldset (onBeforeToggle)="obterOsPorProjeto(projeto)"  *ngFor="let projeto of projetosFiltrados" [toggleable]="true "
 [collapsed]="true">
 
   <p-header>{{projeto.nome | uppercase}}</p-header>
   <div>
     <p-panel >
       <ul id="DescricaoProjeto">
-        <li><span>Lider:</span> {{obterNomeLider(projeto.idLider)}}</li>
-        <li><span>Testador:</span> {{obterNomeTestador(projeto.id)}}</li>
-        <li><span>Revisor:</span> {{obterNomeRevisor(projeto.id)}}</li>
-        <li><span>Gerente:</span> {{obterNomeGerente(projeto.id)}}</li>
+          <div class="ui-fluid p-formgrid p-grid">
+            <li class="ui-g-3 ui-md-5 ui-sm-12"><span>Lider:</span> {{obterNomeLider(projeto.idLider) | uppercase}}</li>
+            <li class="ui-g-3 ui-md-5 ui-sm-12"><span>Testador:</span> {{obterNomeTestador(projeto.id) | uppercase}}</li>
+            <li class="ui-g-3 ui-md-5 ui-sm-12"><span>Revisor:</span> {{obterNomeRevisor(projeto.id) | uppercase}}</li>
+            <li class="ui-g-3 ui-md-5 ui-sm-12"><span>Gerente:</span> {{obterNomeGerente(projeto.id) | uppercase}}</li>
+          </div>
       </ul>
     </p-panel>
 
   </div>
 
 
-  <p-table #dt [value]="projeto.listaOs" [paginator]="true" [rows]="4" [response]="true" [columns]="colunas" dataKey="nome">
+  <p-table #dt [value]="projeto.listaOs" [paginator]="true" [rows]="4" [responsive]="true" [columns]="colunas" dataKey="nome">
+
+    <!-- <pre>{{ projeto.listaOs | json }}</pre> -->
 
     <ng-template let-columns pTemplate="header">
       <tr>
@@ -79,12 +84,88 @@
             <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
           </a>
         </td>
-        <td>{{ ordemservico.nome | titlecase}}</td>
-        <td>{{ obterNomeSituacao(ordemservico.idSituacao) | titlecase}}</td>
-        <td>{{ ordemservico.dataProximaEntrega | date: 'dd/MM/yyyy'}}</td>
-        <td>{{ ordemservico.prazo | date: 'dd/MM/yyyy'}}</td>
-        <td>{{ ordemservico.pontosFuncao}}</td>
-        <td>{{ ordemservico.fabrica | uppercase}}</td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="ordemservico.nome">
+            </ng-template>
+            <ng-template  pTemplate="output">
+            {{ ordemservico.nome | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="ordemservico.chave">
+            </ng-template>
+            <ng-template  pTemplate="output">
+            {{ ordemservico.chave | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, ordemservico)" [options]="situacaoDropdown" [(ngModel)]="ordemservico.idSituacao"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterNomeSituacao(ordemservico.idSituacao) | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar [(ngModel)]="ordemservico.dataProximaEntrega"  showButtonBar="true" [showIcon]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            </ng-template>
+          <ng-template pTemplate="output">
+            {{ ordemservico.dataProximaEntrega | date: 'dd/MM/yyyy'}}
+          </ng-template>
+        </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar [(ngModel)]="ordemservico.prazo"  showButtonBar="true" [showIcon]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            </ng-template>
+          <ng-template pTemplate="output">
+            {{ ordemservico.prazo | date: 'dd/MM/yyyy'}}
+          </ng-template>
+        </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="ordemservico.pontosFuncao">
+            </ng-template>
+            <ng-template  pTemplate="output">
+              {{ ordemservico.pontosFuncao}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="ordemservico.fabrica">
+            </ng-template>
+            <ng-template  pTemplate="output">
+              {{ ordemservico.fabrica | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td id="botoesDeAcao">
+          <button pButton class="salvar" icon="ui-icon-check-circle" label="Salvar" (click)="enviarFormOs(ordemservico)"></button>
+          <a href="https://sgo.basis.com.br/browse/{{ordemservico.nome}}"><button pButton icon="ui-icon-check-circle" label="SGO" type="submit"></button></a>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage" let-columns>
@@ -102,24 +183,119 @@
       <tr>
         <td [attr.colspan]="columns.length + 1">
           <div class="p-grid -fluid" style="font-size:16px;padding:5px 5px 20px 5px;">
-            <p-table paginator="true" [rows]="10" [columns]="coluna" [value]="sprints" dataKey="nome">
+            <p-table [responsive]="true" paginator="true" [rows]="10" [columns]="coluna" [value]="sprints" dataKey="nome">
               <ng-template pTemplate="header" let-subcolumns>
       <tr>
-        <th [class.action]="coluna.header == 'Ações'" *ngFor="let coluna of colunaSprint" pResizableColumn>
+        <th [class.action]="coluna.header == 'Ações'" *ngFor="let coluna of colunaSprint"   pResizableColumn  >
           {{coluna.header}}
         </th>
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-sprints let-expanded="expanded">
+    <ng-template pTemplate="body" let-sprints let-expanded="expanded" >
       <tr *ngIf="sprints.idOrdemServico == ordemservico.id">
-        <td>{{ sprints.nome }}</td>
-        <td>{{ sprints.dataInicio }}</td>
-        <td>{{ sprints.dataTermino }}</td>
-        <td>{{ sprints.pontosFuncao }}</td>
-        <td>{{ obterBoolean(sprints.impedimento)}}</td>
-        <td>{{ obterBoolean(sprints.prazo) }}</td>
-        <td>{{ obterNomeStatus(sprints.idStatus)}}</td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="sprints.nome">
+            </ng-template>
+            <ng-template  pTemplate="output">
+            {{ sprints.nome | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar [(ngModel)]="sprints.dataInicio"  showButtonBar="true" [showIcon]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ sprints.dataInicio | date: 'dd/MM/yyyy'}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-calendar [(ngModel)]="sprints.dataTermino"  showButtonBar="true" [showIcon]="true" [locale]="dataBr" dateFormat="dd/mm/yy" [yearNavigator]="true" [monthNavigator]="true" yearRange="1950:2060"></p-calendar>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ sprints.dataTermino | date: 'dd/MM/yyyy'}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+          <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="sprints.pontosFuncao">
+            </ng-template>
+            <ng-template  pTemplate="output">
+            {{ sprints.pontosFuncao}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="simNaoDropDown"  [(ngModel)]="sprints.impedimento" style="width:400px;" ></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterSimNao(sprints.impedimento) }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dialog header="Descrição da Sprint" [(visible)]="display" [position]="position"  [style]="{width: '50vw'}" [maximizable]="true" [(ngModel)]="sprints.descricao" >
+              <p>
+                    <textarea type="text" pInputText  rows="5" [(ngModel)]="sprints.descricao" style="width: 100%;"></textarea>
+              </p>
+                  <p-footer>
+                      <button type="button" pButton icon="pi pi-check" (click)="showDialog()" label="Yes"></button>
+                      <button type="button" pButton icon="pi pi-times" (click)="showDialog()" label="No" class="ui-button-secondary"></button>
+                  </p-footer>
+          </p-dialog>
+            </ng-template>
+            <ng-template pTemplate="output">
+            </ng-template>
+          </p-cellEditor>
+          <button (click)="showDialog()" pButton icon="pi pi-info-circle" label="Info"></button>
+
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="simNaoDropDown" [(ngModel)]="sprints.prazo"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterSimNao(sprints.prazo) }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown (onChange)="habilitarBotao($event, sprints)" [options]="statusDropdown" [(ngModel)]="sprints.idStatus"></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ obterNomeStatus(sprints.idStatus) | uppercase}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+
+        <td>
+          <button pButton id="botaoSalvar" icon="ui-icon-check-circle" label="Salvar" (click)="enviarFormSprint(sprints) && enviarFormOs(ordemservico)" ></button>
+        </td>
+
       </tr>
     </ng-template>
 
@@ -127,7 +303,7 @@
       <tr>
         <td [attr.colspan]="columns.length">
           <div class="text-center">
-            <h3>Nenhuma OS cadastrada!</h3>
+            <h3>Nenhuma sprint cadastrada!</h3>
           </div>
         </td>
       </tr>

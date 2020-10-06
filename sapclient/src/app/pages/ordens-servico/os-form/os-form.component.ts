@@ -13,6 +13,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize, switchMap, map, tap } from 'rxjs/operators'
 
+import {DialogModule} from 'primeng/dialog';
 
 import { Observable } from 'rxjs';
 import { OrdemServico } from './../../../models/ordem-servico.model';
@@ -30,6 +31,7 @@ export class OsFormComponent implements OnInit {
   acaoAtual: string;
   form: FormGroup;
   formSubmetido: boolean = false;
+  digitavel: boolean =false;
   listaProjetos: SelectItem[];
   listaStatus: any = [];
   situacoes: SelectItem[];
@@ -38,6 +40,9 @@ export class OsFormComponent implements OnInit {
   listaSprint$: Observable<any>;
   listaSprint: any = [];
   ordemService$: Observable<any>;
+  display: boolean = false;
+
+
 
   @ViewChild('sprintDialog') sprintDialog: SprintFormComponent;
 
@@ -45,6 +50,7 @@ export class OsFormComponent implements OnInit {
     { header: 'Nome' },
     { header: 'Ínicio' },
     { header: 'Término' },
+    { header : 'Descrição'},
     { header: 'PF' },
     { header: 'Status' },
     { header: 'Ações' },
@@ -87,6 +93,7 @@ export class OsFormComponent implements OnInit {
 
   private setAcaoAtual() {
     if (this.route.snapshot.url[0].path == 'novo') {
+      this.digitavel=true;
       this.titulo = 'Cadastro de Ordens de Serviço';
       return;
     }
@@ -97,6 +104,7 @@ export class OsFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       id: [null],
       nome: [null, [Validators.required, Validators.minLength(3)]],
+      chave :[null, [Validators.required, Validators.minLength(3)]],
       dataProximaEntrega: [null
         , [
           Validators.required,
@@ -107,6 +115,7 @@ export class OsFormComponent implements OnInit {
       pontosFuncao: [null
         , [
           Validators.required,
+          Validators.pattern('^[0-9]+?.?[0-9]{1,3}$'),
         ]],
       fabrica: [null
         , [
@@ -141,7 +150,6 @@ export class OsFormComponent implements OnInit {
     this.blockUI.start();
     const recurso = Object.assign(new OrdemServico(), this.form.value);
     recurso.sprints = this.sprints;
-    console.log(recurso);
     this.ordemService.salvar(recurso).pipe(
       finalize(() => {
         this.blockUI.stop()
@@ -149,9 +157,9 @@ export class OsFormComponent implements OnInit {
     ).subscribe(() => {
       const path: string = this.route.snapshot.parent.url[0].path;
       this.router.navigate([path]);
-      this.messageService.add({ severity: 'info', summary: 'Cadastrado com sucesso' })
+      this.messageService.add({ severity: 'info', summary: 'Ordem de serviço cadastrado com sucesso' })
     }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Erro ao cadastrar' })
+      this.messageService.add({ severity: 'error', summary: 'Erro ao cadastrar ordem de serviço' })
     })
   }
 
@@ -169,12 +177,18 @@ export class OsFormComponent implements OnInit {
     )
   }
 
-  // Colocar um blockUI aqui
-  deletar(id: number) {
-    this.sprintService.deletar(id).subscribe(
-          () => this.sprints = this.sprints.filter(res => res.id !== id)
-      ),
-      finalize(() => this.blockUI.stop());
+  deletar(sprint) {
+    this.blockUI.start();
+    if(!sprint.id){
+      this.sprints.splice(this.sprints.indexOf(sprint))
+    }
+    this.sprintService.deletar(sprint.id).subscribe(
+          () => {
+            this.sprints = this.sprints.filter(res => res.id !== sprint.id),
+            this.messageService.add({ severity: 'success', summary: 'Deletado com sucesso' });
+            this.blockUI.stop();
+          } 
+      );
   }
 
 
@@ -225,7 +239,6 @@ export class OsFormComponent implements OnInit {
     this.blockUI.start();
     this.statusService.obterTodos().pipe(
       finalize(() => this.blockUI.stop()),
-      tap(console.log)
     ).subscribe(res => {
       this.status = res.map(item => {
         return {
@@ -255,8 +268,12 @@ adicionarEditarSprint(event) {
   this.sprints = this.sprints.filter(sprint => sprint.id !== event.id).concat(event);
 }
 
-showDialogSprint(sprint = null) {
+showDialogSprint(sprint=null) {
   this.sprintDialog.mostrarDialog(sprint);
+}
+
+showDialog() {
+  this.display = !this.display;
 }
 
   defaultDate(){

@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize, switchMap } from 'rxjs/operators';
-import { SelectItem } from 'primeng'
+import { SelectItem, MessageService } from 'primeng'
 
 import { LiderService } from './../../../services/lider.service';
 import { ProjetoService } from './../../../services/projeto.service';
@@ -36,6 +36,7 @@ export class ProjetoFormComponent implements OnInit {
         private projetoService: ProjetoService,
         private liderService: LiderService,
         private clienteService: ClienteService,
+        private messageService: MessageService
     ) { }
     ngOnInit(): void {
         this.setAcaoAtual();
@@ -77,7 +78,10 @@ export class ProjetoFormComponent implements OnInit {
         ).subscribe(() => {
             const path: string = this.route.snapshot.parent.url[0].path;
             this.router.navigate([path]);
-        })
+            this.messageService.add({ severity: 'info', summary: 'Projeto criado com sucesso' })
+        }, error => {
+            this.messageService.add({ severity: 'error', summary: 'Erro ao cadastrar projeto' })
+          })
     }
 
     carregarProjeto() {
