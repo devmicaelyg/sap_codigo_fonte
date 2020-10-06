@@ -55,10 +55,10 @@
                         <input *ngSwitchCase="'nome'" pInputText type="text"
                             (input)="dt.filter($event.target.value, 'nome', 'contains')">
                         <p-multiSelect *ngSwitchCase="'cliente'" [options]="clientesSelecionaveis" placeholder="Todos"
-                            defaultLabel="" (onChange)="filtrarPorCliente($event)" styleClass="p-column-filter">
+                            defaultLabel="" (onChange)="prepararFiltroCliente($event)" styleClass="p-column-filter">
                         </p-multiSelect>
                         <p-multiSelect *ngSwitchCase="'lider'" [options]="lideresSelecionaveis" placeholder="Todos"
-                            defaultLabel="" (onChange)="filtrarPorLider($event)" styleClass="p-column-filter">
+                            defaultLabel="" (onChange)="prepararFiltroLider($event)" styleClass="p-column-filter">
                         </p-multiSelect>
                         <input *ngSwitchCase="'testador'" pInputText type="text"
                             (input)="dt.filter($event.target.value, 'testador', 'contains')">
