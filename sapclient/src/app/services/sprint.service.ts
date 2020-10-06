@@ -29,13 +29,6 @@ export class SprintService {
         return this.cadastrar(recurso);
     }
 
-    // atualizar(resource: T): Observable<T> {
-    //     return this.http.put(`${this.apiPath}`, resource).pipe(
-    //       map(() => resource),
-    //       catchError(this.handleError)
-    //     );
-    //   }
-
     obterPorId(id: number): Observable<Sprint> {
         return this.http.get(`${this.api}/${id}`).pipe(
             map(recurso => Object.assign(new Sprint(), recurso))
@@ -55,7 +48,6 @@ export class SprintService {
     atualizar(recurso: Sprint): Observable<Sprint> {
         return this.http.put(`${this.api}`, recurso).pipe(
             map(recurso => Object.assign(new Sprint(), recurso)),
-            tap(console.log)
         );
     }
 }
