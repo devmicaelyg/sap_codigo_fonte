@@ -141,20 +141,6 @@ export class SprintFormComponent implements OnInit {
       })
     })
   }
-
-  // duracaoSprintInvalida() {
-  //   console.log(this.sprint);
-  //   let intervaloMinimo = 1000 * 60 * 60 * 24 * 15;
-  //   if (this.sprint.dataInicio) {
-  //     console.log(this.sprint.dataTermino.getTime() + ' ' + this.sprint.dataInicio.getTime());
-  //     let intervaloAtual: number = this.sprint.dataTermino.getTime() - this.sprint.dataInicio.getTime();
-  //     return intervaloAtual >= intervaloMinimo ? false : true;
-  //   }
-  //   console.log(this.sprint);
-  //   this.sprint.dataInicio = new Date(this.sprint.dataTermino.getTime() - intervaloMinimo);
-  //   return false;
-  // }
-
 }
 
 
