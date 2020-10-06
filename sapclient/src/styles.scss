@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+p-table{
+  word-wrap: normal;
+}
+
 body .ui-table .ui-table-thead>tr>th,
 body .ui-table .ui-table-tfoot>tr>td {
   font-weight: 800;

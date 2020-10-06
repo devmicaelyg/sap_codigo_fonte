@@ -150,7 +150,6 @@ export class OsFormComponent implements OnInit {
     this.blockUI.start();
     const recurso = Object.assign(new OrdemServico(), this.form.value);
     recurso.sprints = this.sprints;
-    console.log(recurso);
     this.ordemService.salvar(recurso).pipe(
       finalize(() => {
         this.blockUI.stop()
@@ -240,7 +239,6 @@ export class OsFormComponent implements OnInit {
     this.blockUI.start();
     this.statusService.obterTodos().pipe(
       finalize(() => this.blockUI.stop()),
-      tap(console.log)
     ).subscribe(res => {
       this.status = res.map(item => {
         return {

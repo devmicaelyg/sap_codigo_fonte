@@ -23,7 +23,7 @@
             <input *ngSwitchCase="'chave'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'chave', 'contains')">
 
-            <input *ngSwitchCase="'proximaEntrega'" pInputText type="date"
+            <input placeholder="Data" *ngSwitchCase="'proximaEntrega'" pInputText type="date" class="teste"
               (input)="dt.filter($event.target.value, 'prazo', 'contains')">
 
             <input *ngSwitchCase="'prazo'" pInputText type="date"
@@ -41,7 +41,7 @@
               (input)="dt.filter($event.target.value, 'fabrica', 'contains')">
 
             <p-multiSelect *ngSwitchCase="'idProjeto'" [options]="projetosSelecionaveis" placeholder="Todos"
-              defaultLabel="" (onChange)="filtrarPorProjeto($event)" styleClass="p-column-filter">
+              defaultLabel="" (onChange)="filtrarPorProjeto($event)" >
             </p-multiSelect>
 
             <p-multiSelect *ngSwitchCase="'idSituacao'" [options]="situacoesSelecionaveis" placeholder="Todos"
@@ -53,7 +53,7 @@
       <ng-template pTemplate="body" let-ordemservico>
         <tr>
           <td>{{ ordemservico.nome | uppercase}}</td>
-          <td>{{ ordemservico.chave }}</td>
+          <td>{{ ordemservico.chave | uppercase}}</td>
           <td>{{ ordemservico.dataProximaEntrega | date:'dd/MM/yyyy'}}</td>
           <td>{{ ordemservico.prazo | date:'dd/MM/yyyy' }}</td>
           <td>{{ ordemservico.qtdDefeitosCliente || 0 }}</td>
