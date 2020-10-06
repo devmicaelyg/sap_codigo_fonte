@@ -52,28 +52,57 @@
 
                 <tr>
                     <th *ngFor="let coluna of columns" [ngSwitch]="coluna.field">
-                        <input *ngSwitchCase="'nome'" pInputText type="text"
-                            (input)="dt.filter($event.target.value, 'nome', 'contains')">
+                        <input *ngSwitchCase="'nome'" pInputText type="text" (input)="
+                                dt.filter(
+                                    $event.target.value,
+                                    'nome',
+                                    'contains'
+                                )
+                            " />
                         <p-multiSelect *ngSwitchCase="'cliente'" [options]="clientesSelecionaveis" placeholder="Todos"
-                            defaultLabel="" (onChange)="filtrarPorCliente($event)" styleClass="p-column-filter">
+                            defaultLabel="" (onChange)="prepararFiltroCliente($event)" styleClass="p-column-filter">
                         </p-multiSelect>
                         <p-multiSelect *ngSwitchCase="'lider'" [options]="lideresSelecionaveis" placeholder="Todos"
-                            defaultLabel="" (onChange)="filtrarPorLider($event)" styleClass="p-column-filter">
+                            defaultLabel="" (onChange)="prepararFiltroLider($event)" styleClass="p-column-filter">
                         </p-multiSelect>
-                        <input *ngSwitchCase="'testador'" pInputText type="text"
-                            (input)="dt.filter($event.target.value, 'testador', 'contains')">
-                        <input *ngSwitchCase="'revisor'" pInputText type="text"
-                            (input)="dt.filter($event.target.value, 'revisor', 'contains')">
-                        <input *ngSwitchCase="'gerente'" pInputText type="text"
-                            (input)="dt.filter($event.target.value, 'gerente', 'contains')">
+                        <input *ngSwitchCase="'testador'" pInputText type="text" (input)="
+                                dt.filter(
+                                    $event.target.value,
+                                    'testador',
+                                    'contains'
+                                )
+                            " />
+                        <input *ngSwitchCase="'revisor'" pInputText type="text" (input)="
+                                dt.filter(
+                                    $event.target.value,
+                                    'revisor',
+                                    'contains'
+                                )
+                            " />
+                        <input *ngSwitchCase="'gerente'" pInputText type="text" (input)="
+                                dt.filter(
+                                    $event.target.value,
+                                    'gerente',
+                                    'contains'
+                                )
+                            " />
                     </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-projeto>
                 <tr>
                     <td>{{ projeto.nome | uppercase }}</td>
-                    <td>{{ filtrarClientePorId(projeto.idCliente).descricao | uppercase }}</td>
-                    <td>{{ filtrarLiderPorId(projeto.idLider).nome | uppercase }}</td>
+                    <td>
+                        {{
+                            filtrarClientePorId(projeto.idCliente).descricao
+                                | uppercase
+                        }}
+                    </td>
+                    <td>
+                        {{
+                            filtrarLiderPorId(projeto.idLider).nome | uppercase
+                        }}
+                    </td>
                     <td>{{ projeto.testador | uppercase }}</td>
                     <td>{{ projeto.revisor | uppercase }}</td>
                     <td>{{ projeto.gerente | uppercase }}</td>
@@ -95,15 +124,17 @@
         </p-table>
     </ng-container>
     <ng-template #loading>
-        <div class="ui-g-12 loading ">
-            <div class="ui-g-2 ui-g-offset-5 ">
-                <p><i class="pi pi-spin pi-spinner " style="font-size: 3em "></i></p>
+        <div class="ui-g-12 loading">
+            <div class="ui-g-2 ui-g-offset-5">
+                <p>
+                    <i class="pi pi-spin pi-spinner" style="font-size: 3em"></i>
+                </p>
                 <p>Preparando Projetos...</p>
             </div>
         </div>
     </ng-template>
 </p-card>
-<p-confirmDialog #cd [style]="{width: '50vw'}" key="confirm" [baseZIndex]="10000">
+<p-confirmDialog #cd [style]="{ width: '50vw' }" key="confirm" [baseZIndex]="10000">
     <p-footer>
         <button type="button" pButton icon="pi pi-times" label="Não" (click)="cd.reject()"></button>
         <button type="button" pButton icon="pi pi-check" label="Sim" (click)="cd.accept()"></button>

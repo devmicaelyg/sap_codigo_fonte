@@ -1,13 +1,59 @@
 <p-card header="{{ titulo }}">
-
   <p-header>
     <div id="botaoNovo" class="ui-lg-2 ui-md-3 ui-sm-6 float-right">
       <button routerLink="novo" pButton icon="pi pi-check" iconPost="left" label="Novo"></button>
     </div>
   </p-header>
 
-  <ng-container *ngIf="listaOrdemServico$ | async as listaOrdemServico; else loading ">
-    <p-table #dt [paginator]="true" [rows]="4" [response]="true" [responsive]="true"
+  <p-panel class="filtroMobile" [toggleable]="true" [collapsed]="true">
+    <p-header id="titleHeader">Filtros</p-header>
+    <div class="ui-fluid p-formgrid p-grid">
+
+      <div class="ui-g-6 ui-md-4 ui-sm-12">
+        <span class="ui-float-label">
+          <p-multiSelect class="filtro" maxSelectedLabels="4" [options]="nomesSelecionaveis" defaultLabel=""
+            selectedItemsLabel="{0} itens selecionados" (onChange)="filtrarPorNome($event)"
+            styleClass="p-column-filter">
+          </p-multiSelect>
+          <label>Nome</label>
+        </span>
+      </div>
+
+      <div class="ui-g-6 ui-md-4 ui-sm-12">
+        <span class="ui-float-label">
+          <p-multiSelect class="filtro" maxSelectedLabels="4" [options]="chavesSelecionaveis" defaultLabel=""
+            selectedItemsLabel="{0} itens selecionados" (onChange)="filtrarPorNome($event)"
+            styleClass="p-column-filter">
+          </p-multiSelect>
+          <label>Chave OS</label>
+        </span>
+      </div>
+
+      <div class="ui-g-6 ui-md-4 ui-sm-12">
+        <span class="ui-float-label">
+          <p-multiSelect class="filtro" maxSelectedLabels="4" [options]="projetosSelecionaveis" defaultLabel=""
+            selectedItemsLabel="{0} itens selecionados" (onChange)="filtrarPorProjeto($event)"
+            styleClass="p-column-filter">
+          </p-multiSelect>
+          <label>Projeto</label>
+        </span>
+      </div>
+
+      <div class="ui-g-6 ui-md-4 ui-sm-12">
+        <span class="ui-float-label">
+          <p-multiSelect class="filtro" maxSelectedLabels="4" [options]="situacoesSelecionaveis" defaultLabel=""
+            selectedItemsLabel="{0} itens selecionados" (onChange)="filtrarPorSituacao($event)"
+            styleClass="p-column-filter">
+          </p-multiSelect>
+          <label>Situação</label>
+        </span>
+      </div>
+
+    </div>
+  </p-panel>
+
+  <ng-container *ngIf="listaOrdemServico$ | async as listaOrdemServico; else loading">
+    <p-table #dt [paginator]="true" [rows]="4" [responsive]="true" [responsive]="true"
       [rowsPerPageOptions]="[2, 4, 8, 10]" [columns]="colunas" [value]="osFiltradas">
       <ng-template let-columns pTemplate="header">
         <tr>
@@ -17,28 +63,29 @@
         </tr>
         <tr>
           <th *ngFor="let coluna of columns" [ngSwitch]="coluna.field">
-            <input *ngSwitchCase="'nome'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'nome', 'contains')">
+            <input *ngSwitchCase="'nome'" pInputText type="text" 
+            (input)="dt.filter($event.target.value,'nome','contains')" />
 
-            <input *ngSwitchCase="'chave'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'chave', 'contains')">
+            <input *ngSwitchCase="'chave'" pInputText type="text" 
+            (input)="dt.filter($event.target.value,'contains')" />
 
-            <input *ngSwitchCase="'proximaEntrega'" pInputText type="date"
-              (input)="dt.filter($event.target.value, 'prazo', 'contains')">
+            <input *ngSwitchCase="'proximaEntrega'" pInputText type="date" 
+            (input)="dt.filter($event.target.value,'prazo','contains')" />
 
-            <input *ngSwitchCase="'prazo'" pInputText type="date"
-              (input)="dt.filter($event.target.value, 'proximaEntrega', 'contains')">
+            <input *ngSwitchCase="'prazo'" pInputText type="date" 
+            (input)="dt.filter($event.target.value,'proximaEntrega','contains')" />
 
-            <input *ngSwitchCase="'qtdDefeitosCliente'" pInputText type="number"
-              (input)="dt.filter($event.target.value, 'qtdDefeitosCliente', 'contains')">
+            <input *ngSwitchCase="'qtdDefeitosCliente'" pInputText type="text" 
+            (input)="dt.filter($event.target.value,'qtdDefeitosCliente','contains')" />
 
-            <input *ngSwitchCase="'qtdDefeitosInterno'" pInputText type="number"
-              (input)="dt.filter($event.target.value, 'qtdDefeitosInterno', 'contains')">
+            <input *ngSwitchCase="'qtdDefeitosInterno'" pInputText type="text" 
+            (input)="dt.filter($event.target.value,'qtdDefeitosInterno','contains')" />
+            
+            <input *ngSwitchCase="'pontosFuncao'" pInputText type="text" 
+            (input)="dt.filter($event.target.value,'pontosFuncao','contains')" />
 
-            <input *ngSwitchCase="'pontosFuncao'" pInputText type="number"
-              (input)="dt.filter($event.target.value, 'pontosFuncao', 'contains')">
-            <input *ngSwitchCase="'fabrica'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'fabrica', 'contains')">
+            <input *ngSwitchCase="'fabrica'" pInputText type="text" 
+            (input)="dt.filter($event.target.value,'fabrica','contains')" />
 
             <p-multiSelect *ngSwitchCase="'idProjeto'" [options]="projetosSelecionaveis" placeholder="Todos"
               defaultLabel="" (onChange)="filtrarPorProjeto($event)" styleClass="p-column-filter">
@@ -52,16 +99,29 @@
       </ng-template>
       <ng-template pTemplate="body" let-ordemservico>
         <tr>
-          <td>{{ ordemservico.nome  | uppercase}}</td>
+          <td>{{ ordemservico.nome | uppercase }}</td>
           <td>{{ ordemservico.chave }}</td>
-          <td>{{ ordemservico.dataProximaEntrega | date:'dd/MM/yyyy'}}</td>
-          <td>{{ ordemservico.prazo | date:'dd/MM/yyyy' }}</td>
+          <td>
+            {{
+                            ordemservico.dataProximaEntrega | date: "dd/MM/yyyy"
+                        }}
+          </td>
+          <td>{{ ordemservico.prazo | date: "dd/MM/yyyy" }}</td>
           <td>{{ ordemservico.qtdDefeitosCliente || 0 }}</td>
           <td>{{ ordemservico.qtdDefeitosInterno || 0 }}</td>
-          <td>{{ ordemservico.pontosFuncao  }}</td>
-          <td>{{ ordemservico.fabrica  | uppercase}}</td>
-          <td>{{ obterNomeProjeto(ordemservico.idProjeto)  | uppercase}}</td>
-          <td>{{ obterNomeSituacao(ordemservico.idSituacao)  | uppercase}}</td>
+          <td>{{ ordemservico.pontosFuncao }}</td>
+          <td>{{ ordemservico.fabrica | uppercase }}</td>
+          <td>
+            {{
+                            obterNomeProjeto(ordemservico.idProjeto) | uppercase
+                        }}
+          </td>
+          <td>
+            {{
+                            obterNomeSituacao(ordemservico.idSituacao)
+                                | uppercase
+                        }}
+          </td>
           <td class="action-buttons">
             <button [routerLink]="[ordemservico.id]" pButton icon="ui-icon-mode-edit"></button>
             <button pButton icon="pi pi-times" (click)="confirm2(ordemservico.id)"></button>
@@ -81,17 +141,18 @@
     </p-table>
   </ng-container>
 
-
   <ng-template #loading>
-    <div class="ui-g-12 loading ">
-      <div class="ui-g-2 ui-g-offset-5 ">
-        <p><i class="pi pi-spin pi-spinner " style="font-size: 3em "></i></p>
+    <div class="ui-g-12 loading">
+      <div class="ui-g-2 ui-g-offset-5">
+        <p>
+          <i class="pi pi-spin pi-spinner" style="font-size: 3em"></i>
+        </p>
         <p>Preparando Ordens de Serviço...</p>
       </div>
     </div>
   </ng-template>
 </p-card>
-<p-confirmDialog #cd [style]="{width: '50vw'}" key="confirm" [baseZIndex]="10000">
+<p-confirmDialog #cd [style]="{ width: '50vw' }" key="confirm" [baseZIndex]="10000">
   <p-footer>
     <button type="button" pButton icon="pi pi-times" label="Não" (click)="cd.reject()"></button>
     <button type="button" pButton icon="pi pi-check" label="Sim" (click)="cd.accept()"></button>

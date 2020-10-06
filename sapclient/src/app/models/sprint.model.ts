@@ -13,7 +13,7 @@ export class Sprint {
         public impedimento?: boolean,
         public prazo?: boolean,
         public idStatus?: TipoStatus,
-        public idOrdemServico?: OrdemServico,
+        public idOrdemServico?: number,
     ) { }
 
 }

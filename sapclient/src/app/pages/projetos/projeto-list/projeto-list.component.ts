@@ -55,7 +55,7 @@ export class ProjetoListComponent implements OnInit {
     { field: 'testador', header: 'Testador' },
     { field: 'revisor', header: 'Revisor' },
     { field: 'gerente', header: 'Gerente' },
-    { field: 'a��es', header: 'Ações' }
+    { field: 'acoes', header: 'Ações' }
   ];
   constructor(
     private projetoService: ProjetoService,
@@ -100,12 +100,22 @@ export class ProjetoListComponent implements OnInit {
       .pipe(
         finalize(() => this.blockUI.stop()),
       ).subscribe(resultado => {
-        if (resultado.length != 0) {
+        if (resultado.length) {
           this.messageService.add({ severity: 'error', summary: 'Erro ao deletar! Existem OS vinculadas ao projeto' });
         } else {
           this.deletadoSucesso(id);
+          this.listaProjetos;
         }
       });
+  }
+
+  private deletadoSucesso(id) {
+    this.projetoService.deletar(id).pipe(
+      finalize(() => this.blockUI.stop())
+    ).subscribe(
+      () => this.obterTodos()
+    );
+    this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
   }
 
   confirm2(id) {
@@ -149,17 +159,9 @@ export class ProjetoListComponent implements OnInit {
   }
   
 
-  private deletadoSucesso(id) {
-    this.projetoService.deletar(id).pipe(
-      finalize(() => this.blockUI.stop())
-    ).subscribe(
-      () => this.obterTodos()
-    );
-    this.messageService.add({ severity: 'info', summary: 'Deletado Com Sucesso!' })
-  }
+
 
   filtrar(){
-    console.log("Olhe aqui:" + this.listaProjetos, this.liderItensFiltro + "Mosquitos");
     this.projetosFiltrados = this.listaProjetos.filter(pf => !!(this.projetoItensFiltro?.length ? this.projetoItensFiltro.find(lif => lif === pf.id) : true));
     this.projetosFiltrados = this.projetosFiltrados.filter(pf => !!(this.liderItensFiltro?.length ? this.liderItensFiltro.find(lif => lif === pf.idLider) : true));
     this.projetosFiltrados = this.projetosFiltrados.filter(pf => !!(this.clienteItensFiltro?.length ? this.clienteItensFiltro.find(lif => lif === pf.idCliente) : true));

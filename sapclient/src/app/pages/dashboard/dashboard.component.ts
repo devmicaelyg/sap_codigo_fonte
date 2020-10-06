@@ -14,7 +14,7 @@ import { SituacaoService } from './../../services/situacao.service';
 import { Observable } from 'rxjs';
 
 import { finalize, map } from 'rxjs/operators';
-import { Output, EventEmitter,Component, OnInit, ViewChild } from '@angular/core';
+import { Output, EventEmitter, Component, OnInit, ViewChild } from '@angular/core';
 
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { SelectItem, Table } from 'primeng';
@@ -58,24 +58,24 @@ export class DashboardComponent implements OnInit {
   situacaoDropdown: SelectItem[] = [];
   statusDropdown: SelectItem[] = [];
 
-  
 
-  projetos: Projeto [] = [];
-  projetosFiltrados: Projeto [] = [];
-  clienteItensFiltro: any [] = [];
-  projetoItensFiltro: any [] = [];
-  liderItensFiltro: any [] = [];
+  projeto: Projeto;
+  projetos: Projeto[] = [];
+  projetosFiltrados: Projeto[] = [];
+  clienteItensFiltro: any[] = [];
+  projetoItensFiltro: any[] = [];
+  liderItensFiltro: any[] = [];
 
-  lider : any;
-  
+  lider: any;
+
   sprints: Sprint[] = [];
   sprintsFiltradas: any = [];
   lideres: Lider[] = [];
   status: any = [];
   testeExibe: boolean;
 
-  x :any []=[];
-  lid : Lider;
+  x: any[] = [];
+  lid: Lider;
 
   lista: any = [];
   listaLideres: SelectItem[] = [];
@@ -84,18 +84,18 @@ export class DashboardComponent implements OnInit {
   filtroCliente: any = [];
   filtroProjeto: any = [];
   filtroOs: any = [];
-  display : boolean =false;
+  display: boolean = false;
 
 
   colunas: any[] = [
     { header: 'OS' },
-    { header: 'Chave'},
+    { header: 'Chave' },
     { header: 'Status da OS' },
     { header: 'Próxima Entrega' },
     { header: 'Prazo' },
     { header: 'PF' },
     { header: 'Fábrica(s)' },
-    { header: 'Ação' },
+    { header: 'Ações' },
   ];
 
   colunaSprint: any[] = [
@@ -107,7 +107,7 @@ export class DashboardComponent implements OnInit {
     { header: 'Descrição' },
     { header: 'Prazo' },
     { header: 'Status' },
-    { header: 'Ação' },
+    { header: 'Ações' },
   ];
 
   dataBr = {
@@ -122,9 +122,9 @@ export class DashboardComponent implements OnInit {
   };
 
   simNaoDropDown: any = [
-    { label: 'SIM', value: true},
-    { label: 'NÃO', value: false}
-]
+    { label: 'SIM', value: true },
+    { label: 'NÃO', value: false }
+  ]
 
   listaFiltrada = [
     this.listaLideres,
@@ -158,7 +158,7 @@ export class DashboardComponent implements OnInit {
     this.carregarCliente();
     this.carregarDropdownSituacao();
     this.carregarDropdownStatus();
-    }
+  }
 
   obterTodos() {
     // this.blockUI.start();
@@ -188,29 +188,50 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-  
+
   obterOrdemServico() {
     this.blockUI.start();
     this.ordemServicoService.obterTodos().pipe(
       finalize(() => this.blockUI.stop())
     ).subscribe(
       ordemServico => this.listaOrdemServico = ordemServico
-      
-    );
 
-  
+    );
+  }
+
+  obterProjetoPorID(id: number) {
+    this.blockUI.start();
+    this.projetoService.obterPorId(id).pipe(
+      finalize(() => this.blockUI.stop())
+    ).subscribe(res => {
+      this.projeto = res
+    });
+  }
+
+  recarregarProjetoPorSprint(sprint: Sprint) {
+    this.blockUI.start();
+    this.ordemServicoService.obterPorId(sprint.idOrdemServico).pipe(
+      finalize(() => this.blockUI.stop())
+    ).subscribe(ordemServico => {
+      this.obterProjetoPorID(ordemServico.idProjeto);
+      this.projetosFiltrados.forEach(e => {
+        if (this.projeto.id === e.id) {
+          e = this.projeto;
+        }
+      })
+    });
   }
 
   enviarFormOs(OrdemServico) {
     this.ordemServicoService.salvar(OrdemServico).pipe(
       finalize(() => this.blockUI.stop())
-  ).subscribe(res => OrdemServico.edit = false);
+    ).subscribe(res => OrdemServico.edit = false);
   }
 
   enviarFormSprint(sprint) {
     this.sprintService.atualizar(sprint).pipe(
       finalize(() => this.blockUI.stop())
-  ).subscribe(res => sprint.edit = false);
+    ).subscribe(res => sprint.edit = false);
   }
 
   obterLideres() {
@@ -246,20 +267,14 @@ export class DashboardComponent implements OnInit {
     this.blockUI.start();
     this.sprintService.obterTodos().pipe(
       finalize(() => this.blockUI.stop())
-    ).subscribe( sprints => {
+    ).subscribe(sprints => {
       this.sprints = sprints;
       sprints.forEach(element => {
-        element.dataInicio = new Date (`${element.dataInicio}T00:00:00`);
+        element.dataInicio = new Date(`${element.dataInicio}T00:00:00`);
         element.dataTermino = new Date(`${element.dataTermino}T00:00:00`);
       })
-      console.log(this.sprints);
+
       this.sprints = this.sprints.slice().sort((a, b) => new Date(b.dataInicio).getTime() - new Date(a.dataInicio).getTime());
-      console.log(this.sprints);
-      // sprints.forEach(element => {
-      //   element.dataInicio = new Date (`${element.dataInicio}T00:00:00`);
-      //   element.dataTermino = new Date(`${element.dataTermino}T00:00:00`);
-      //   console.log(this.sprints)
-      // })
     }
     );
   }
@@ -272,26 +287,26 @@ export class DashboardComponent implements OnInit {
       ).subscribe(osProjeto => {
         projeto.listaOs = osProjeto;
         projeto.listaOs.forEach(e => {
-          e.dataProximaEntrega = new Date (`${e.dataProximaEntrega}T00:00:00`);
+          e.dataProximaEntrega = new Date(`${e.dataProximaEntrega}T00:00:00`);
           e.prazo = new Date(`${e.prazo}T00:00:00`);
 
         });
       })
   }
 
-  carregarProjetos(){
+  carregarProjetos() {
     this.blockUI.start();
     this.projetoService.obterTodos().pipe(
-        finalize(() => this.blockUI.stop()),
-        map(this.converterDropDownProjeto)
+      finalize(() => this.blockUI.stop()),
+      map(this.converterDropDownProjeto)
     ).subscribe(projeto => this.listaProjeto = projeto);
   }
 
   carregarCliente() {
     this.blockUI.start();
     this.clienteService.obterTodos().pipe(
-        finalize(() => this.blockUI.stop()),
-        map(this.converterDropDownCliente)
+      finalize(() => this.blockUI.stop()),
+      map(this.converterDropDownCliente)
     ).subscribe(cliente => this.listaClientes = cliente);
   }
 
@@ -305,12 +320,12 @@ export class DashboardComponent implements OnInit {
 
   preencherFiltros() {
     this.listaFiltrada = this.lista.filter(item => {
-        if (!this.filtroCliente.length && !this.filtroLider.length && !this.filtroProjeto.length) {
-            return true;
-        }
-        return (this.filtroLider && this.filtroLider.some(sel => sel == item.idLider)) ||
-            (this.filtroCliente && this.filtroCliente.some(sel => sel == item.idCliente)) ||
-            (this.filtroProjeto && this.filtroProjeto.some(sel => sel == item.idProjeto));
+      if (!this.filtroCliente.length && !this.filtroLider.length && !this.filtroProjeto.length) {
+        return true;
+      }
+      return (this.filtroLider && this.filtroLider.some(sel => sel == item.idLider)) ||
+        (this.filtroCliente && this.filtroCliente.some(sel => sel == item.idCliente)) ||
+        (this.filtroProjeto && this.filtroProjeto.some(sel => sel == item.idProjeto));
     });
 
   }
@@ -318,7 +333,7 @@ export class DashboardComponent implements OnInit {
   habilitarBotao(e, projeto) {
     if (!projeto.edit)
       projeto['edit'] = true;
-}
+  }
 
   obterSimNao(value): string {
     return this.simNaoDropDown.find(item => item.value == value).label;
@@ -346,10 +361,10 @@ export class DashboardComponent implements OnInit {
     return this.situacoes.find(situacao => situacao.id == id).descricao
   }
 
-  obterNomeLider(id: number){
-    this.lid=this.lideres.find(lider => lider.id == id)
+  obterNomeLider(id: number) {
+    this.lid = this.lideres.find(lider => lider.id == id)
     return this.lid?.nome
-    }
+  }
 
   obterNomeProjeto(id: number) {
     return this.projetos.find(projeto => projeto.id == id).nome
@@ -397,6 +412,10 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  soma(a, b) {
+    return a + b;
+  }
+
   carregarDropdownStatus() {
     this.blockUI.start();
     this.statusService.obterTodos().pipe(
@@ -413,23 +432,14 @@ export class DashboardComponent implements OnInit {
 
   private converterDropDownCliente(lista) {
     return lista.map(item => {
-        return {
-            label: item['descricao'].toUpperCase(),
-            value: item['id']
-        }
+      return {
+        label: item['descricao'].toUpperCase(),
+        value: item['id']
+      }
     })
   }
 
   private converterDropDownLider(lista) {
-    return lista.map(item => {
-        return {
-            label: item['nome'].toUpperCase(),
-            value: item['id']
-        }
-    })
-  }
-
-  private converterDropDownProjeto (lista){
     return lista.map(item => {
       return {
         label: item['nome'].toUpperCase(),
@@ -438,22 +448,31 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  prepararFiltroLider(event){
+  private converterDropDownProjeto(lista) {
+    return lista.map(item => {
+      return {
+        label: item['nome'].toUpperCase(),
+        value: item['id']
+      }
+    })
+  }
+
+  prepararFiltroLider(event) {
     this.liderItensFiltro = event["value"];
     this.filtrar();
   }
 
-  prepararFiltroProjeto(event){
+  prepararFiltroProjeto(event) {
     this.projetoItensFiltro = event["value"];
     this.filtrar();
   }
 
-  prepararFiltroCliente(event){
+  prepararFiltroCliente(event) {
     this.clienteItensFiltro = event["value"];
     this.filtrar();
   }
 
-  filtrar(){
+  filtrar() {
     this.projetosFiltrados = this.projetos.filter(pf => !!(this.liderItensFiltro.length ? this.liderItensFiltro.find(lif => lif === pf.idLider) : true));
     this.projetosFiltrados = this.projetosFiltrados.filter(pf => !!(this.projetoItensFiltro.length ? this.projetoItensFiltro.find(lif => lif === pf.id) : true));
     this.projetosFiltrados = this.projetosFiltrados.filter(pf => !!(this.clienteItensFiltro.length ? this.clienteItensFiltro.find(lif => lif === pf.idCliente) : true));
